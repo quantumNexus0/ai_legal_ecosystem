@@ -482,7 +482,7 @@ graph LR
 
 ## 🛠️ Technology Stack
 
-
+```mermaid
 graph TB
     subgraph Frontend["Frontend Layer"]
         React["React 18.3.1"]
@@ -566,7 +566,7 @@ graph TB
     style Vite fill:#646CFF,stroke:#333,stroke-width:2px,color:#fff
     style Python fill:#3776AB,stroke:#333,stroke-width:2px,color:#fff
     style Supabase fill:#3ECF8E,stroke:#333,stroke-width:2px,color:#000
-
+```   
 
 ### Technology Details
 
