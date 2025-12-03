@@ -484,76 +484,88 @@ graph LR
 
 
 graph TB
-    subgraph "Frontend"
-        React[React 18.3.1]
-        TypeScript[TypeScript 5.5.3]
-        TailwindCSS[Tailwind CSS 3.4.1]
-        Vite[Vite 5.4.2]
+    subgraph Frontend["Frontend Layer"]
+        React["React 18.3.1"]
+        TypeScript["TypeScript 5.5.3"]
+        TailwindCSS["Tailwind CSS 3.4.1"]
+        Vite["Vite 5.4.2"]
     end
     
-    subgraph "AI & ML"
-        Gemini[Google Gemini AI - Case Analysis]
-        GeminiSDK[@google/generative-ai]
+    subgraph Backend["Backend Layer"]
+        FastAPI["FastAPI"]
+        Python["Python 3.8+"]
     end
     
-    subgraph "Backend Services"
-        FastAPI[FastAPI - Python]
-        LangChain[LangChain - Vector Search]
-        LocalDB[Local Legal Q&A Database]
+    subgraph APIs["External APIs"]
+        IndianKanoon["Indian Kanoon API"]
+        CourtListener["Court Listener API"]
     end
     
-    subgraph "Legal APIs"
-        IndianKanoon[Indian Kanoon API]
-        CourtListener[Court Listener API]
+    subgraph DocProcessing["Document Processing"]
+        jsPDF["jsPDF 3.0.4"]
+        PDFParse["pdf-parse 2.4.5"]
+        FileSaver["file-saver 2.0.5"]
     end
     
-    subgraph "Document Processing"
-        jsPDF[jsPDF 3.0.4]
-        PDFParse[pdf-parse 2.4.5]
-        FileSaver[file-saver 2.0.5]
+    subgraph UILibs["UI Libraries"]
+        LucideReact["lucide-react 0.344.0"]
+        ReactMarkdown["react-markdown 10.1.0"]
     end
     
-    subgraph "UI Libraries"
-        LucideReact[lucide-react 0.344.0]
-        ReactMarkdown[react-markdown 10.1.0]
+    subgraph Services["Backend Services"]
+        Supabase["@supabase/supabase-js 2.57.4"]
     end
     
-    subgraph "Development Tools"
-        ESLint[ESLint 9.9.1]
-        PostCSS[PostCSS 8.4.35]
-        Autoprefixer[Autoprefixer 10.4.18]
+    subgraph DevTools["Development Tools"]
+        ESLint["ESLint 9.9.1"]
+        PostCSS["PostCSS 8.4.35"]
+        Autoprefixer["Autoprefixer 10.4.18"]
     end
     
+    %% Build Tool Relations
+    Vite --> React
+    Vite --> TypeScript
+    Vite --> TailwindCSS
+    
+    %% Frontend Core Relations
     React --> TypeScript
     React --> TailwindCSS
-    Vite --> React
     
-    React --> GeminiSDK
-    GeminiSDK --> Gemini
+    %% UI Library Relations
+    React --> LucideReact
+    React --> ReactMarkdown
     
-    React --> FastAPI
-    FastAPI --> LangChain
-    LangChain --> LocalDB
-    
-    React --> IndianKanoon
-    React --> CourtListener
-    
+    %% Document Processing Relations
     React --> jsPDF
     React --> PDFParse
     React --> FileSaver
     
-    React --> LucideReact
-    React --> ReactMarkdown
+    %% Backend Relations
+    FastAPI --> Python
+    React --> FastAPI
     
-    style React fill:#61DAFB
-    style TypeScript fill:#3178C6
-    style Gemini fill:#4285F4
-    style FastAPI fill:#009688
-    style LangChain fill:#00C853
-    style LocalDB fill:#00E676
-    style TailwindCSS fill:#06B6D4
-    style Vite fill:#646CFF
-
+    %% API Integrations
+    FastAPI --> IndianKanoon
+    FastAPI --> CourtListener
+    
+    %% Services Relations
+    React --> Supabase
+    FastAPI --> Supabase
+    
+    %% Development Tool Relations
+    Vite --> ESLint
+    Vite --> PostCSS
+    PostCSS --> Autoprefixer
+    TailwindCSS --> PostCSS
+    
+    %% Styling
+    style React fill:#61DAFB,stroke:#333,stroke-width:2px,color:#000
+    style TypeScript fill:#3178C6,stroke:#333,stroke-width:2px,color:#fff
+    style FastAPI fill:#009688,stroke:#333,stroke-width:2px,color:#fff
+    style TailwindCSS fill:#06B6D4,stroke:#333,stroke-width:2px,color:#000
+    style Vite fill:#646CFF,stroke:#333,stroke-width:2px,color:#fff
+    style Python fill:#3776AB,stroke:#333,stroke-width:2px,color:#fff
+    style Supabase fill:#3ECF8E,stroke:#333,stroke-width:2px,color:#000
 
 
 ### Technology Details
