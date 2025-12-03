@@ -1,0 +1,41 @@
+# Free Indian Legal Data Sources for Developers
+
+Here are the best sources to get free Indian legal data (cases, acts, judgments) for your project or API:
+
+## 1. Indian Kanoon (Unofficial API / Scraping)
+- **Website**: [https://indiankanoon.org/](https://indiankanoon.org/)
+- **Description**: The most comprehensive free database of Indian laws and judgments.
+- **Access**: 
+    - They have a paid API, but you can use their search URL structure for basic queries.
+    - URL structure: `https://indiankanoon.org/search/?formInput=YOUR_QUERY`
+    - **Note**: Be respectful of their `robots.txt` and terms of service if scraping.
+
+## 2. National Judicial Data Grid (NJDG)
+- **Website**: [https://njdg.ecourts.gov.in/](https://njdg.ecourts.gov.in/)
+- **Description**: Official government platform with data on pending and disposed cases.
+- **Access**: Mostly for visualization and public information. API access is limited but check the eCourts services.
+
+## 3. Legal Information Institute of India (LII of India)
+- **Website**: [http://liiofindia.org/](http://liiofindia.org/)
+- **Description**: Part of the Free Access to Law Movement. Contains legislation and case law.
+- **Access**: Free to browse and search. Good for getting raw text of acts.
+
+## 4. Court Listener (US-focused but has some international)
+- **Website**: [https://www.courtlistener.com/](https://www.courtlistener.com/)
+- **Description**: Primarily US, but a good example of how to structure legal data.
+
+## 5. OpenNyAI (For NLP models)
+- **Website**: [https://github.com/OpenNyAI](https://github.com/OpenNyAI)
+- **Description**: Open-source libraries and datasets for Indian Legal NLP.
+- **Data**: They provide annotated datasets for Named Entity Recognition (NER) and judgment prediction on Indian cases.
+- **Link**: Check their GitHub repositories for datasets.
+
+## 6. Kaggle Datasets
+- Search for "Indian Legal Cases" on Kaggle.
+- Example: "Indian Supreme Court Judgments" dataset is often available there.
+
+## Recommended Approach for Your API
+If you want to build a reliable API:
+1.  **Use OpenNyAI** for training data and NLP models.
+2.  **Scrape Indian Kanoon** (responsibly) for real-time search if you cannot afford the paid API.
+3.  **Store cached results** in your own database (Supabase/MongoDB) to build your own repository over time.

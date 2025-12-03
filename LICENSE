@@ -1,0 +1,137 @@
+MIT License
+
+Copyright (c) 2025 AI Legal Ecosystem Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Third-Party Licenses
+
+This project uses the following open-source packages:
+
+### Core Dependencies
+
+- **React** (MIT License) - Copyright (c) Meta Platforms, Inc. and affiliates
+- **TypeScript** (Apache License 2.0) - Copyright (c) Microsoft Corporation
+- **Vite** (MIT License) - Copyright (c) 2019-present, Yuxi (Evan) You and Vite contributors
+- **Tailwind CSS** (MIT License) - Copyright (c) Tailwind Labs, Inc.
+
+### AI & API Integration
+
+- **@google/generative-ai** (Apache License 2.0) - Copyright (c) Google LLC
+- **@supabase/supabase-js** (MIT License) - Copyright (c) Supabase, Inc.
+
+### Document Processing
+
+- **jsPDF** (MIT License) - Copyright (c) 2010-2021 James Hall
+- **pdf-parse** (MIT License) - Copyright (c) 2017 Moe Szyslak
+- **file-saver** (MIT License) - Copyright (c) 2016 Eli Grey
+
+### UI Components
+
+- **lucide-react** (ISC License) - Copyright (c) Lucide Contributors
+- **react-markdown** (MIT License) - Copyright (c) Titus Wormer
+
+### Development Tools
+
+- **ESLint** (MIT License) - Copyright (c) OpenJS Foundation and other contributors
+- **PostCSS** (MIT License) - Copyright (c) Andrey Sitnik and other contributors
+- **Autoprefixer** (MIT License) - Copyright (c) Andrey Sitnik and other contributors
+
+---
+
+## API Services
+
+This software integrates with the following third-party API services:
+
+### Google Gemini AI
+- **Terms of Service**: https://ai.google.dev/terms
+- **Privacy Policy**: https://policies.google.com/privacy
+- Users must obtain their own API key and agree to Google's terms of service
+
+### Indian Kanoon API
+- **Terms of Service**: https://api.indiankanoon.org/
+- Users must obtain their own API token and comply with Indian Kanoon's usage policies
+
+### Court Listener API
+- **Terms of Service**: https://www.courtlistener.com/terms/
+- **Privacy Policy**: https://www.courtlistener.com/privacy/
+- Users must obtain their own API token and comply with Court Listener's terms
+
+---
+
+## Legal Disclaimer
+
+This software is provided for informational and educational purposes only. It is not intended to provide legal advice or to be a substitute for professional legal counsel. Users should:
+
+1. **Consult Legal Professionals**: Always consult with qualified legal professionals for specific legal advice
+2. **Verify Information**: Independently verify all information and analysis provided by this software
+3. **No Attorney-Client Relationship**: Use of this software does not create an attorney-client relationship
+4. **Accuracy Not Guaranteed**: While we strive for accuracy, we make no guarantees about the completeness, reliability, or accuracy of the information
+5. **Compliance**: Users are responsible for ensuring their use of this software complies with applicable laws and regulations
+
+---
+
+## Data Privacy
+
+- This software processes data locally in the user's browser
+- API calls to third-party services (Google Gemini AI, Indian Kanoon, Court Listener) are subject to those services' privacy policies
+- Users are responsible for ensuring compliance with data protection regulations (GDPR, CCPA, etc.) when using this software
+- No user data is collected or stored by the AI Legal Ecosystem project maintainers
+
+---
+
+## Export Compliance
+
+This software may be subject to export control laws and regulations. Users are responsible for complying with all applicable export control laws and regulations in their jurisdiction.
+
+---
+
+## Modifications and Derivative Works
+
+If you modify this software or create derivative works:
+
+1. You must retain the original copyright notice and license
+2. You must clearly indicate what changes were made
+3. You must distribute your modifications under the same MIT License
+4. You should update the copyright notice to include your name/organization
+
+---
+
+## Attribution
+
+If you use this software in your project, we appreciate (but do not require) attribution. You may use:
+
+```
+Powered by AI Legal Ecosystem
+https://github.com/yourusername/aiLegalEcosystem
+```
+
+---
+
+## Contact
+
+For licensing questions or concerns:
+- Open an issue on GitHub: https://github.com/yourusername/aiLegalEcosystem/issues
+- Email: legal@ailegalecosystem.com
+
+---
+
+**Last Updated**: January 2025
