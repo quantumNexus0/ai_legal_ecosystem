@@ -482,7 +482,7 @@ graph LR
 
 ## 🛠️ Technology Stack
 
-```mermaid
+
 graph TB
     subgraph "Frontend"
         React[React 18.3.1]
@@ -553,7 +553,7 @@ graph TB
     style LocalDB fill:#00E676
     style TailwindCSS fill:#06B6D4
     style Vite fill:#646CFF
-```
+
 
 
 ### Technology Details
