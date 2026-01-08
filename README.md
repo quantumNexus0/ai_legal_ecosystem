@@ -605,7 +605,7 @@ graph TD
     Backend --> Routes[app/api]
     Backend --> Models[app/models]
     
-    Templates --> Cats[t (Categories)]
+    Templates --> Cats["Template Categories"]
     Cats --> Business[Business]
     Cats --> RealEstate[Real Estate]
     
