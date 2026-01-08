@@ -481,6 +481,7 @@ graph LR
 ---
 
 ## 🛠️ Technology Stack
+
 ```mermaid
 graph TB
     subgraph "Frontend"
