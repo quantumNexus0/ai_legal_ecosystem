@@ -482,6 +482,7 @@ graph LR
 
 ## 🛠️ Technology Stack
 
+```mermaid
 graph TB
     %% ================= FRONTEND =================
     subgraph "Frontend (Client)"
@@ -553,7 +554,7 @@ graph TB
     style VectorDB fill:#00E676
     style TailwindCSS fill:#06B6D4
     style Vite fill:#646CFF
-
+```
 
 
 ### Technology Details
