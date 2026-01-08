@@ -482,78 +482,78 @@ graph LR
 
 ## 🛠️ Technology Stack
 
-```mermaid
 graph TB
-    subgraph "Frontend"
-        React[React 18.3.1]
-        TypeScript[TypeScript 5.5.3]
-        TailwindCSS[Tailwind CSS 3.4.1]
-        Vite[Vite 5.4.2]
+    %% ================= FRONTEND =================
+    subgraph "Frontend (Client)"
+        React[React 18]
+        TypeScript[TypeScript]
+        TailwindCSS[Tailwind CSS]
+        Vite[Vite]
+        jsPDF[jsPDF]
+        FileSaver[file-saver]
+        LucideReact[lucide-react]
+        ReactMarkdown[react-markdown]
     end
-    
-    subgraph "AI & ML"
-        Gemini[Google Gemini AI - Case Analysis]
-        GeminiSDK[@google/generative-ai]
-    end
-    
-    subgraph "Backend Services"
+
+    %% ================= BACKEND =================
+    subgraph "Backend Services (Server)"
         FastAPI[FastAPI - Python]
-        LangChain[LangChain - Vector Search]
-        LocalDB[Local Legal Q&A Database]
+        LangChain[LangChain]
+        VectorDB[(Vector DB / Legal Knowledge Base)]
+        GeminiSDK[@google/generative-ai]
+        PDFParse[pdf-parse]
     end
-    
+
+    %% ================= AI =================
+    subgraph "AI & ML"
+        Gemini[Google Gemini AI]
+    end
+
+    %% ================= LEGAL APIS =================
     subgraph "Legal APIs"
         IndianKanoon[Indian Kanoon API]
-        CourtListener[Court Listener API]
+        CourtListener[CourtListener API]
     end
-    
-    subgraph "Document Processing"
-        jsPDF[jsPDF 3.0.4]
-        PDFParse[pdf-parse 2.4.5]
-        FileSaver[file-saver 2.0.5]
-    end
-    
-    subgraph "UI Libraries"
-        LucideReact[lucide-react 0.344.0]
-        ReactMarkdown[react-markdown 10.1.0]
-    end
-    
+
+    %% ================= DEV TOOLS =================
     subgraph "Development Tools"
-        ESLint[ESLint 9.9.1]
-        PostCSS[PostCSS 8.4.35]
-        Autoprefixer[Autoprefixer 10.4.18]
+        ESLint[ESLint]
+        PostCSS[PostCSS]
+        Autoprefixer[Autoprefixer]
     end
-    
+
+    %% ================= CONNECTIONS =================
+    Vite --> React
     React --> TypeScript
     React --> TailwindCSS
-    Vite --> React
-    
-    React --> GeminiSDK
-    GeminiSDK --> Gemini
-    
+
     React --> FastAPI
+
+    FastAPI --> GeminiSDK
+    GeminiSDK --> Gemini
+
     FastAPI --> LangChain
-    LangChain --> LocalDB
-    
-    React --> IndianKanoon
-    React --> CourtListener
-    
+    LangChain --> VectorDB
+
+    FastAPI --> IndianKanoon
+    FastAPI --> CourtListener
+
+    FastAPI --> PDFParse
+
     React --> jsPDF
-    React --> PDFParse
     React --> FileSaver
-    
     React --> LucideReact
     React --> ReactMarkdown
-    
+
+    %% ================= STYLES =================
     style React fill:#61DAFB
-    style TypeScript fill:#3178C6
-    style Gemini fill:#4285F4
     style FastAPI fill:#009688
+    style Gemini fill:#4285F4
     style LangChain fill:#00C853
-    style LocalDB fill:#00E676
+    style VectorDB fill:#00E676
     style TailwindCSS fill:#06B6D4
     style Vite fill:#646CFF
-```
+
 
 
 ### Technology Details
