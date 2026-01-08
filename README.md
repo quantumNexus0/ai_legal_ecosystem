@@ -1,956 +1,578 @@
-# AI Legal Ecosystem 🏛️⚖️
+# Legal Document Management System
 
-<div align="center">
+A comprehensive web-based platform for creating, managing, and downloading legal documents with AI-powered assistance.
 
-![AI Legal Ecosystem](https://img.shields.io/badge/AI-Legal%20Ecosystem-blue?style=for-the-badge)
-![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-3178C6?style=for-the-badge&logo=typescript)
-![Vite](https://img.shields.io/badge/Vite-5.4.2-646CFF?style=for-the-badge&logo=vite)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-
-**An intelligent legal case analysis platform powered by AI, providing comprehensive legal research, case matching, and document analysis capabilities.**
-
-[Features](#-features) • [Architecture](#-system-architecture) • [Installation](#-installation) • [Usage](#-usage) • [Contributing](#-contributing)
-
-</div>
-
----
+![Project Status](https://img.shields.io/badge/status-active-success.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ## 📋 Table of Contents
 
-- [Overview](#-overview)
-- [Features](#-features)
-- [System Architecture](#-system-architecture)
-- [Entity Relationship Diagram](#-entity-relationship-diagram)
-- [Data Flow Diagram](#-data-flow-diagram)
-- [Component Architecture](#-component-architecture)
-- [Technology Stack](#-technology-stack)
-- [Installation](#-installation)
-- [Configuration](#-configuration)
-- [Usage](#-usage)
-- [API Documentation](#-api-documentation)
-- [Project Structure](#-project-structure)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [Overview](#overview)
+- [Features](#features)
+- [Project Architecture](#project-architecture)
+- [Directory Structure](#directory-structure)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Scripts](#scripts)
+- [Contributing](#contributing)
 
----
+## 🎯 Overview
 
-## 🌟 Overview
-
-**AI Legal Ecosystem** is a comprehensive legal technology platform that leverages artificial intelligence to revolutionize legal research and case analysis. The platform integrates multiple AI services, legal databases, and document processing capabilities to provide lawyers, legal researchers, and law students with powerful tools for case analysis, precedent matching, and legal document understanding.
-
-### Key Capabilities
-
-- 🔍 **Intelligent Case Analysis**: AI-powered analysis of legal cases with precedent matching
-- 📚 **Legal Database Integration**: Real-time access to Indian Kanoon and Court Listener databases
-- 💬 **AI Legal Assistant**: Interactive chat interface with Gemini AI for legal queries
-- 📄 **Document Analysis**: Upload and analyze legal documents (PDF, DOCX, TXT)
-- 📊 **Analytics Dashboard**: Visualize case statistics and analysis trends
-- 🔄 **Case Comparison**: Side-by-side comparison of user cases with matched precedents
-- 📖 **Case Library**: Comprehensive repository of analyzed cases with search functionality
-- 🎯 **Strength Assessment**: Automated evaluation of case strength with actionable advice
-
----
+This Legal Document Management System is a full-stack web application that provides users with access to 260+ legal document templates. The platform includes features for document customization, PDF generation, AI-powered legal assistance, and comprehensive document management.
 
 ## ✨ Features
 
-### 1. **Case Analysis Engine**
-- Input case facts, parties, legal issues, and applicable sections
-- AI-powered matching with relevant precedents from legal databases
-- Strength assessment with percentage-based scoring
-- Identification of strong and weak points
-- Expected case direction prediction
-- Actionable legal advice generation
+### Core Features
+- **260+ Legal Templates**: Comprehensive collection of attorney-drafted legal documents
+- **Dynamic Form Generation**: Interactive forms for document customization
+- **PDF Export**: Client-side PDF generation using html2pdf.js
+- **AI Legal Assistant**: Integrated Gemini AI for legal document analysis and chat support
+- **Document Preview**: Real-time preview of customized documents
+- **Responsive Design**: Mobile-friendly interface with modern UI/UX
 
-### 2. **Local Legal Intelligence Assistant**
-- Real-time search interface powered by local Legal Intelligence API
-- Question-and-answer retrieval from local legal database
-- Displays top 2 most relevant results for each query
-- Voice input support for hands-free interaction
-- Text-to-speech for reading answers aloud
-- Conversation history management
-- No external AI dependencies - all data stays local
+### AI Features
+- **Chat Interface**: Interactive AI chat for legal queries
+- **Document Analysis**: Upload and analyze legal documents
+- **Context-Aware Responses**: AI understands legal terminology and context
+- **File Upload Support**: Analyze PDFs, Word documents, and images
 
-### 3. **Legal Database Integration**
-- **Indian Kanoon API**: Access to Indian case law database
-- **Court Listener API**: US federal and state court decisions
-- Real-time search and retrieval of relevant cases
-- Citation extraction and court information
-- Headline and ratio decidendi extraction
+### Document Management
+- **Template Categories**: Organized by business, personal, real estate, etc.
+- **Search & Filter**: Easy document discovery
+- **Customization**: Fill-in-the-blank forms with validation
+- **eSignature Support**: Digital signature capabilities
 
-### 4. **Document Processing**
-- PDF text extraction and analysis
-- DOCX document parsing
-- Plain text file support
-- AI-powered document summarization
-- Key legal points identification
-- Issue and concern highlighting
+## 🛠️ Technologies Used
 
-### 5. **Analytics & Visualization**
-- Analysis history tracking
-- Case statistics dashboard
-- Trend visualization
-- Success rate metrics
-- Section-wise analysis distribution
+### Frontend
+- **HTML5/CSS3**: Modern semantic markup and styling
+- **JavaScript (ES6+)**: Client-side interactivity
+- **html2pdf.js**: PDF generation
+- **Responsive Design**: Mobile-first approach
 
-### 6. **Case Comparison**
-- Parameter-by-parameter comparison
-- Similarity scoring
-- Visual comparison tables
-- Fact pattern matching
-- Evidence type analysis
-- Outcome prediction
+### Backend
+- **Node.js**: Server runtime
+- **Express.js**: Web framework
+- **Multer**: File upload handling
+- **Google Gemini AI**: AI-powered assistance
 
+### Development Tools
+- **Python**: Automation scripts
+- **PowerShell**: Asset management
+- **Git**: Version control
+
+## 🚀 Installation
+
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn
+- Python 3.x (for utility scripts)
+
+### Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/quantumNexus0/aiLegalEcosystem.git
+   cd aiLegalEcosystem
+   ```
+
+2. **Install backend dependencies**
+   ```bash
+   cd projectAIlegal
+   npm install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   # Create .env file in projectAIlegal/
+   GEMINI_API_KEY=your_gemini_api_key_here
+   PORT=3000
+   ```
+
+4. **Start the server**
+   ```bash
+   npm start
+   ```
+
+5. **Access the application**
+   - Open browser to `http://localhost:3000`
+   - Browse templates at `www.legalzoom.com/legalTemplate/t/`
+
+## 📖 Usage
+
+### Creating a Legal Document
+
+1. **Browse Templates**: Navigate to the templates directory
+2. **Select Template**: Choose from 260+ legal documents
+3. **Fill Form**: Complete the interactive form fields
+4. **Preview**: Review your customized document
+5. **Download**: Generate and download PDF
+
+### Using AI Assistant
+
+1. **Open Chat**: Click on the AI chat interface
+2. **Ask Questions**: Type legal questions or upload documents
+3. **Get Analysis**: Receive AI-powered insights
+4. **Refine**: Continue conversation for clarifications
+
+### Example Templates
+- Business Agreements
+- Employment Contracts
+- Real Estate Documents
+- Partnership Agreements
+- Non-Disclosure Agreements
+- Power of Attorney
+- And 250+ more...
 ---
+# Project Architecture Diagrams
 
-## 🏗️ System Architecture
+## 1. System Architecture Overview
 
 ```mermaid
 graph TB
     subgraph "Client Layer"
-        UI[React UI Components]
-        Router[React Router]
+        A[Web Browser]
+        B[Mobile Browser]
     end
-
+    
+    subgraph "Presentation Layer"
+        C[HTML Templates<br/>260+ Documents]
+        D[CSS Styling<br/>Responsive Design]
+        E[JavaScript<br/>Client Logic]
+    end
+    
     subgraph "Application Layer"
-        App[App.tsx - Main Application]
-        State[State Management]
-        
-        subgraph "Core Components"
-            CaseInput[Case Input Form]
-            CaseAnalysis[Case Analysis Results]
-            AIChat[Local Legal Search]
-            CaseLib[Case Library]
-            Analytics[Analytics Dashboard]
-            Comparison[Comparison Table]
-        end
+        F[Express Server<br/>Node.js]
+        G[API Routes]
+        H[File Upload Handler<br/>Multer]
     end
-
-    subgraph "Service Layer"
-        subgraph "AI Services"
-            Gemini[Gemini AI Service - Case Analysis Only]
-            DocAnalysis[Document Analysis]
-        end
-        
-        subgraph "Legal APIs"
-            LocalAPI[Local Legal Intelligence API]
-            IndianK[Indian Kanoon API]
-            CourtL[Court Listener API]
-        end
+    
+    subgraph "AI Services"
+        I[Gemini AI API]
+        J[Chat Service]
+        K[Document Analysis]
     end
-
-    subgraph "Data Layer"
-        LocalStorage[Browser LocalStorage]
-        FileSystem[File System - Documents]
+    
+    subgraph "Data Storage"
+        L[Templates<br/>legalTemplate/t/]
+        M[Generated Forms<br/>legalforms/t_forms/]
+        N[User Uploads<br/>uploads/]
     end
-
-    subgraph "Backend Services"
-        LocalServer[FastAPI Server - localhost:8000]
-        VectorDB[Vector Database - Legal Q&A]
+    
+    subgraph "Utility Layer"
+        O[PDF Generator<br/>html2pdf.js]
+        P[Form Validator]
+        Q[Path Localizer]
     end
-
-    subgraph "External Services"
-        GeminiAPI[Google Gemini API]
-        IKAPI[Indian Kanoon Database]
-        CLAPI[Court Listener Database]
-    end
-
-    UI --> App
-    Router --> UI
-    App --> CaseInput
-    App --> CaseAnalysis
-    App --> AIChat
-    App --> CaseLib
-    App --> Analytics
-    App --> Comparison
     
-    CaseInput --> State
-    CaseAnalysis --> Gemini
-    AIChat --> LocalAPI
+    A --> C
+    B --> C
+    C --> D
+    C --> E
+    E --> F
+    F --> G
+    G --> H
+    G --> I
+    I --> J
+    I --> K
+    F --> L
+    F --> M
+    H --> N
+    E --> O
+    E --> P
     
-    LocalAPI --> LocalServer
-    LocalServer --> VectorDB
-    
-    Gemini --> GeminiAPI
-    DocAnalysis --> GeminiAPI
-    
-    CaseInput --> IndianK
-    CaseInput --> CourtL
-    IndianK --> IKAPI
-    CourtL --> CLAPI
-    
-    State --> LocalStorage
-    DocAnalysis --> FileSystem
-    
-    style UI fill:#61DAFB
-    style App fill:#FF6B6B
-    style Gemini fill:#4285F4
-    style LocalAPI fill:#00C853
-    style LocalServer fill:#00C853
-    style VectorDB fill:#00E676
-    style IndianK fill:#FFA500
-    style CourtL fill:#9C27B0
-    style GeminiAPI fill:#34A853
-    style IKAPI fill:#FFD700
-    style CLAPI fill:#E91E63
+    style A fill:#e3f2fd
+    style F fill:#fff3e0
+    style I fill:#f3e5f5
+    style L fill:#e8f5e9
+    style O fill:#fce4ec
 ```
 
-### Architecture Layers Explained
-
-1. **Client Layer**: React-based user interface with component routing
-2. **Application Layer**: Core business logic and state management
-3. **Service Layer**: Integration with AI services and legal APIs
-4. **Data Layer**: Persistent storage and file management
-5. **Backend Services**: Local FastAPI server with vector database for legal Q&A
-6. **External Services**: Third-party APIs and databases
-
----
-
-## 📊 Entity Relationship Diagram
-
-```mermaid
-erDiagram
-    USER ||--o{ ANALYSIS_RECORD : creates
-    USER ||--o{ CHAT_MESSAGE : sends
-    USER ||--o{ UPLOADED_DOCUMENT : uploads
-    
-    ANALYSIS_RECORD ||--|{ CASE_FORM_DATA : contains
-    ANALYSIS_RECORD ||--|{ ANALYSIS_RESULT : produces
-    ANALYSIS_RESULT ||--o{ MATCHED_CASE : includes
-    
-    CASE_FORM_DATA {
-        string facts
-        string parties
-        string issues
-        string sections
-        string stage
-        string additionalInfo
-    }
-    
-    ANALYSIS_RECORD {
-        string id PK
-        string date
-        json formData FK
-        json result FK
-    }
-    
-    ANALYSIS_RESULT {
-        object userCase
-        array matchedCases FK
-        number strength
-        array strongPoints
-        array weakPoints
-        string expectedDirection
-        array advice
-    }
-    
-    MATCHED_CASE {
-        string id PK
-        string name
-        string citation
-        string court
-        string year
-        number matchScore
-        string whyMatches
-        string ratio
-    }
-    
-    CHAT_MESSAGE {
-        string id PK
-        string role
-        string content
-        datetime timestamp
-        string conversationId FK
-    }
-    
-    CONVERSATION {
-        string id PK
-        string userId FK
-        datetime createdAt
-        datetime updatedAt
-    }
-    
-    UPLOADED_DOCUMENT {
-        string id PK
-        string fileName
-        string fileType
-        number fileSize
-        string content
-        string analysis
-        datetime uploadedAt
-    }
-    
-    INDIAN_KANOON_CASE {
-        number tid PK
-        string title
-        string headline
-        string docsource
-        string publishdate
-        string citation
-    }
-    
-    COURT_LISTENER_CASE {
-        string id PK
-        string caseName
-        string citation
-        string court
-        string dateField
-        string snippet
-    }
-    
-    USER ||--o{ CONVERSATION : has
-    CONVERSATION ||--o{ CHAT_MESSAGE : contains
-    MATCHED_CASE }o--|| INDIAN_KANOON_CASE : references
-    MATCHED_CASE }o--|| COURT_LISTENER_CASE : references
-```
-
-### Entity Descriptions
-
-- **USER**: Application users (implicit, managed by browser session)
-- **ANALYSIS_RECORD**: Historical record of case analyses
-- **CASE_FORM_DATA**: Input data for case analysis
-- **ANALYSIS_RESULT**: AI-generated analysis output
-- **MATCHED_CASE**: Precedent cases matched to user's case
-- **CHAT_MESSAGE**: Individual messages in AI chat
-- **CONVERSATION**: Chat conversation sessions
-- **UPLOADED_DOCUMENT**: Legal documents uploaded for analysis
-- **INDIAN_KANOON_CASE**: Cases from Indian Kanoon database
-- **COURT_LISTENER_CASE**: Cases from Court Listener database
-
----
-
-## 🔄 Data Flow Diagram
+## 2. User Journey Flow
 
 ```mermaid
 flowchart TD
-    Start([User Interaction]) --> InputType{Input Type?}
+    Start([User Visits Website]) --> Browse[Browse Templates]
+    Browse --> Select{Select Document Type}
     
-    InputType -->|Case Analysis| CaseForm[Fill Case Form]
-    InputType -->|AI Chat| ChatInput[Enter Chat Message]
-    InputType -->|Document Upload| FileUpload[Upload Document]
+    Select -->|Business| Bus[Business Agreement]
+    Select -->|Employment| Emp[Employment Contract]
+    Select -->|Real Estate| RE[Lease Agreement]
+    Select -->|Personal| Per[Power of Attorney]
     
-    CaseForm --> ValidateCase{Validate Input}
-    ValidateCase -->|Invalid| CaseForm
-    ValidateCase -->|Valid| SearchDB[Search Legal Databases]
+    Bus --> Form[Fill Interactive Form]
+    Emp --> Form
+    RE --> Form
+    Per --> Form
     
-    SearchDB --> IndianKanoon[Query Indian Kanoon API]
-    SearchDB --> CourtListener[Query Court Listener API]
+    Form --> Validate{Form Valid?}
+    Validate -->|No| Error[Show Errors]
+    Error --> Form
     
-    IndianKanoon --> ProcessResults[Process Search Results]
-    CourtListener --> ProcessResults
+    Validate -->|Yes| Preview[Preview Document]
+    Preview --> Choice{User Action}
     
-    ProcessResults --> AIAnalysis[AI Analysis via Gemini]
-    AIAnalysis --> GenerateInsights[Generate Insights]
+    Choice -->|Edit| Form
+    Choice -->|AI Help| AI[Ask AI Assistant]
+    Choice -->|Download| PDF[Generate PDF]
     
-    GenerateInsights --> CalculateStrength[Calculate Case Strength]
-    CalculateStrength --> IdentifyPoints[Identify Strong/Weak Points]
-    IdentifyPoints --> GenerateAdvice[Generate Legal Advice]
+    AI --> AIResp[Get AI Response]
+    AIResp --> Choice
     
-    GenerateAdvice --> SaveHistory[Save to Analysis History]
-    SaveHistory --> DisplayResults[Display Results]
+    PDF --> Download[Download Document]
+    Download --> End([Complete])
     
-    
-    ChatInput --> LocalSearch[Query Local API]
-    LocalSearch --> SearchVector[Search Vector Database]
-    SearchVector --> RetrieveQA[Retrieve Top 2 Q&A Pairs]
-    
-    RetrieveQA --> FormatResponse[Format Response]
-    FormatResponse --> UpdateChat[Update Chat UI]
-    UpdateChat --> SaveChat[Save to Chat History]
-    
-    FileUpload --> ValidateFile{Valid File?}
-    ValidateFile -->|Invalid| FileUpload
-    ValidateFile -->|Valid| ExtractText[Extract Text Content]
-    
-    ExtractText --> AnalyzeDoc[Analyze Document with AI]
-    AnalyzeDoc --> GenerateSummary[Generate Summary]
-    GenerateSummary --> IdentifyIssues[Identify Legal Issues]
-    IdentifyIssues --> ProvideRecommendations[Provide Recommendations]
-    ProvideRecommendations --> DisplayAnalysis[Display Analysis]
-    
-    DisplayResults --> End([End])
-    SaveChat --> End
-    DisplayAnalysis --> End
-    
-    style Start fill:#4CAF50
-    style End fill:#F44336
-    style AIAnalysis fill:#2196F3
-    style LocalSearch fill:#00C853
-    style AnalyzeDoc fill:#2196F3
-    style SearchDB fill:#FF9800
-    style SaveHistory fill:#9C27B0
-    style SaveChat fill:#9C27B0
+    style Start fill:#4caf50,color:#fff
+    style End fill:#4caf50,color:#fff
+    style AI fill:#9c27b0,color:#fff
+    style PDF fill:#ff9800,color:#fff
 ```
 
-### Data Flow Stages
+## 3. Data Flow Diagram
 
-1. **Input Stage**: User provides case details, chat messages, or documents
-2. **Validation Stage**: Input validation and preprocessing
-3. **Processing Stage**: API calls to legal databases and AI services
-4. **Analysis Stage**: AI-powered analysis and insight generation
-5. **Storage Stage**: Persistence to local storage
-6. **Display Stage**: Rendering results in the UI
+```mermaid
+flowchart LR
+    subgraph Input
+        A[User Input]
+        B[Template Selection]
+        C[File Upload]
+    end
+    
+    subgraph Processing
+        D[Form Validation]
+        E[Template Engine]
+        F[AI Processing]
+        G[PDF Generation]
+    end
+    
+    subgraph Output
+        H[Preview HTML]
+        I[PDF Document]
+        J[AI Response]
+        K[Error Messages]
+    end
+    
+    A --> D
+    B --> E
+    C --> F
+    
+    D -->|Valid| E
+    D -->|Invalid| K
+    E --> H
+    H --> G
+    G --> I
+    F --> J
+    
+    style D fill:#2196f3,color:#fff
+    style E fill:#4caf50,color:#fff
+    style F fill:#9c27b0,color:#fff
+    style G fill:#ff9800,color:#fff
+```
 
----
+## 4. Component Interaction Diagram
 
-## 🧩 Component Architecture
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant B as Browser
+    participant S as Server
+    participant AI as Gemini AI
+    participant PDF as PDF Generator
+    participant DB as File System
+    
+    U->>B: Select Template
+    B->>S: Request Template
+    S->>DB: Load Template
+    DB-->>S: Template HTML
+    S-->>B: Render Template
+    B-->>U: Display Form
+    
+    U->>B: Fill Form Data
+    B->>B: Validate Input
+    B->>B: Generate Preview
+    B-->>U: Show Preview
+    
+    U->>B: Request AI Help
+    B->>S: Send Query
+    S->>AI: Process Query
+    AI-->>S: AI Response
+    S-->>B: Return Response
+    B-->>U: Display Answer
+    
+    U->>B: Generate PDF
+    B->>PDF: Convert to PDF
+    PDF-->>B: PDF File
+    B-->>U: Download PDF
+```
+
+## 5. Template Processing Pipeline
 
 ```mermaid
 graph LR
-    subgraph "App.tsx - Main Container"
-        AppState[Application State]
-        ViewRouter[View Router]
-    end
+    A[Raw Template<br/>HTML] --> B[Add IDs<br/>Python Script]
+    B --> C[Fix Structure<br/>JS Script]
+    C --> D[Add Buttons<br/>Replication]
+    D --> E[Localize Paths<br/>Localization]
+    E --> F[Add Resources<br/>CSS/JS]
+    F --> G[Final Template<br/>Ready to Use]
     
-    subgraph "Analysis Module"
-        CaseInputForm[CaseInputForm.tsx]
-        CaseAnalysisResults[CaseAnalysisResults.tsx]
-        ComparisonTable[ComparisonTable.tsx]
-    end
-    
-    subgraph "AI Module"
-        AIChat[AIChat.tsx]
-        FileUploader[FileUploader.tsx]
-    end
-    
-    subgraph "Library Module"
-        CaseLibrary[CaseLibrary.tsx]
-        WebSearchResults[WebSearchResults.tsx]
-    end
-    
-    subgraph "Analytics Module"
-        LegalAnalyticsDashboard[LegalAnalyticsDashboard.tsx]
-    end
-    
-    subgraph "Shared Components"
-        Header[Header.tsx]
-        Sidebar[Sidebar.tsx]
-        TranslationSettings[TranslationSettings.tsx]
-    end
-    
-    subgraph "Services"
-        LocalAPIService[services/api.ts]
-        GeminiService[lib/gemini.ts]
-        IndianKanoonService[services/indianKanoon.ts]
-        CourtListenerService[services/courtListener.ts]
-    end
-    
-    AppState --> ViewRouter
-    ViewRouter --> CaseInputForm
-    ViewRouter --> AIChat
-    ViewRouter --> CaseLibrary
-    ViewRouter --> LegalAnalyticsDashboard
-    
-    Header --> AppState
-    Sidebar --> ViewRouter
-    
-    CaseInputForm --> IndianKanoonService
-    CaseInputForm --> CourtListenerService
-    CaseInputForm --> CaseAnalysisResults
-    
-    CaseAnalysisResults --> ComparisonTable
-    
-    AIChat --> FileUploader
-    AIChat --> LocalAPIService
-    
-    CaseLibrary --> WebSearchResults
-    
-    LegalAnalyticsDashboard --> AppState
-    
-    style AppState fill:#FF6B6B
-    style LocalAPIService fill:#00C853
-    style GeminiService fill:#4285F4
-    style IndianKanoonService fill:#FFA500
-    style CourtListenerService fill:#9C27B0
+    style A fill:#ffebee
+    style G fill:#e8f5e9
+    style B fill:#fff3e0
+    style C fill:#e1f5fe
+    style D fill:#f3e5f5
+    style E fill:#fce4ec
+    style F fill:#e0f2f1
 ```
 
-### Component Responsibilities
-
-- **App.tsx**: Main application container, state management, routing
-- **Header**: Application branding and navigation
-- **Sidebar**: View selection and navigation menu
-- **CaseInputForm**: Case details input interface
-- **CaseAnalysisResults**: Display analysis results and insights
-- **ComparisonTable**: Side-by-side case comparison
-- **AIChat**: Local legal search interface with Q&A retrieval
-- **FileUploader**: Document upload and processing
-- **CaseLibrary**: Browse and search analyzed cases
-- **LegalAnalyticsDashboard**: Statistics and analytics visualization
-- **Services**: API integration and business logic
-
----
-
-## 🛠️ Technology Stack
+## 6. AI Integration Architecture
 
 ```mermaid
 graph TB
-    subgraph Frontend["Frontend Layer"]
-        React["React 18.3.1"]
-        TypeScript["TypeScript 5.5.3"]
-        TailwindCSS["Tailwind CSS 3.4.1"]
-        Vite["Vite 5.4.2"]
+    subgraph "User Interface"
+        A[Chat Input]
+        B[File Upload]
+        C[Chat Display]
     end
     
-    subgraph Backend["Backend Layer"]
-        FastAPI["FastAPI"]
-        Python["Python 3.8+"]
+    subgraph "Frontend Processing"
+        D[Message Handler]
+        E[File Validator]
+        F[History Manager]
     end
     
-    subgraph APIs["External APIs"]
-        IndianKanoon["Indian Kanoon API"]
-        CourtListener["Court Listener API"]
+    subgraph "Backend API"
+        G[Express Routes]
+        H[Multer Middleware]
+        I[API Controller]
     end
     
-    subgraph DocProcessing["Document Processing"]
-        jsPDF["jsPDF 3.0.4"]
-        PDFParse["pdf-parse 2.4.5"]
-        FileSaver["file-saver 2.0.5"]
+    subgraph "AI Service"
+        J[Gemini AI SDK]
+        K[Context Builder]
+        L[Response Parser]
     end
     
-    subgraph UILibs["UI Libraries"]
-        LucideReact["lucide-react 0.344.0"]
-        ReactMarkdown["react-markdown 10.1.0"]
+    subgraph "Storage"
+        M[Chat History]
+        N[Uploaded Files]
     end
     
-    subgraph Services["Backend Services"]
-        Supabase["@supabase/supabase-js 2.57.4"]
-    end
+    A --> D
+    B --> E
+    D --> G
+    E --> H
+    G --> I
+    H --> I
+    I --> K
+    K --> J
+    J --> L
+    L --> C
+    F --> M
+    H --> N
     
-    subgraph DevTools["Development Tools"]
-        ESLint["ESLint 9.9.1"]
-        PostCSS["PostCSS 8.4.35"]
-        Autoprefixer["Autoprefixer 10.4.18"]
-    end
-    
-    %% Build Tool Relations
-    Vite --> React
-    Vite --> TypeScript
-    Vite --> TailwindCSS
-    
-    %% Frontend Core Relations
-    React --> TypeScript
-    React --> TailwindCSS
-    
-    %% UI Library Relations
-    React --> LucideReact
-    React --> ReactMarkdown
-    
-    %% Document Processing Relations
-    React --> jsPDF
-    React --> PDFParse
-    React --> FileSaver
-    
-    %% Backend Relations
-    FastAPI --> Python
-    React --> FastAPI
-    
-    %% API Integrations
-    FastAPI --> IndianKanoon
-    FastAPI --> CourtListener
-    
-    %% Services Relations
-    React --> Supabase
-    FastAPI --> Supabase
-    
-    %% Development Tool Relations
-    Vite --> ESLint
-    Vite --> PostCSS
-    PostCSS --> Autoprefixer
-    TailwindCSS --> PostCSS
-    
-    %% Styling
-    style React fill:#61DAFB,stroke:#333,stroke-width:2px,color:#000
-    style TypeScript fill:#3178C6,stroke:#333,stroke-width:2px,color:#fff
-    style FastAPI fill:#009688,stroke:#333,stroke-width:2px,color:#fff
-    style TailwindCSS fill:#06B6D4,stroke:#333,stroke-width:2px,color:#000
-    style Vite fill:#646CFF,stroke:#333,stroke-width:2px,color:#fff
-    style Python fill:#3776AB,stroke:#333,stroke-width:2px,color:#fff
-    style Supabase fill:#3ECF8E,stroke:#333,stroke-width:2px,color:#000
-```   
-
-### Technology Details
-
-#### Frontend Framework
-- **React 18.3.1**: Modern UI library with hooks and concurrent features
-- **TypeScript 5.5.3**: Type-safe JavaScript for better development experience
-- **Vite 5.4.2**: Fast build tool and development server
-
-#### Styling
-- **Tailwind CSS 3.4.1**: Utility-first CSS framework
-- **PostCSS 8.4.35**: CSS transformation tool
-- **Autoprefixer 10.4.18**: Automatic vendor prefixing
-
-#### AI Integration
-- **Google Gemini AI**: Advanced language model for case analysis only
-- **@google/generative-ai 0.24.1**: Official Gemini SDK
-
-#### Backend Services
-- **FastAPI**: High-performance Python web framework for the local API server
-- **LangChain**: Vector search and retrieval for legal Q&A
-- **Local Legal Database**: JSON-based legal Q&A datasets (IPC, Constitution, etc.)
-- **Runs on**: localhost:8000
-
-#### Legal Data Sources
-- **Indian Kanoon API**: Comprehensive Indian case law database
-- **Court Listener API**: US federal and state court decisions
-- **Local Legal Intelligence API**: Privacy-focused local legal Q&A search
-
-#### Document Processing
-- **jsPDF 3.0.4**: PDF generation library
-- **pdf-parse 2.4.5**: PDF text extraction
-- **file-saver 2.0.5**: File download utility
-
-#### UI Components
-- **lucide-react 0.344.0**: Beautiful icon library
-- **react-markdown 10.1.0**: Markdown rendering
-
-#### Backend Infrastructure
-- **Supabase 2.57.4**: Backend-as-a-Service (configured for future use)
-
-#### Development Tools
-- **ESLint 9.9.1**: Code linting and quality
-- **TypeScript ESLint 8.3.0**: TypeScript-specific linting rules
-
----
-
-## 📥 Installation
-
-### Prerequisites
-
-- **Node.js**: Version 16.x or higher
-- **npm**: Version 8.x or higher (comes with Node.js)
-- **Git**: For cloning the repository
-
-### Step-by-Step Installation
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/yourusername/aiLegalEcosystem.git
-   cd aiLegalEcosystem/aiLegalAssistant
-   ```
-
-2. **Install Dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Configure Environment Variables**
-   
-   Create a `.env` file in the `aiLegalAssistant` directory:
-   ```env
-   VITE_GEMINI_API_KEY=your_gemini_api_key_here
-   VITE_INDIAN_KANOON_TOKEN=your_indian_kanoon_token_here
-   VITE_COURT_LISTENER_TOKEN=your_court_listener_token_here
-   ```
-
-4. **Start Development Server**
-   ```bash
-   npm run dev
-   ```
-
-5. **Build for Production**
-   ```bash
-   npm run build
-   ```
-
-6. **Preview Production Build**
-   ```bash
-   npm run preview
-   ```
-
-### Local Legal Intelligence API Setup
-
-7. **Navigate to API Directory**
-   ```bash
-   cd ../legal_intelligence_api
-   ```
-
-8. **Install Python Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-9. **Start the Local API Server**
-   ```bash
-   python main.py
-   ```
-   
-   The API will run on `http://localhost:8000`
-
-10. **Verify API is Running**
-    - Open browser to `http://localhost:8000/health`
-    - You should see: `{"status": "healthy"}`
-
----
-
-## ⚙️ Configuration
-
-### API Keys Setup
-
-#### 1. Google Gemini API Key
-- Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
-- Create a new API key
-- Add to `.env` as `VITE_GEMINI_API_KEY`
-
-#### 2. Indian Kanoon API Token
-- Visit [Indian Kanoon API](https://api.indiankanoon.org/)
-- Register for an API token
-- Add to `.env` as `VITE_INDIAN_KANOON_TOKEN`
-
-#### 3. Court Listener API Token
-- Visit [Court Listener](https://www.courtlistener.com/api/)
-- Create an account and generate API token
-- Add to `.env` as `VITE_COURT_LISTENER_TOKEN`
-
-### Environment Variables
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `VITE_GEMINI_API_KEY` | Google Gemini AI API key | Yes |
-| `VITE_INDIAN_KANOON_TOKEN` | Indian Kanoon API token | Yes |
-| `VITE_COURT_LISTENER_TOKEN` | Court Listener API token | Optional |
-
----
-
-## 🚀 Usage
-
-### 1. Case Analysis
-
-1. Navigate to the **Analyze** tab
-2. Fill in the case details:
-   - **Facts**: Describe the case facts
-   - **Parties**: List involved parties
-   - **Issues**: Legal issues to be addressed
-   - **Sections**: Applicable legal sections
-   - **Stage**: Current case stage
-3. Click **Analyze Case**
-4. Review the analysis results:
-   - Matched precedents
-   - Case strength assessment
-   - Strong and weak points
-   - Expected direction
-   - Legal advice
-
-### 2. Local Legal Intelligence Search
-
-1. **Ensure Local API is Running** at `http://localhost:8000`
-2. Navigate to the **AI Assistant** tab
-3. Type your legal query in the search field (e.g., "What is Section 302 IPC?")
-4. The system will:
-   - Search the local legal database
-   - Return the top 2 most relevant Q&A pairs
-   - Display questions and answers with relevance scores
-5. Use voice input for hands-free searching
-6. Click the speaker icon to hear answers read aloud
-7. All data stays local - no external AI calls
-
-### 3. Document Analysis
-
-1. In the AI Chat interface, click the file upload icon
-2. Select a legal document (PDF, DOCX, TXT)
-3. Wait for the document to be processed
-4. Review the AI-generated analysis:
-   - Document type and purpose
-   - Key legal points
-   - Potential issues
-   - Recommendations
-
-### 4. Case Library
-
-1. Navigate to the **Cases** tab
-2. Browse previously analyzed cases
-3. Use search functionality to find specific cases
-4. Click on a case to view detailed analysis
-
-### 5. Analytics Dashboard
-
-1. Navigate to the **Stats** tab
-2. View analysis statistics:
-   - Total analyses performed
-   - Success rate trends
-   - Section-wise distribution
-   - Timeline visualization
-
----
-
-## 📚 API Documentation
-
-### Gemini AI Service
-
-#### `chatWithAI(messages)`
-Sends a chat message to Gemini AI with conversation context.
-
-**Parameters:**
-- `messages`: Array of message objects with `role` and `content`
-
-**Returns:** Promise<string> - AI response text
-
-**Example:**
-```typescript
-const response = await chatWithAI([
-  { role: 'user', content: 'What is Section 302 IPC?' }
-]);
+    style J fill:#9c27b0,color:#fff
+    style I fill:#ff9800,color:#fff
+    style C fill:#4caf50,color:#fff
 ```
 
-#### `analyzeLegalDocument(content)`
-Analyzes a legal document using Gemini AI.
+## 7. File Structure Hierarchy
 
-**Parameters:**
-- `content`: string - Document text content
-
-**Returns:** Promise<string> - Analysis result
-
-**Example:**
-```typescript
-const analysis = await analyzeLegalDocument(documentText);
+```mermaid
+graph TD
+    A[projectAi] --> B[www.legalzoom.com]
+    A --> C[projectAIlegal]
+    A --> D[templates]
+    A --> E[js]
+    A --> F[Python Scripts]
+    
+    B --> B1[legalTemplate/t<br/>260 HTML files]
+    B --> B2[legalforms/t_forms<br/>Generated Forms]
+    B --> B3[resources<br/>CSS/Images]
+    B --> B4[Utility Scripts<br/>13 JS files]
+    
+    C --> C1[server.js]
+    C --> C2[routes]
+    C --> C3[public]
+    C --> C4[uploads]
+    
+    D --> D1[agreements]
+    D --> D2[contracts]
+    D --> D3[proposals]
+    
+    E --> E1[download-doc.js]
+    
+    F --> F1[add_id_to_forms.py]
+    F --> F2[verify_t_changes.py]
+    F --> F3[link_t_to_t_forms.py]
+    
+    style A fill:#1976d2,color:#fff
+    style B fill:#388e3c,color:#fff
+    style C fill:#f57c00,color:#fff
+    style D fill:#7b1fa2,color:#fff
 ```
 
-### Indian Kanoon Service
+## 8. Security Architecture
 
-#### `indianKanoon.search(query, pagenum)`
-Searches Indian case law database.
-
-**Parameters:**
-- `query`: string - Search query
-- `pagenum`: number - Page number (default: 0)
-
-**Returns:** Promise<IKSearchResponse>
-
-**Example:**
-```typescript
-const results = await indianKanoon.search('Section 302 IPC murder', 0);
+```mermaid
+graph TB
+    subgraph "Input Layer"
+        A[User Input]
+        B[File Upload]
+    end
+    
+    subgraph "Validation Layer"
+        C[Input Sanitization]
+        D[File Type Check]
+        E[Size Validation]
+    end
+    
+    subgraph "Processing Layer"
+        F[XSS Protection]
+        G[CSRF Token]
+        H[Rate Limiting]
+    end
+    
+    subgraph "Storage Layer"
+        I[Secure File Storage]
+        J[Access Control]
+    end
+    
+    A --> C
+    B --> D
+    B --> E
+    C --> F
+    D --> F
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+    
+    style C fill:#f44336,color:#fff
+    style F fill:#ff9800,color:#fff
+    style H fill:#4caf50,color:#fff
 ```
 
-#### `indianKanoon.getDoc(tid)`
-Retrieves a specific document by ID.
+## 9. Deployment Architecture
 
-**Parameters:**
-- `tid`: number - Document ID
-
-**Returns:** Promise<object> - Document details
-
-### Court Listener Service
-
-#### `courtListener.search(query)`
-Searches US court decisions.
-
-**Parameters:**
-- `query`: string - Search query
-
-**Returns:** Promise<CLSearchResponse>
-
----
-
-## 📁 Project Structure
-
-```
-aiLegalEcosystem/
-├── aiLegalAssistant/           # Main React application
-│   ├── src/
-│   │   ├── components/         # React components
-│   │   │   ├── AIChat.tsx
-│   │   │   ├── CaseAnalysisResults.tsx
-│   │   │   ├── CaseInputForm.tsx
-│   │   │   ├── CaseLibrary.tsx
-│   │   │   ├── ComparisonTable.tsx
-│   │   │   ├── DocumentDrafting.tsx
-│   │   │   ├── FileUploader.tsx
-│   │   │   ├── Header.tsx
-│   │   │   ├── LegalAnalyticsDashboard.tsx
-│   │   │   ├── Sidebar.tsx
-│   │   │   ├── TranslationSettings.tsx
-│   │   │   └── WebSearchResults.tsx
-│   │   ├── lib/                # Utility libraries
-│   │   │   ├── gemini.ts
-│   │   │   └── openai.ts
-│   │   ├── services/           # API services
-│   │   │   ├── api.ts          # Local API service
-│   │   │   ├── courtListener.ts
-│   │   │   └── indianKanoon.ts
-│   │   ├── App.tsx             # Main application component
-│   │   ├── main.tsx            # Application entry point
-│   │   └── index.css           # Global styles
-│   ├── public/                 # Static assets
-│   ├── .env                    # Environment variables
-│   ├── package.json            # Dependencies
-│   ├── tsconfig.json           # TypeScript configuration
-│   ├── tailwind.config.js      # Tailwind CSS configuration
-│   └── vite.config.ts          # Vite configuration
-├── legal_intelligence_api/     # Local Legal Intelligence API
-│   ├── data/                   # Legal Q&A datasets
-│   │   ├── ipc_qa.json         # Indian Penal Code Q&A
-│   │   ├── constitution_qa.json # Constitution Q&A
-│   │   └── ...                 # Other legal datasets
-│   ├── main.py                 # FastAPI server
-│   ├── requirements.txt        # Python dependencies
-│   └── README.md               # API documentation
-├── legalforms/                 # Legal form templates
-├── legalTemplate/              # Legal document templates
-├── LegalServicesPlatform/      # Additional legal services
-├── README.md                   # This file
-├── CONTRIBUTING.md             # Contribution guidelines
-└── LICENSE                     # License file
+```mermaid
+graph LR
+    subgraph "Development"
+        A[Local Dev<br/>npm run dev]
+    end
+    
+    subgraph "Build Process"
+        B[Vite Build]
+        C[Asset Optimization]
+        D[Minification]
+    end
+    
+    subgraph "Production"
+        E[Node Server<br/>Port 3000]
+        F[Static Assets<br/>CDN]
+    end
+    
+    subgraph "Monitoring"
+        G[Logs]
+        H[Analytics]
+    end
+    
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    E --> G
+    E --> H
+    
+    style A fill:#2196f3,color:#fff
+    style E fill:#4caf50,color:#fff
+    style F fill:#ff9800,color:#fff
 ```
 
----
+## 10. Template Category Distribution
 
-## 🤝 Contributing
+```mermaid
+pie title Template Distribution (260 Total)
+    "Business" : 80
+    "Employment" : 40
+    "Personal Legal" : 50
+    "Real Estate" : 30
+    "Intellectual Property" : 25
+    "Financial" : 35
+```
 
-We welcome contributions from the community! Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to this project.
+## 11. Technology Stack
 
-### Quick Start for Contributors
+```mermaid
+graph TB
+    subgraph "Frontend Technologies"
+        A[HTML5]
+        B[CSS3]
+        C[JavaScript ES6+]
+        D[html2pdf.js]
+    end
+    
+    subgraph "Backend Technologies"
+        E[Node.js v18+]
+        F[Express.js]
+        G[Multer]
+    end
+    
+    subgraph "AI & APIs"
+        H[Google Gemini AI]
+        I[REST APIs]
+    end
+    
+    subgraph "Development Tools"
+        J[Vite]
+        K[Python 3.x]
+        L[Git]
+    end
+    
+    A --> E
+    B --> E
+    C --> E
+    D --> C
+    E --> F
+    F --> G
+    F --> H
+    H --> I
+    
+    style H fill:#9c27b0,color:#fff
+    style E fill:#4caf50,color:#fff
+    style J fill:#ff9800,color:#fff
+```
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## 12. Error Handling Flow
 
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- **Google Gemini AI** for providing advanced AI capabilities
-- **Indian Kanoon** for comprehensive Indian case law database
-- **Court Listener** for US court decision access
-- **React Community** for excellent documentation and support
-- **Open Source Contributors** for various libraries used in this project
-
----
-
-## 📞 Contact & Support
-
-- **Issues**: [GitHub Issues](https://github.com/yourusername/aiLegalEcosystem/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/aiLegalEcosystem/discussions)
-- **Email**: support@ailegalecosystem.com
-
----
-
-## 🗺️ Roadmap
-
-- [ ] Multi-language support for international legal systems
-- [ ] Advanced analytics with machine learning insights
-- [ ] Real-time collaboration features
-- [ ] Mobile application development
-- [ ] Integration with more legal databases
-- [ ] Enhanced document generation capabilities
-- [ ] User authentication and cloud storage
-- [ ] API for third-party integrations
-
----
-
-<div align="center">
-
-**Made with ❤️ for the Legal Community**
-
-⭐ Star us on GitHub — it helps!
-
-[Report Bug](https://github.com/yourusername/aiLegalEcosystem/issues) • [Request Feature](https://github.com/yourusername/aiLegalEcosystem/issues)
-
-</div>
+```mermaid
+flowchart TD
+    Start[User Action] --> Process{Process Request}
+    
+    Process -->|Success| Success[Return Success]
+    Process -->|Validation Error| VE[Validation Error]
+    Process -->|Server Error| SE[Server Error]
+    Process -->|AI Error| AE[AI Error]
+    Process -->|File Error| FE[File Error]
+    
+    VE --> Log1[Log Error]
+    SE --> Log1
+    AE --> Log1
+    FE --> Log1
+    
+    Log1 --> User1[Show User Message]
+    User1 --> Retry{Retry?}
+    
+    Retry -->|Yes| Start
+    Retry -->|No| End[End]
+    
+    Success --> End
+    
+    style VE fill:#ff9800,color:#fff
+    style SE fill:#f44336,color:#fff
+    style AE fill:#9c27b0,color:#fff
+    style Success fill:#4caf50,color:#fff
+```
