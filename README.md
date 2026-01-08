@@ -493,7 +493,7 @@ graph LR
     
     subgraph "AI & ML"
         Gemini[Google Gemini AI - Case Analysis]
-        GeminiSDK[@google/generative-ai]
+        GeminiSDK["@google/generative-ai"]
     end
     
     subgraph "Backend Services"
