@@ -1,6 +1,6 @@
-# Contributing to AI Legal Ecosystem 🤝
+# Contributing to NyayaAssist (AI Legal Ecosystem) 🤝
 
-First off, thank you for considering contributing to AI Legal Ecosystem! It's people like you that make this project such a great tool for the legal community.
+First off, thank you for considering contributing to NyayaAssist! It's people like you that make this platform a great tool for the legal community in India.
 
 ## 📋 Table of Contents
 
@@ -65,7 +65,7 @@ Before you begin, ensure you have the following installed:
 2. **Clone Your Fork**
    ```bash
    git clone https://github.com/YOUR_USERNAME/aiLegalEcosystem.git
-   cd aiLegalEcosystem/aiLegalAssistant
+   cd aiLegalEcosystem/LegalServicesPlatform
    ```
 
 3. **Add Upstream Remote**
@@ -80,11 +80,9 @@ Before you begin, ensure you have the following installed:
 
 5. **Set Up Environment Variables**
    
-   Create a `.env` file in the `aiLegalAssistant` directory:
+   Create a `.env` file in the `LegalServicesPlatform` directory:
    ```env
-   VITE_GEMINI_API_KEY=your_gemini_api_key
-   VITE_INDIAN_KANOON_TOKEN=your_indian_kanoon_token
-   VITE_COURT_LISTENER_TOKEN=your_court_listener_token
+   VITE_API_URL=http://localhost:8000
    ```
 
 6. **Start Development Server**
@@ -116,6 +114,117 @@ Before you begin, ensure you have the following installed:
     - Frontend: Open your browser and navigate to `http://localhost:5173`
     - Backend API: Open `http://localhost:8000/health` to verify API is running
     - You should see `{"status": "healthy"}` from the API
+
+### Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "Frontend - LegalServicesPlatform"
+        UI[React UI]
+        Auth[Auth Components]
+        Dashboard[Dashboards]
+        Chat[Messaging]
+        Lawyers[Lawyer Directory]
+    end
+    
+    subgraph "Backend - legal_intelligence_api"
+        API[FastAPI Server]
+        AuthAPI[Authentication]
+        MessageAPI[Messages API]
+        LawyerAPI[Lawyers API]
+        ProfileAPI[Profile API]
+    end
+    
+    subgraph "Database"
+        MySQL[(MySQL Database)]
+    end
+    
+    UI --> Auth
+    UI --> Dashboard
+    UI --> Chat
+    UI --> Lawyers
+    
+    Auth --> AuthAPI
+    Chat --> MessageAPI
+    Lawyers --> LawyerAPI
+    Dashboard --> ProfileAPI
+    
+    AuthAPI --> MySQL
+    MessageAPI --> MySQL
+    LawyerAPI --> MySQL
+    ProfileAPI --> MySQL
+    
+    style UI fill:#61DAFB
+    style API fill:#009688
+    style MySQL fill:#4479A1
+```
+
+### Component Hierarchy
+
+```mermaid
+graph TD
+    App[App.tsx]
+    
+    App --> Home[Home Page]
+    App --> Dashboard[Dashboard]
+    App --> Auth[Auth Pages]
+    
+    Home --> Hero[Hero Section]
+    Home --> Services[Services Grid]
+    Home --> LawyerDir[Lawyer Directory]
+    Home --> Footer[Footer]
+    
+    Dashboard --> UserDash[User Dashboard]
+    Dashboard --> LawyerDash[Lawyer Dashboard]
+    Dashboard --> AdminDash[Admin Dashboard]
+    
+    UserDash --> Profile[Profile]
+    UserDash --> Messages[Messages Tab]
+    UserDash --> Cases[Cases]
+    
+    Messages --> ChatInterface[Chat Interface]
+    ChatInterface --> ChatList[Chat List]
+    ChatInterface --> ChatWindow[Chat Window]
+    
+    Auth --> Login[Login Form]
+    Auth --> Signup[Signup Form]
+    
+    style App fill:#FF6B6B
+    style Dashboard fill:#4ECDC4
+    style Messages fill:#95E1D3
+```
+
+### Messaging System Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant LC as Lawyer Card
+    participant CS as Chat Store
+    participant API as Messages API
+    participant DB as MySQL
+    
+    U->>LC: Click "Message" Button
+    LC->>CS: startChat(lawyer)
+    CS->>CS: Create/Load Chat
+    LC->>U: Navigate to Dashboard Messages Tab
+    
+    U->>CS: Type Message
+    U->>CS: Click Send
+    CS->>API: POST /messages
+    API->>DB: INSERT message
+    DB-->>API: Success
+    API-->>CS: New Message Object
+    CS->>CS: Update messages array
+    CS->>U: Display sent message
+    
+    Note over CS,API: Lawyer receives message
+    CS->>API: GET /messages/chats
+    API->>DB: SELECT unread count
+    DB-->>API: Chat list with unread
+    API-->>CS: Updated chat list
+    CS->>U: Show unread badge
+```
 
 ---
 
@@ -378,16 +487,20 @@ function fetchCases(query) {
 ```
 src/
 ├── components/          # React components
-│   ├── common/         # Reusable components
-│   └── features/       # Feature-specific components
-├── lib/                # Utility libraries
+│   ├── auth/           # Authentication forms (Login/Signup)
+│   ├── chat/           # Messaging interface
+│   ├── dashboard/      # Dashboard components
+│   ├── home/           # Landing page components
+│   └── layout/         # Layout components (Navbar, Footer)
 ├── services/           # API services
-│   ├── api.ts         # Local Legal Intelligence API
-│   ├── indianKanoon.ts
-│   └── courtListener.ts
-├── data/               # Local data files
+│   ├── authService.ts  # Authentication API
+│   ├── lawyerService.ts # Lawyer directory API
+│   ├── messageService.ts # Messaging API
+│   └── profileService.ts # Profile management
+├── store/              # State management (Zustand)
+│   ├── authStore.ts    # Authentication state
+│   └── chatStore.ts    # Chat state
 ├── types/              # TypeScript type definitions
-├── hooks/              # Custom React hooks
 ├── utils/              # Helper functions
 └── constants/          # Application constants
 ```
