@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2025 AI Legal Ecosystem Contributors
+Copyright (c) 2024-2026 NyayaAssist - AI Legal Ecosystem
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -94,7 +94,7 @@ This software is provided for informational and educational purposes only. It is
 - This software processes data locally in the user's browser
 - API calls to third-party services (Google Gemini AI, Indian Kanoon, Court Listener) are subject to those services' privacy policies
 - Users are responsible for ensuring compliance with data protection regulations (GDPR, CCPA, etc.) when using this software
-- No user data is collected or stored by the AI Legal Ecosystem project maintainers
+- No user data is collected or stored by the NyayaAssist project maintainers
 
 ---
 
@@ -120,7 +120,7 @@ If you modify this software or create derivative works:
 If you use this software in your project, we appreciate (but do not require) attribution. You may use:
 
 ```
-Powered by AI Legal Ecosystem
+Powered by NyayaAssist - AI Legal Ecosystem
 https://github.com/yourusername/aiLegalEcosystem
 ```
 
@@ -129,9 +129,9 @@ https://github.com/yourusername/aiLegalEcosystem
 ## Contact
 
 For licensing questions or concerns:
-- Open an issue on GitHub: https://github.com/yourusername/aiLegalEcosystem/issues
-- Email: legal@ailegalecosystem.com
+- Open an issue on GitHub: https://github.com/quantumNexus0/aiLegalEcosystem/issues
+- Email: vipulyadav503@gmail.com
 
 ---
 
-**Last Updated**: January 2025
+**Last Updated**: January 2026
