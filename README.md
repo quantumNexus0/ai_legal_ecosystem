@@ -21,13 +21,16 @@
 
 - [Overview](#-overview)
 - [Features](#-features)
+- [Ecosystem Overview (ERP View)](#-ecosystem-overview-erp-view)
 - [System Architecture](#-system-architecture)
 - [Entity Relationship Diagram](#-entity-relationship-diagram)
 - [Detailed Component Diagrams](#-detailed-component-diagrams)
+- [Module Details](#-module-details)
+    - [Legal Services Platform](#1-legal-services-platform)
+    - [Legal Templates Library](#2-legal-templates-library-legaltemplate)
+    - [AI Legal Assistant](#3-ai-legal-assistant-ailegalassistant)
 - [Technology Stack](#-technology-stack)
 - [Installation](#-installation)
-- [Configuration](#-configuration)
-- [Usage](#-usage)
 - [Contributing](#-contributing)
 - [License](#-license)
 
@@ -75,10 +78,102 @@ For **Lawyers**, it provides a comprehensive dashboard to manage cases, appointm
 - **Privacy-First**: runs locally to ensure data privacy.
 - **Voice Support**: Voice input and Text-to-Speech output for accessibility.
 
-### 7. **Secure Authentication** 🔐
-- **Role-Based Access**: Strict separation of User, Lawyer, and Admin capabilities.
-- **Profile Management**: Lawyers can manage their specialization, experience, and office details.
-- **Modern UI**: Animated login/signup flows with validation.
+---
+
+## 🌐 Ecosystem Overview (ERP View)
+
+A high-level view of how the different applications in the ecosystem connect and share resources.
+
+```mermaid
+graph TB
+    subgraph "Core Infrastructure"
+        Backend[Unified Backend API]
+        DB[(MySQL Database)]
+    end
+
+    subgraph "Legal Services Platform"
+        Dashboard[Web Dashboard]
+        CaseMgr[Case Manager]
+        Chat[Chat System]
+    end
+
+    subgraph "AI Legal Assistant"
+        AssistantUI[Assistant Interface]
+        Voice[Voice Processing]
+        LocalRAG[Local RAG Engine]
+    end
+
+    subgraph "Legal Templates Library"
+        TemplateLib[Template Repository]
+        Generator[Doc Generator]
+    end
+
+    Dashboard --> Backend
+    AssistantUI --> Backend
+    TemplateLib -.-> Dashboard
+    
+    Backend --> DB
+    Backend --> LocalRAG
+    
+    Chat --> Backend
+    Voice --> AssistantUI
+    
+    style Backend fill:#ff9800,stroke:#333,stroke-width:2px
+    style Dashboard fill:#4caf50,stroke:#333,stroke-width:2px
+    style AssistantUI fill:#2196f3,stroke:#333,stroke-width:2px
+    style TemplateLib fill:#9c27b0,stroke:#333,stroke-width:2px
+```
+
+---
+
+## 📦 Module Details
+
+### 1. Legal Services Platform
+The core web application connecting lawyers and clients.
+
+- **Directory**: `LegalServicesPlatform/`
+- **Tech**: React, TypeScript, Tailwind CSS
+- **Function**: Handles authentication, dashboards, case tracking, and messaging.
+
+### 2. Legal Templates Library (`legalTemplate`)
+A comprehensive repository of legal forms and document templates.
+
+- **Directory**: `legalTemplate/`
+- **Contents**: 
+    - `templates/`: collection of categorized HTML/PDF templates (Contracts, Agreements, Affidavits).
+    - `legalforms/`: Standardized legal forms for various jurisdictions.
+- **Usage**: Used by the platform to generate ready-to-use documents for clients.
+
+```mermaid
+graph LR
+    User[User] --> Select[Select Category]
+    Select --> Browse[Browse Templates]
+    Browse --> Preview[Live Preview]
+    Preview --> Fill[Fill Details]
+    Fill --> Download[Download PDF/Docx]
+```
+
+### 3. AI Legal Assistant (`aiLegalAssistant`)
+A standalone, privacy-focused AI assistant for answering legal queries.
+
+- **Directory**: `aiLegalAssistant/`
+- **Tech**: React, Local Vector DB, Speech API
+- **Key Feature**: Runs independently to provide quick legal answers without exposing sensitive case data to external cloud providers.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant UI as Assistant UI
+    participant RAG as Local RAG
+    participant Vector as Vector DB
+    
+    User->>UI: Voice/Text Query
+    UI->>RAG: Process Query
+    RAG->>Vector: Semantic Search
+    Vector-->>RAG: Relevant Legal Context
+    RAG-->>UI: Formulated Answer
+    UI-->>User: Text & Voice Response
+```
 
 ---
 
@@ -98,7 +193,6 @@ graph TB
         FastAPI[FastAPI Server]
         Auth[Auth Middleware]
         Endpoints[API Endpoints]
-        Socket[WebSocket Manager]
     end
 
     subgraph "Data Layer"
@@ -130,16 +224,9 @@ graph TB
     style Gemini fill:#4285F4
 ```
 
-### Architecture Layers Explained
-
-1.  **Client Layer**: React-based SPA managing UI state and user interactions.
-2.  **Backend Services**: FastAPI server handling business logic, authentication, and data persistence.
-3.  **Data Layer**: MySQL for relational data (users, cases, messages) and a local Vector DB for legal Q&A.
-4.  **AI Services**: Hybrid model utilizing cloud-based LLMs (Gemini) for complex analysis and local embeddings for privacy-sensitive tasks.
-
 ---
 
-## � Entity Relationship Diagram
+## 📊 Entity Relationship Diagram
 
 The core database schema supporting the application:
 
@@ -153,35 +240,25 @@ erDiagram
     USER {
         int id PK
         string email
-        string hashed_password
         string role "user|lawyer|admin"
-        string full_name
     }
 
     LAWYER_PROFILE {
         int id PK
         int user_id FK
         string specialization
-        int experience_years
-        string office_address
     }
 
     CASE {
         int id PK
         string title
-        string case_type
         int lawyer_id FK
         int client_id FK
         string status
-        datetime next_hearing
     }
 
     APPOINTMENT {
         int id PK
-        string title
-        string type
-        int lawyer_id FK
-        int client_id FK
         datetime appointment_time
         string status
     }
@@ -192,7 +269,6 @@ erDiagram
         int receiver_id FK
         string content
         boolean is_read
-        datetime created_at
     }
 ```
 
@@ -224,28 +300,6 @@ sequenceDiagram
     DB-->>API: Success
     API-->>Store: Standardized Message
     Store-->>Client: Append to Chat Window
-```
-
-### 2. Case Analysis Pipeline
-
-How the AI Case Analysis engine processes user inputs:
-
-```mermaid
-flowchart LR
-    Input[Case Facts] --> Validate{Validation}
-    Validate -->|Valid| Prompt[Prompt Engineering]
-    Validate -->|Invalid| Error[Show Error]
-    
-    Prompt --> Gemini[Gemini 1.5 Pro]
-    
-    Gemini --> Analysis[Analysis Output]
-    Analysis --> Strength[Calculate Strength %]
-    Analysis --> Precedents[Match Precedents]
-    Analysis --> Strategy[Generate Advice]
-    
-    Strength & Precedents & Strategy --> Dashboard[User Dashboard]
-    
-    style Gemini fill:#4285F4,color:white
 ```
 
 ---
@@ -350,16 +404,6 @@ If you want to run the separate AI Assistant frontend:
     npm install
     npm run dev
     ```
-
----
-
-## 📝 Configuration
-
-### Environment Variables
-Create a `.env` file in `legal_intelligence_api` if needed, but the project defaults to standard local ports:
-- **Backend**: `http://localhost:8000`
-- **Frontend**: `http://localhost:5173`
-- **Database**: `mysql+pymysql://root:@localhost/legal_services`
 
 ---
 
