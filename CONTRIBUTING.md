@@ -49,10 +49,11 @@ We pledge to make participation in our project a harassment-free experience for 
 ### Prerequisites
 
 Before you begin, ensure you have the following installed:
-- **Node.js** (v16.x or higher)
-- **npm** (v8.x or higher)
-- **Python** (v3.8 or higher) - for Local Legal Intelligence API
+- **Node.js** (v18.x or higher)
+- **npm** (v9.x or higher)
+- **Python** (v3.10 or higher) - for Backend API
 - **pip** - Python package manager
+- **XAMPP** (or MySQL Server) - for Database
 - **Git**
 - A code editor (we recommend **VS Code**)
 
@@ -64,56 +65,58 @@ Before you begin, ensure you have the following installed:
 
 2. **Clone Your Fork**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/aiLegalEcosystem.git
-   cd aiLegalEcosystem/LegalServicesPlatform
+   git clone https://github.com/YOUR_USERNAME/ai_legal_ecosystem.git
+   cd ai_legal_ecosystem
    ```
 
-3. **Add Upstream Remote**
+3. **Install Frontend Dependencies**
+   Navigate to the frontend directory:
    ```bash
-   git remote add upstream https://github.com/ORIGINAL_OWNER/aiLegalEcosystem.git
-   ```
-
-4. **Install Dependencies**
-   ```bash
+   cd LegalServicesPlatform
    npm install
    ```
 
-5. **Set Up Environment Variables**
-   
-   Create a `.env` file in the `LegalServicesPlatform` directory:
-   ```env
-   VITE_API_URL=http://localhost:8000
-   ```
+4. **Set Up the Database**
+   - Start **XAMPP Control Panel**.
+   - Start the **Apache** and **MySQL** modules.
+   - (Optional) Use `setup_mysql.py` in the backend folder to verify/reset DB:
+     ```bash
+     cd ../legal_intelligence_api
+     python setup_mysql.py
+     ```
 
-6. **Start Development Server**
-   ```bash
-   npm run dev
-   ```
-
-7. **Set Up Local Legal Intelligence API**
-   
-   Navigate to the API directory:
+5. **Set Up Backend API**
+   Navigate to the backend directory:
    ```bash
    cd ../legal_intelligence_api
    ```
+   
+   Create and activate a virtual environment (recommended):
+   ```bash
+   python -m venv venv
+   # Windows
+   venv\Scripts\activate
+   # Bash
+   source venv/bin/activate
+   ```
 
-8. **Install Python Dependencies**
+   Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-9. **Start Local API Server**
+   Start the API server:
    ```bash
-   python main.py
+   uvicorn app.main:app --reload
    ```
-   
-   The API will run on `http://localhost:8000`
+   The API will run on `http://localhost:8000`.
 
-10. **Verify Setup**
-    
-    - Frontend: Open your browser and navigate to `http://localhost:5173`
-    - Backend API: Open `http://localhost:8000/health` to verify API is running
-    - You should see `{"status": "healthy"}` from the API
+6.  **Start Frontend Development Server**
+    Open a new terminal, navigate to `LegalServicesPlatform`, and run:
+    ```bash
+    npm run dev
+    ```
+    The app will open at `http://localhost:5173`.
 
 ### Architecture Overview
 
@@ -192,38 +195,6 @@ graph TD
     style App fill:#FF6B6B
     style Dashboard fill:#4ECDC4
     style Messages fill:#95E1D3
-```
-
-### Messaging System Flow
-
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant LC as Lawyer Card
-    participant CS as Chat Store
-    participant API as Messages API
-    participant DB as MySQL
-    
-    U->>LC: Click "Message" Button
-    LC->>CS: startChat(lawyer)
-    CS->>CS: Create/Load Chat
-    LC->>U: Navigate to Dashboard Messages Tab
-    
-    U->>CS: Type Message
-    U->>CS: Click Send
-    CS->>API: POST /messages
-    API->>DB: INSERT message
-    DB-->>API: Success
-    API-->>CS: New Message Object
-    CS->>CS: Update messages array
-    CS->>U: Display sent message
-    
-    Note over CS,API: Lawyer receives message
-    CS->>API: GET /messages/chats
-    API->>DB: SELECT unread count
-    DB-->>API: Chat list with unread
-    API-->>CS: Updated chat list
-    CS->>U: Show unread badge
 ```
 
 ---
@@ -371,30 +342,6 @@ Use descriptive branch names with the following prefixes:
 - Use **arrow functions** for callbacks
 - Use **async/await** instead of promises chains
 
-**Example:**
-```typescript
-// Good ✅
-const fetchCases = async (query: string): Promise<Case[]> => {
-  try {
-    const response = await api.search(query);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching cases:', error);
-    throw error;
-  }
-};
-
-// Avoid ❌
-function fetchCases(query) {
-  return api.search(query).then(response => {
-    return response.data;
-  }).catch(error => {
-    console.error('Error fetching cases:', error);
-    throw error;
-  });
-}
-```
-
 ### React Component Guidelines
 
 1. **Component Structure**
@@ -439,11 +386,6 @@ function fetchCases(query) {
    const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
      return <h1>{title}</h1>;
    };
-   
-   // Avoid ❌
-   const Header: React.FC<HeaderProps> = (props) => {
-     return <h1>{props.title}</h1>;
-   };
    ```
 
 3. **State Management**
@@ -451,59 +393,6 @@ function fetchCases(query) {
    - Use `useEffect` for side effects
    - Keep state as close to where it's used as possible
    - Lift state up only when necessary
-
-### CSS/Styling Guidelines
-
-- Use **Tailwind CSS** utility classes
-- Follow mobile-first responsive design
-- Use semantic color names from Tailwind
-- Group related utility classes together
-
-**Example:**
-```tsx
-// Good ✅
-<div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md">
-  <h2 className="text-2xl font-bold text-gray-900">Title</h2>
-  <p className="text-gray-600">Description</p>
-</div>
-
-// Avoid ❌
-<div className="p-6 flex bg-white gap-4 shadow-md flex-col rounded-lg">
-  <h2 className="font-bold text-gray-900 text-2xl">Title</h2>
-  <p className="text-gray-600">Description</p>
-</div>
-```
-
-### File Naming Conventions
-
-- **Components**: PascalCase (e.g., `CaseInputForm.tsx`)
-- **Utilities**: camelCase (e.g., `formatDate.ts`)
-- **Services**: camelCase (e.g., `indianKanoon.ts`)
-- **Types**: PascalCase (e.g., `CaseTypes.ts`)
-- **Constants**: UPPER_SNAKE_CASE (e.g., `API_ENDPOINTS.ts`)
-
-### Code Organization
-
-```
-src/
-├── components/          # React components
-│   ├── auth/           # Authentication forms (Login/Signup)
-│   ├── chat/           # Messaging interface
-│   ├── dashboard/      # Dashboard components
-│   ├── home/           # Landing page components
-│   └── layout/         # Layout components (Navbar, Footer)
-├── services/           # API services
-│   ├── authService.ts  # Authentication API
-│   ├── lawyerService.ts # Lawyer directory API
-│   ├── messageService.ts # Messaging API
-│   └── profileService.ts # Profile management
-├── store/              # State management (Zustand)
-│   ├── authStore.ts    # Authentication state
-│   └── chatStore.ts    # Chat state
-├── types/              # TypeScript type definitions
-├── utils/              # Helper functions
-└── constants/          # Application constants
-```
 
 ---
 
@@ -532,34 +421,6 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) speci
 - `test`: Adding or updating tests
 - `chore`: Changes to build process or auxiliary tools
 
-### Examples
-
-```bash
-# Feature
-git commit -m "feat(chat): add voice input support"
-
-# Bug fix
-git commit -m "fix(analysis): resolve case matching algorithm error"
-
-# Documentation
-git commit -m "docs(readme): update installation instructions"
-
-# Refactoring
-git commit -m "refactor(components): simplify state management in CaseInputForm"
-
-# Performance
-git commit -m "perf(search): optimize database query performance"
-```
-
-### Commit Message Rules
-
-- Use the imperative mood ("add" not "added" or "adds")
-- Don't capitalize the first letter
-- No period (.) at the end
-- Keep the subject line under 50 characters
-- Separate subject from body with a blank line
-- Use the body to explain what and why vs. how
-
 ---
 
 ## 🔀 Pull Request Process
@@ -573,49 +434,12 @@ git commit -m "perf(search): optimize database query performance"
 5. ✅ Update the CHANGELOG.md if applicable
 6. ✅ Rebase your branch on the latest main
 
-### Pull Request Template
-
-```markdown
-## Description
-Brief description of the changes
-
-## Type of Change
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] Documentation update
-
-## Related Issue
-Fixes #(issue number)
-
-## How Has This Been Tested?
-Describe the tests you ran to verify your changes
-
-## Screenshots (if applicable)
-Add screenshots to demonstrate the changes
-
-## Checklist
-- [ ] My code follows the style guidelines of this project
-- [ ] I have performed a self-review of my own code
-- [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] New and existing unit tests pass locally with my changes
-```
-
 ### Review Process
 
 1. At least one maintainer must approve the PR
 2. All CI checks must pass
 3. No merge conflicts with main branch
 4. Code review feedback must be addressed
-
-### After Your PR is Merged
-
-1. Delete your branch (both locally and on GitHub)
-2. Pull the latest changes from upstream
-3. Celebrate! 🎉
 
 ---
 
@@ -628,151 +452,16 @@ Add screenshots to demonstrate the changes
 - Use descriptive test names
 - Follow the AAA pattern: Arrange, Act, Assert
 
-**Example:**
-```typescript
-describe('CaseAnalysis', () => {
-  it('should calculate case strength correctly', () => {
-    // Arrange
-    const caseData = {
-      strongPoints: ['point1', 'point2'],
-      weakPoints: ['point1']
-    };
-    
-    // Act
-    const strength = calculateStrength(caseData);
-    
-    // Assert
-    expect(strength).toBeGreaterThan(50);
-  });
-});
-```
-
 ### Running Tests
 
 ```bash
 # Run all tests
 npm test
-
-# Run tests in watch mode
-npm test -- --watch
-
-# Run tests with coverage
-npm test -- --coverage
 ```
 
 ---
 
-## � Contributing to Local Legal Intelligence API
-
-### Python Code Guidelines
-
-When contributing to the `legal_intelligence_api` directory, follow these guidelines:
-
-1. **Code Style**
-   - Follow [PEP 8](https://pep8.org/) style guide
-   - Use type hints for function parameters and return values
-   - Use descriptive variable names
-
-**Example:**
-```python
-# Good ✅
-from typing import List, Dict
-
-async def search_legal_database(
-    query: str,
-    dataset: str = "all"
-) -> Dict[str, List[Dict]]:
-    """
-    Search the legal database for relevant Q&A pairs.
-    
-    Args:
-        query: The search query string
-        dataset: The dataset to search (default: "all")
-        
-    Returns:
-        Dictionary containing search results
-    """
-    # Implementation
-    pass
-
-# Avoid ❌
-def search(q, d="all"):
-    # Implementation
-    pass
-```
-
-2. **API Endpoint Structure**
-   ```python
-   @app.post("/search")
-   async def search_endpoint(request: SearchRequest):
-       """
-       Endpoint docstring explaining what it does
-       """
-       # Validate input
-       # Process request
-       # Return response
-       pass
-   ```
-
-3. **Error Handling**
-   ```python
-   from fastapi import HTTPException
-   
-   try:
-       result = await perform_search(query)
-   except ValueError as e:
-       raise HTTPException(status_code=400, detail=str(e))
-   except Exception as e:
-       raise HTTPException(status_code=500, detail="Internal server error")
-   ```
-
-### Adding Legal Data
-
-To contribute legal Q&A data:
-
-1. **Data Format**
-   - Use JSON format
-   - Follow the existing structure in `data/` folder
-   
-   ```json
-   [
-     {
-       "question": "What is Section 302 IPC?",
-       "answer": "Section 302 of the Indian Penal Code deals with punishment for murder..."
-     }
-   ]
-   ```
-
-2. **Data Quality Guidelines**
-   - Ensure accuracy of legal information
-   - Cite sources where applicable
-   - Use clear, concise language
-   - Avoid legal jargon where possible
-   - Include relevant context
-
-3. **Adding New Datasets**
-   - Create a new JSON file in `legal_intelligence_api/data/`
-   - Update `main.py` to load the new dataset
-   - Document the dataset in the API README
-
-### Testing the API
-
-```bash
-# Start the API server
-python main.py
-
-# Test health endpoint
-curl http://localhost:8000/health
-
-# Test search endpoint
-curl -X POST http://localhost:8000/search \
-  -H "Content-Type: application/json" \
-  -d '{"query": "murder", "dataset": "ipc"}'
-```
-
----
-
-## �📚 Documentation Guidelines
+## 📚 Documentation Guidelines
 
 ### Code Documentation
 
@@ -780,79 +469,7 @@ curl -X POST http://localhost:8000/search \
 - Explain complex logic with inline comments
 - Keep comments up-to-date with code changes
 
-**Example:**
-```typescript
-/**
- * Analyzes a legal case and returns matched precedents
- * @param caseData - The case details to analyze
- * @param options - Analysis options
- * @returns Promise resolving to analysis results
- * @throws {Error} If API request fails
- */
-async function analyzeCase(
-  caseData: CaseFormData,
-  options?: AnalysisOptions
-): Promise<AnalysisResult> {
-  // Implementation
-}
-```
-
 ### README Updates
 
-- Update README.md when adding new features
-- Include usage examples
-- Update diagrams if architecture changes
-
----
-
-## 🌐 Community
-
-### Getting Help
-
-- **GitHub Discussions**: For questions and discussions
-- **GitHub Issues**: For bug reports and feature requests
-- **Discord**: [Join our Discord server](#) (if applicable)
-
-### Recognition
-
-Contributors will be recognized in:
-- README.md Contributors section
-- Release notes
-- Project documentation
-
----
-
-## 🎓 Learning Resources
-
-### Recommended Reading
-
-- [React Documentation](https://react.dev/)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [Vite Guide](https://vitejs.dev/guide/)
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [Python Documentation](https://docs.python.org/3/)
-
-### Project-Specific Resources
-
-- [Google Gemini AI Documentation](https://ai.google.dev/docs) - Used for case analysis only
-- [Indian Kanoon API Documentation](https://api.indiankanoon.org/doc/)
-- [Court Listener API Documentation](https://www.courtlistener.com/api/)
-- [LangChain Documentation](https://python.langchain.com/) - For vector search implementation
-
----
-
-## 📞 Contact
-
-If you have questions or need help, feel free to:
-- Open a GitHub Discussion
-- Comment on relevant issues
-- Reach out to maintainers
-
----
-
-## 🙏 Thank You!
-
-Your contributions make this project better for everyone in the legal community. We appreciate your time and effort!
-
-**Happy Coding! 💻⚖️**
+- Update README.md if new features are added
+- Keep installation instructions current
