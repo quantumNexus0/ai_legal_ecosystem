@@ -346,7 +346,32 @@ graph TD
 
 ---
 
-## 🚀 Installation
+## � Future Roadmap
+
+We are constantly improving NyayaAssist. Here is what's coming next:
+
+- [ ] **Mobile Application**: Native React Native app for iOS and Android.
+- [ ] **Blockchain Evidence**: Secure, immutable storage for legal documents and evidence.
+- [ ] **Multilingual Support**: Expanding support for Hindi, Tamil, Telugu, and other regional languages.
+- [ ] **e-Courts Integration**: Direct integration with Indian e-Courts services for case filing status.
+- [ ] **AI Contract Review**: Automated risk assessment for uploaded contracts.
+
+---
+
+## ❓ Troubleshooting & FAQ
+
+**Q: "Module not found" error when running backend?**
+A: Ensure you have activated your virtual environment (`venv\Scripts\activate`) and installed requirements (`pip install -r requirements.txt`).
+
+**Q: Database connection failed?**
+A: Make sure XAMPP is running and the MySQL module is started (Port 3306). The default user is `root` with no password.
+
+**Q: Where is the API documentation?**
+A: Once the backend is running, visit `http://localhost:8000/docs` for the interactive Swagger UI.
+
+---
+
+## �🚀 Installation
 
 ### Prerequisites
 1.  **Node.js** (v18+)
