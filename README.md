@@ -145,6 +145,16 @@ A comprehensive repository of legal forms and document templates.
 - **Usage**: Used by the platform to generate ready-to-use documents for clients.
 
 ```mermaid
+pie title Template Distribution (260 Total)
+    "Business" : 80
+    "Employment" : 40
+    "Personal Legal" : 50
+    "Real Estate" : 30
+    "Intellectual Property" : 25
+    "Financial" : 35
+```
+
+```mermaid
 graph LR
     User[User] --> Select[Select Category]
     Select --> Browse[Browse Templates]
