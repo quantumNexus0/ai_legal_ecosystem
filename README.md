@@ -22,11 +22,12 @@
 - [Overview](#-overview)
 - [Features](#-features)
 - [System Architecture](#-system-architecture)
+- [Entity Relationship Diagram](#-entity-relationship-diagram)
+- [Detailed Component Diagrams](#-detailed-component-diagrams)
 - [Technology Stack](#-technology-stack)
 - [Installation](#-installation)
 - [Configuration](#-configuration)
 - [Usage](#-usage)
-- [Project Structure](#-project-structure)
 - [Contributing](#-contributing)
 - [License](#-license)
 
@@ -83,31 +84,201 @@ For **Lawyers**, it provides a comprehensive dashboard to manage cases, appointm
 
 ## 🏗️ System Architecture
 
-The system follows a modern client-server architecture:
+The system follows a modern client-server architecture with AI integration:
 
-- **Frontend**: Single Page Application (SPA) built with React and TypeScript.
-- **Backend**: RESTful API built with FastAPI (Python).
-- **Database**: MySQL relational database for structured data (Users, Cases, Appointments).
-- **AI Layer**: Hybrid approach using Google Gemini for analysis and local Vector DB for the assistant.
+```mermaid
+graph TB
+    subgraph "Client Layer"
+        UI[React UI Components]
+        Router[React Router]
+        State[Zustand Store]
+    end
+
+    subgraph "API Gateway & Backend"
+        FastAPI[FastAPI Server]
+        Auth[Auth Middleware]
+        Endpoints[API Endpoints]
+        Socket[WebSocket Manager]
+    end
+
+    subgraph "Data Layer"
+        MySQL[(MySQL Database)]
+        VectorDB[(Local Vector DB)]
+    end
+
+    subgraph "AI Services"
+        Gemini[Google Gemini API]
+        RAG[Local RAG Engine]
+    end
+
+    UI --> Router
+    Router --> State
+    State -- REST/WS --> FastAPI
+    
+    FastAPI --> Auth
+    Auth --> Endpoints
+    
+    Endpoints --> MySQL
+    Endpoints --> RAG
+    Endpoints --> Gemini
+    
+    RAG --> VectorDB
+    
+    style UI fill:#61DAFB
+    style FastAPI fill:#009688
+    style MySQL fill:#4479A1
+    style Gemini fill:#4285F4
+```
+
+### Architecture Layers Explained
+
+1.  **Client Layer**: React-based SPA managing UI state and user interactions.
+2.  **Backend Services**: FastAPI server handling business logic, authentication, and data persistence.
+3.  **Data Layer**: MySQL for relational data (users, cases, messages) and a local Vector DB for legal Q&A.
+4.  **AI Services**: Hybrid model utilizing cloud-based LLMs (Gemini) for complex analysis and local embeddings for privacy-sensitive tasks.
+
+---
+
+## � Entity Relationship Diagram
+
+The core database schema supporting the application:
+
+```mermaid
+erDiagram
+    USER ||--o{ LAWYER_PROFILE : has
+    USER ||--o{ CASE : "involved in"
+    USER ||--o{ APPOINTMENT : "has"
+    USER ||--o{ MESSAGE : "sends/receives"
+
+    USER {
+        int id PK
+        string email
+        string hashed_password
+        string role "user|lawyer|admin"
+        string full_name
+    }
+
+    LAWYER_PROFILE {
+        int id PK
+        int user_id FK
+        string specialization
+        int experience_years
+        string office_address
+    }
+
+    CASE {
+        int id PK
+        string title
+        string case_type
+        int lawyer_id FK
+        int client_id FK
+        string status
+        datetime next_hearing
+    }
+
+    APPOINTMENT {
+        int id PK
+        string title
+        string type
+        int lawyer_id FK
+        int client_id FK
+        datetime appointment_time
+        string status
+    }
+
+    MESSAGE {
+        int id PK
+        int sender_id FK
+        int receiver_id FK
+        string content
+        boolean is_read
+        datetime created_at
+    }
+```
+
+---
+
+## 🧩 Detailed Component Diagrams
+
+### 1. Messaging System Flow
+
+How the real-time chat works between users and lawyers:
+
+```mermaid
+sequenceDiagram
+    participant Client as User (Frontend)
+    participant Store as ChatStore
+    participant API as Messages API
+    participant DB as MySQL Database
+
+    Client->>Store: Click "Message"
+    Store->>API: GET /messages/conversation/{id}
+    API->>DB: Query Messages
+    DB-->>API: Return Conversation
+    API-->>Store: Message List
+    Store-->>Client: Update UI
+
+    Client->>Store: Send Message "Hello"
+    Store->>API: POST /messages
+    API->>DB: INSERT Message
+    DB-->>API: Success
+    API-->>Store: Standardized Message
+    Store-->>Client: Append to Chat Window
+```
+
+### 2. Case Analysis Pipeline
+
+How the AI Case Analysis engine processes user inputs:
+
+```mermaid
+flowchart LR
+    Input[Case Facts] --> Validate{Validation}
+    Validate -->|Valid| Prompt[Prompt Engineering]
+    Validate -->|Invalid| Error[Show Error]
+    
+    Prompt --> Gemini[Gemini 1.5 Pro]
+    
+    Gemini --> Analysis[Analysis Output]
+    Analysis --> Strength[Calculate Strength %]
+    Analysis --> Precedents[Match Precedents]
+    Analysis --> Strategy[Generate Advice]
+    
+    Strength & Precedents & Strategy --> Dashboard[User Dashboard]
+    
+    style Gemini fill:#4285F4,color:white
+```
 
 ---
 
 ## 🛠️ Technology Stack
 
-### Frontend
-- **Framework**: React 18.3.1 (Vite)
-- **Language**: TypeScript 5.5.3
-- **Styling**: Tailwind CSS 3.4.1
-- **Icons**: Lucide React
-- **State Management**: Zustand
-- **HTTP Client**: Axios
+### Frontend Components
+```mermaid
+graph TD
+    React[React 18.3] --> UI[UI Layer]
+    UI --> Tailwind[Tailwind CSS]
+    UI --> Lucide[Lucide Icons]
+    
+    React --> Logic[Logic Layer]
+    Logic --> Router[React Router]
+    Logic --> Store[Zustand State]
+    Logic --> API[Axios Client]
+```
 
-### Backend
-- **Framework**: FastAPI (Python)
-- **Database ORM**: SQLAlchemy
-- **Database**: MySQL (via XAMPP)
-- **Authentication**: OAuth2 / JWT
-- **AI Integration**: Google Generative AI SDK, LangChain
+### Backend Structure
+```mermaid
+graph TD
+    FastAPI[FastAPI] --> Routes[API Routes]
+    Routes --> Auth[Security / OAuth2]
+    Routes --> Controllers[Business Logic]
+    
+    Controllers --> Models[SQLAlchemy Models]
+    Models --> MySQL[MySQL DB]
+    
+    Controllers --> AI[AI Services]
+    AI --> Google[Google Gemini]
+    AI --> LangChain[LangChain Local]
+```
 
 ---
 
