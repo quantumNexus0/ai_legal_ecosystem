@@ -1,0 +1,1 @@
+import{r as a}from"./index-DlOqfcZ1.js";const s=20,o=250,u=r=>{const[e,i]=a.useState(!1);return a.useEffect(()=>{let t=0;const n=()=>typeof window.utag!="undefined",c=setInterval(()=>{(n()||t>=s)&&(clearInterval(c),i(n()),t>=s&&!n()&&console.error("Scripts did not load in time.")),t++},o);return()=>clearInterval(c)},[]),a.useEffect(()=>{e&&r()},[r,e]),e},d=u;export{d as u};

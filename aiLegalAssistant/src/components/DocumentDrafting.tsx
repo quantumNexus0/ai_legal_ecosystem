@@ -1,35 +1,91 @@
-import { useState } from 'react';
-import { FileText, Download, PenTool, Loader2, CheckCircle } from 'lucide-react';
+
+import { useState, useEffect } from 'react';
+import { FileText, Download, PenTool, Loader2, Search, FileType, ChevronRight } from 'lucide-react';
 import { chatWithAI } from '../lib/gemini';
 import ReactMarkdown from 'react-markdown';
+import { jsPDF } from 'jspdf';
+// import { saveAs } from 'file-saver'; // We'll use native blob for zero-dep simplicity where possible
+
+interface Template {
+  id: string;
+  name: string;
+  category: string;
+  filename: string;
+  path: string;
+  content?: string;
+}
 
 export default function DocumentDrafting() {
-  const [docType, setDocType] = useState('nda');
-  const [formData, setFormData] = useState<Record<string, string>>({});
-  const [generatedDoc, setGeneratedDoc] = useState('');
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
+  const [docContent, setDocContent] = useState('');
+  const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetchingTemplates, setIsFetchingTemplates] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const docTypes = [
-    { id: 'nda', name: 'Non-Disclosure Agreement (NDA)', fields: ['Disclosing Party', 'Receiving Party', 'Effective Date', 'Jurisdiction'] },
-    { id: 'employment', name: 'Employment Contract', fields: ['Employer Name', 'Employee Name', 'Job Title', 'Start Date', 'Salary'] },
-    { id: 'rental', name: 'Rental Agreement', fields: ['Landlord Name', 'Tenant Name', 'Property Address', 'Monthly Rent', 'Lease Term'] },
-    { id: 'will', name: 'Last Will and Testament', fields: ['Testator Name', 'Beneficiaries', 'Executor Name', 'Date'] },
-  ];
+  // Fetch templates on load
+  useEffect(() => {
+    fetch('http://localhost:8000/templates')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setTemplates(data);
+        } else {
+          console.error("Expected array but got:", data);
+          setTemplates([]);
+        }
+        setIsFetchingTemplates(false);
+      })
+      .catch(err => {
+        console.error("Failed to fetch templates", err);
+        setTemplates([]);
+        setIsFetchingTemplates(false);
+      });
+  }, []);
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleSelectTemplate = async (template: Template) => {
+    setIsLoading(true);
+    setSelectedTemplate(template);
+
+    try {
+      const res = await fetch(`http://localhost:8000/templates/${template.filename}`);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.detail || `Error ${res.status}`);
+      }
+
+      setDocContent(data.content || "Error: Empty content");
+    } catch (err: any) {
+      console.error(err);
+      setDocContent(`Error loading template: ${err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleGenerate = async () => {
+  const handleAiDraft = async () => {
+    if (!selectedTemplate) return;
     setIsLoading(true);
+
     try {
-      const selectedDoc = docTypes.find(d => d.id === docType);
-      const prompt = `Draft a professional ${selectedDoc?.name} with the following details:\n` +
-        Object.entries(formData).map(([key, value]) => `- ${key}: ${value}`).join('\n') +
-        `\n\nEnsure the document is legally sound, well-formatted with clear headings, and includes standard clauses for this type of agreement in India.`;
+      const prompt = `
+        I have a legal template for "${selectedTemplate.name}".
+        
+        USER INPUT details: 
+        ${userInput}
+
+        TEMPLATE CONTENT (HTML):
+        ${docContent.substring(0, 3000)}... (truncated)
+
+        TASK:
+        Rewrite this template filling in the placeholders based on the user input. 
+        Return ONLY the filled document text in nice Markdown format.
+      `;
 
       const response = await chatWithAI([{ role: 'user', content: prompt }]);
-      setGeneratedDoc(response);
+      setDocContent(response);
     } catch (error) {
       console.error('Error generating document:', error);
     } finally {
@@ -37,113 +93,148 @@ export default function DocumentDrafting() {
     }
   };
 
-  const handleDownload = () => {
-    const element = document.createElement("a");
-    const file = new Blob([generatedDoc], {type: 'text/plain'});
-    element.href = URL.createObjectURL(file);
-    element.download = `${docType}_draft.md`;
-    document.body.appendChild(element);
-    element.click();
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    const splitText = doc.splitTextToSize(docContent.replace(/[*#]/g, ''), 180);
+    doc.text(splitText, 10, 10);
+    doc.save(`${selectedTemplate?.name || 'document'}.pdf`);
   };
 
-  const currentDoc = docTypes.find(d => d.id === docType);
+  const handleDownloadDOCX = () => {
+    // Simple text-based DOCX download simulation for now
+    const blob = new Blob([docContent], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${selectedTemplate?.name || 'document'}.doc`;
+    link.click();
+  };
+
+  const filteredTemplates = templates.filter(t =>
+    t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    t.category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="space-y-6 h-full flex flex-col">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-          <PenTool className="w-6 h-6 text-indigo-600" />
-          Legal Document Drafting
-        </h2>
-        <p className="text-gray-600">Generate customized legal documents powered by AI.</p>
+    <div className="h-full flex flex-col bg-gray-50 p-6 gap-6">
+
+      {/* Header */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex justify-between items-center">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <PenTool className="w-6 h-6 text-indigo-600" />
+            AI Document Drafter
+          </h2>
+          <p className="text-gray-600 mt-1">Select a template, provide details, and let AI draft it for you.</p>
+        </div>
+        {selectedTemplate && (
+          <button onClick={() => setSelectedTemplate(null)} className="text-sm text-indigo-600 hover:underline">
+            Back to Templates
+          </button>
+        )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 overflow-hidden">
-        {/* Configuration Panel */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 overflow-y-auto">
-          <h3 className="font-semibold text-lg mb-4">Document Details</h3>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Document Type</label>
-              <select 
-                value={docType}
-                onChange={(e) => {
-                  setDocType(e.target.value);
-                  setFormData({});
-                  setGeneratedDoc('');
-                }}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              >
-                {docTypes.map(type => (
-                  <option key={type.id} value={type.id}>{type.name}</option>
-                ))}
-              </select>
-            </div>
+      <div className="flex-1 overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-            <div className="space-y-3">
-              {currentDoc?.fields.map(field => (
-                <div key={field}>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">{field}</label>
+        {/* Left Panel: Template Selection OR AI Input */}
+        <div className="lg:col-span-4 flex flex-col gap-4">
+          {!selectedTemplate ? (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 flex-1 flex flex-col overflow-hidden">
+              <div className="p-4 border-b border-gray-200">
+                <div className="relative">
+                  <Search className="w-4 h-4 absolute left-3 top-3 text-gray-400" />
                   <input
                     type="text"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder={`Enter ${field}`}
-                    onChange={(e) => handleInputChange(field, e.target.value)}
-                    value={formData[field] || ''}
+                    placeholder="Search templates..."
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
+                    className="w-full pl-9 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
                   />
                 </div>
-              ))}
+              </div>
+              <div className="flex-1 overflow-y-auto p-2 space-y-1">
+                {isFetchingTemplates ? (
+                  <div className="flex justify-center p-8"><Loader2 className="animate-spin text-gray-400" /></div>
+                ) : filteredTemplates.map(t => (
+                  <button
+                    key={t.id}
+                    onClick={() => handleSelectTemplate(t)}
+                    className="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-50 flex items-center justify-between group transition-colors"
+                  >
+                    <div>
+                      <h4 className="font-medium text-gray-900 group-hover:text-indigo-600">{t.name}</h4>
+                      <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">{t.category}</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-indigo-600" />
+                  </button>
+                ))}
+              </div>
             </div>
-
-            <button
-              onClick={handleGenerate}
-              disabled={isLoading}
-              className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Generating...
-                </>
-              ) : (
-                <>
-                  <FileText className="w-4 h-4" />
-                  Generate Document
-                </>
-              )}
-            </button>
-          </div>
+          ) : (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex-1 flex flex-col gap-4">
+              <h3 className="font-semibold text-lg border-b pb-2">Drafting Details</h3>
+              <div className="flex-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Enter details (Names, Dates, Amounts, Start Date, etc.)
+                </label>
+                <textarea
+                  className="w-full h-64 p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none resize-none"
+                  placeholder="e.g. Landlord is John Doe, Tenant is Jane Smith, Rent is $1200, Address is 123 Main St..."
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                />
+              </div>
+              <button
+                onClick={handleAiDraft}
+                disabled={isLoading}
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2"
+              >
+                {isLoading ? <Loader2 className="animate-spin" /> : <PenTool className="w-4 h-4" />}
+                Generate Draft
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Preview Panel */}
-        <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+        {/* Right Panel: Preview & Download */}
+        <div className="lg:col-span-8 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col overflow-hidden">
           <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
-            <h3 className="font-semibold text-lg">Document Preview</h3>
-            {generatedDoc && (
-              <button 
-                onClick={handleDownload}
-                className="text-indigo-600 hover:text-indigo-700 text-sm font-medium flex items-center gap-1"
-              >
-                <Download className="w-4 h-4" />
-                Download Markdown
+            <h3 className="font-semibold text-gray-900">Document Preview</h3>
+            <div className="flex gap-2">
+              <button onClick={handleDownloadDOCX} disabled={!docContent} className="px-3 py-1.5 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 flex items-center gap-2 text-gray-700 disabled:opacity-50">
+                <FileType className="w-4 h-4 text-blue-600" /> DOCX
               </button>
-            )}
+              <button onClick={handleDownloadPDF} disabled={!docContent} className="px-3 py-1.5 text-sm bg-indigo-600 text-white rounded hover:bg-indigo-700 flex items-center gap-2 disabled:opacity-50">
+                <Download className="w-4 h-4" /> PDF
+              </button>
+            </div>
           </div>
-          
-          <div className="flex-1 p-6 overflow-y-auto bg-gray-50">
-            {generatedDoc ? (
-              <div className="prose prose-sm max-w-none bg-white p-8 rounded-lg shadow-sm border border-gray-200 mx-auto">
-                <ReactMarkdown>{generatedDoc}</ReactMarkdown>
+
+          <div className="flex-1 overflow-y-auto p-8 bg-gray-50">
+            {isLoading ? (
+              <div className="h-full flex items-center justify-center flex-col gap-4">
+                <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
+                <p className="text-gray-500">AI is drafting your document...</p>
               </div>
             ) : (
-              <div className="h-full flex flex-col items-center justify-center text-gray-400">
-                <FileText className="w-16 h-16 mb-4 opacity-20" />
-                <p>Fill in the details and click Generate to see the draft here.</p>
+              <div className="bg-white shadow-sm border border-gray-200 min-h-[800px] p-12 max-w-3xl mx-auto">
+                {docContent ? (
+                  <div className="prose max-w-none font-serif">
+                    <ReactMarkdown>
+                      {docContent}
+                    </ReactMarkdown>
+                  </div>
+                ) : (
+                  <div className="text-center text-gray-400 mt-32">
+                    <FileText className="w-16 h-16 mx-auto mb-4 opacity-20" />
+                    <p>Select a template to view preview</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
         </div>
+
       </div>
     </div>
   );

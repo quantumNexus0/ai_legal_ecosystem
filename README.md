@@ -1,4 +1,4 @@
-# AI Legal Ecosystem 🏛️⚖️
+# NyayaAssist - AI Legal Ecosystem 🏛️⚖️
 
 <div align="center">
 
@@ -8,7 +8,7 @@
 ![Vite](https://img.shields.io/badge/Vite-5.4.2-646CFF?style=for-the-badge&logo=vite)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-**An intelligent legal case analysis platform powered by AI, providing comprehensive legal research, case matching, and document analysis capabilities.**
+**NyayaAssist - India's premier AI-powered legal platform connecting citizens with verified lawyers. Comprehensive legal research, instant messaging, document analysis, and intelligent case management.**
 
 [Features](#-features) • [Architecture](#-system-architecture) • [Installation](#-installation) • [Usage](#-usage) • [Contributing](#-contributing)
 
@@ -42,13 +42,14 @@
 ### Key Capabilities
 
 - 🔍 **Intelligent Case Analysis**: AI-powered analysis of legal cases with precedent matching
-- 📚 **Legal Database Integration**: Real-time access to Indian Kanoon and Court Listener databases
-- 💬 **AI Legal Assistant**: Interactive chat interface with Gemini AI for legal queries
-- 📄 **Document Analysis**: Upload and analyze legal documents (PDF, DOCX, TXT)
-- 📊 **Analytics Dashboard**: Visualize case statistics and analysis trends
-- 🔄 **Case Comparison**: Side-by-side comparison of user cases with matched precedents
-- 📖 **Case Library**: Comprehensive repository of analyzed cases with search functionality
-- 🎯 **Strength Assessment**: Automated evaluation of case strength with actionable advice
+- � **Real-Time Messaging**: Direct communication between users and verified lawyers
+- 👨⚖️ **Lawyer Directory**: Browse and connect with 500+ verified Indian legal experts
+- �📚 **Legal Database Integration**: Real-time access to Indian Kanoon and Court Listener databases
+- � **Document Drafting**: Generate legal documents with 260+ templates
+- 🤖 **AI Legal Assistant**: Interactive chat interface for legal queries
+- � **Smart Dashboards**: Role-based dashboards for users, lawyers, and admins
+- � **Secure Authentication**: Modern, animated login/signup with profile management
+- � **Responsive Design**: Premium UI/UX optimized for Indian legal market
 
 ---
 
@@ -62,7 +63,28 @@
 - Expected case direction prediction
 - Actionable legal advice generation
 
-### 2. **Local Legal Intelligence Assistant**
+### 2. **Real-Time Messaging System**
+- Direct messaging between users and lawyers
+- Real-time chat interface with message history
+- Unread message notifications and indicators
+- Chat list with last message preview
+- Message read receipts
+- Accessible from dashboard with tabbed interface
+- Automatic message persistence to MySQL database
+
+### 3. **Lawyer Directory & Profiles**
+- Browse 500+ verified Indian legal experts
+- Filter by specialization, experience, and rating
+- Verified badges for authenticated lawyers
+- Detailed lawyer profiles with:  
+  - Specialization and experience years
+  - Office address and contact information
+  - Case success rates and reviews
+  - Profile images and verification status
+- One-click "Message" button to start conversations
+- Premium, animated card-based UI
+
+### 4. **Local Legal Intelligence Assistant**
 - Real-time search interface powered by local Legal Intelligence API
 - Question-and-answer retrieval from local legal database
 - Displays top 2 most relevant results for each query
@@ -71,14 +93,40 @@
 - Conversation history management
 - No external AI dependencies - all data stays local
 
-### 3. **Legal Database Integration**
+### 5. **Modern UI/UX Design**
+- **NyayaAssist Branding**: Premium Indian legal platform identity
+- **Animated Landing Page**: Smooth framer-motion animations  
+  - Staggered entrance effects for hero section
+  - Hover and scale animations on service cards
+  - Fade-in-up effects for lawyer directory grid
+- **Indian Legal Focus**: Categories tailored for Indian market
+  - Property & Real Estate Law
+  - Family & Matrimonial Law
+  - Criminal Defense
+  - Business & Startup Compliance
+- **Fully Responsive**: Optimized for mobile, tablet, and desktop
+- **Trust Elements**: Verified badges, ratings, and professional imagery
+
+### 6. **Secure Authentication System**
+- Modern, animated login and signup forms
+- Role-based access control (User, Lawyer, Admin)
+- Framer-motion entrance animations for form fields
+- Icon-enhanced input fields with focus states
+- Real-time validation with inline error messages
+- Profile management with:  
+  - Phone number and office address fields
+  - Profile image upload
+  - Lawyer-specific fields (specialization, experience)
+  - Secure password management
+
+### 7. **Legal Database Integration**
 - **Indian Kanoon API**: Access to Indian case law database
 - **Court Listener API**: US federal and state court decisions
 - Real-time search and retrieval of relevant cases
 - Citation extraction and court information
 - Headline and ratio decidendi extraction
 
-### 4. **Document Processing**
+### 6. **Document Processing**
 - PDF text extraction and analysis
 - DOCX document parsing
 - Plain text file support
@@ -86,14 +134,14 @@
 - Key legal points identification
 - Issue and concern highlighting
 
-### 5. **Analytics & Visualization**
+### 7. **Analytics & Visualization**
 - Analysis history tracking
 - Case statistics dashboard
 - Trend visualization
 - Success rate metrics
 - Section-wise analysis distribution
 
-### 6. **Case Comparison**
+### 8. **Case Comparison**
 - Parameter-by-parameter comparison
 - Similarity scoring
 - Visual comparison tables
@@ -480,9 +528,220 @@ graph LR
 
 ---
 
-## 🛠️ Technology Stack
+
+---
+
+## 🏗️ Detailed Architecture Diagrams
+
+### 1. User Journey Flow
+
+```mermaid
+flowchart TD
+    Start([User Login]) --> Dashboard[Unified Dashboard]
+    
+    Dashboard --> Choice{Select Mode}
+    
+    Choice -->|Research| Analysis[Case Analysis]
+    Choice -->|Drafting| Docs[Document Generator]
+    Choice -->|Assistant| Chat[AI Chatbot]
+    
+    Analysis --> Input[Enter Case Facts]
+    Input --> Process[AI Processing]
+    Process --> Results[Strategy & Precedents]
+    
+    Docs --> Browse[Browse 260+ Templates]
+    Browse --> Select[Select Category]
+    Select --> Form[Fill Dynamic Form]
+    Form --> Preview[Live Preview]
+    Preview --> Generate[Download PDF]
+    
+    Chat --> Query[Ask Legal Question]
+    Query --> Resolve{Context?}
+    Resolve -->|General Law| AI[Gemini API]
+    Resolve -->|Private Data| Local[Local Vector DB]
+    
+    style Start fill:#4caf50,color:#fff
+    style Results fill:#2196f3,color:#fff
+    style Generate fill:#ff9800,color:#fff
+```
+
+### 2. Component Interaction Diagram
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant FE as React Client
+    participant API as FastAPI Server
+    participant AI as Gemini Service
+    participant T as Template Engine
+
+    U->>FE: Select "Apartment Lease"
+    FE->>T: Fetch Template HTML
+    T-->>FE: Return Base Template
+    FE-->>U: Display Interactive Form
+    
+    U->>FE: Fill Form Data
+    FE->>FE: Update Preview (Real-time)
+    
+    U->>FE: Click "Ask AI for Clause"
+    FE->>API: POST /chat/explain_clause
+    API->>AI: Analyze Context
+    AI-->>API: Explanation
+    API-->>FE: Suggestion
+    
+    U->>FE: Finalize & Download
+    FE->>FE: Generate PDF (html2pdf)
+    FE-->>U: File Download
+```
+
+### 3. Template Processing Pipeline
+
+```mermaid
+graph LR
+    A[Raw HTML Template] --> B[React Component Wrapper]
+    B --> C[Inject State Variables]
+    C --> D[User Input Data]
+    D --> E[DOM Manipulation]
+    E --> F[Canvas Rendering]
+    F --> G[PDF Binary]
+    G --> H[Client Download]
+    
+    style A fill:#ffebee
+    style H fill:#e8f5e9
+```
+
+### 4. AI Integration Architecture
+
 ```mermaid
 graph TB
+    subgraph "Frontend"
+        Input[Chat / Document] --> Validator[Input Validation]
+    end
+    
+    subgraph "Backend API"
+        Validator --> Router{Route Handler}
+        Router -->|Analysis| Analyzer[Case Analyzer]
+        Router -->|Chat| ChatBot[Conversation Agent]
+    end
+    
+    subgraph "Intelligence Layer"
+        Analyzer --> PromptEng[Prompt Engineering]
+        PromptEng --> LLM[Gemini 1.5 Pro]
+        
+        ChatBot --> RAG[RAG System]
+        RAG --> Vector[Vector Search]
+        RAG --> LLM
+    end
+    
+    LLM --> Response[Structured Output]
+    Response --> UI[Frontend Display]
+```
+
+### 5. File Structure Hierarchy
+
+```mermaid
+graph TD
+    Root[aiLegalEcosystem] --> Frontend[aiLegalAssistant]
+    Root --> Backend[legal_intelligence_api]
+    Root --> Templates[legalTemplate]
+    
+    Frontend --> Components[src/components]
+    Frontend --> Services[src/services]
+    Frontend --> Utils[src/lib]
+    
+    Backend --> App[app/main.py]
+    Backend --> Routes[app/api]
+    Backend --> Models[app/models]
+    
+    Templates --> Cats["Template Categories"]
+    Cats --> Business[Business]
+    Cats --> RealEstate[Real Estate]
+    
+    style Frontend fill:#61DAFB
+    style Backend fill:#009688
+    style Templates fill:#FFD54F
+```
+
+### 6. Security Architecture
+
+```mermaid
+graph TB
+    User -->|HTTPS| ReactApp
+    
+    subgraph "Client Side"
+        ReactApp -->|Sanitization| Inputs[Form Inputs]
+        ReactApp -->|Local Gen| PDF[PDF Generation]
+    end
+    
+    subgraph "Server Side"
+        ReactApp -->|REST API| FastAPI
+        FastAPI -->|Validation| Pydantic[Data Models]
+        FastAPI -->|Env Vars| Secrets[API Keys]
+    end
+    
+    PDF -.->|No Server Upload| Privacy[Private Document Data]
+```
+
+### 7. Deployment Architecture
+
+```mermaid
+graph LR
+    subgraph "Development"
+        Dev[Local Machine]
+    end
+    
+    subgraph "Production Build"
+        Client[Vite Build -> /dist]
+        Server[Uvicorn Worker]
+    end
+    
+    Dev -->|npm run build| Client
+    Dev -->|pip install| Server
+    
+    Client --> Nginx[Static File Server]
+    Server --> Docker[Python Container]
+    
+    Nginx --> User
+    Docker --> Nginx
+```
+
+### 8. Template Category Distribution
+
+```mermaid
+pie title Template Distribution (260 Total)
+    "Business" : 80
+    "Employment" : 40
+    "Personal Legal" : 50
+    "Real Estate" : 30
+    "Intellectual Property" : 25
+    "Financial" : 35
+```
+
+### 9. Error Handling Flow
+
+```mermaid
+flowchart TD
+    Start[Request] --> Try{Try Operation}
+    
+    Try -->|Success| UI[Update UI]
+    Try -->|Net Error| Retry[Auto Retry]
+    Try -->|API Error| Parse[Parse Error Code]
+    
+    Parse -->|401| Auth[Login Prompt]
+    Parse -->|429| Rate[Backoff Wait]
+    Parse -->|5xx| Alert[Toast Notification]
+    
+    Alert --> Log[Console/Sentry Log]
+    
+    style UI fill:#4caf50
+    style Alert fill:#f44336
+```
+
+## 🛠️ Technology Stack
+
+
+```mermaid
+ graph TB
     subgraph "Frontend"
         React[React 18.3.1]
         TypeScript[TypeScript 5.5.3]
@@ -492,7 +751,7 @@ graph TB
     
     subgraph "AI & ML"
         Gemini[Google Gemini AI - Case Analysis]
-        GeminiSDK[@google/generative-ai]
+        GeminiSDK["@google/generative-ai"]
     end
     
     subgraph "Backend Services"

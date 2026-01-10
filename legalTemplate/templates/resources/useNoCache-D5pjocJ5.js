@@ -1,0 +1,1 @@
+import{r as n}from"./index-DlOqfcZ1.js";import{c as m}from"./components-CVntVR-p.js";const c="nocache",u=e=>{const[t,r]=m(),a=t.get(c);n.useEffect(()=>{if(e){const s=String(e);if(a!==s){const o=new URLSearchParams([[c,s]]);r(o,{replace:!0,preventScrollReset:!0})}}},[a,e,r])};export{u};

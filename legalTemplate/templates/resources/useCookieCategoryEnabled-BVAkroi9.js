@@ -1,0 +1,1 @@
+import{r as o}from"./index-DlOqfcZ1.js";import{i as a}from"./is-cookie-category-enabled-B22hJb5j.js";function u(t){const[r,s]=o.useState(!1);return o.useEffect(()=>{const e=()=>s(a(t));e();const n=new AbortController;return window.addEventListener("consent.onetrust",e,{signal:n.signal}),()=>n.abort()},[t]),r}export{u};
