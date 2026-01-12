@@ -49,13 +49,19 @@ For **Lawyers**, it provides a comprehensive dashboard to manage cases, appointm
 
 ### 1. **Role-Based Dashboards**
 - **User Dashboard**: Track your legal cases, view upcoming appointments, and manage lawyer communications.
-- **Lawyer Dashboard**: specialized interface for practice management, case tracking, and client interactions.
-- **Admin Dashboard**: System-wide oversight of users, lawyers, and platform metrics.
+- **Lawyer Dashboard**: Specialized interface for practice management, case tracking, and client interactions.
+- **Admin Dashboard**: System-wide oversight of users, lawyers, and platform metrics with real-time stats.
+- **Lawyer Approval System**: Unified interface for admins to review and approve/reject new lawyer registrations to ensure service quality.
 
 ### 2. **Intelligent Case Management**
 - **Create & Manage**: Lawyers can create new patient/client files, track case status, and update details.
 - **Visibility**: Clients get real-time visibility into their case progress and next hearing dates.
 - **Deletion**: Secure deletion of cases with strict ownership validation (Lawyers only).
+
+### 3. **Advanced Security & Settings**
+- **Security Dashboard**: Dedicated settings page for password management and security monitoring.
+- **Preferences**: Customizable notification toggles, privacy modes, and language settings.
+- **Account Management**: Secure account deactivation and data privacy controls.
 
 ### 3. **Appointment Scheduling**
 - **Easy Booking**: Lawyers can schedule consultations and hearings directly from the dashboard.
@@ -75,8 +81,12 @@ For **Lawyers**, it provides a comprehensive dashboard to manage cases, appointm
 
 ### 6. **Local Legal Assistant** 🤖
 - **RAG-Powered**: Retrieval-Augmented Generation using a local vector database.
-- **Privacy-First**: runs locally to ensure data privacy.
+- **Privacy-First**: Runs locally to ensure data privacy.
 - **Voice Support**: Voice input and Text-to-Speech output for accessibility.
+
+### 7. **Seamless Platform Integration** 🔄
+- **Unified Navigation**: Cross-platform links in headers and sidebars to jump between the Service Dashboard and AI Analyzer.
+- **Deep Connectivity**: Instant access to AI legal insights directly from the legal services workflow.
 
 ---
 

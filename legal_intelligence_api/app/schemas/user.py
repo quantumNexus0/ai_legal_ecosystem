@@ -13,6 +13,9 @@ class UserBase(BaseModel):
     specialization: Optional[str] = None
     experience_years: Optional[int] = None
     office_address: Optional[str] = None
+    license_number: Optional[str] = None
+    bio: Optional[str] = None
+    is_approved: Optional[bool] = None
 
 # Properties to receive via API on creation
 class UserCreate(UserBase):
@@ -37,3 +40,13 @@ class User(UserInDBBase):
 # Additional properties stored in DB
 class UserInDB(UserInDBBase):
     hashed_password: str
+
+class UserPasswordChange(BaseModel):
+    old_password: str
+    new_password: str
+
+class UserSettings(BaseModel):
+    notifications_enabled: bool = True
+    email_updates: bool = True
+    privacy_mode: bool = False
+    language: str = "en"

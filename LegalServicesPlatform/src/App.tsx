@@ -13,6 +13,7 @@ import AdminDashboard from './components/dashboard/AdminDashboard';
 import LawyerDashboard from './components/dashboard/LawyerDashboard';
 import UserDashboard from './components/dashboard/UserDashboard';
 import ProfileEdit from './components/dashboard/ProfileEdit';
+import SecuritySettings from './components/dashboard/SecuritySettings';
 import FindLawyerPage from './components/home/FindLawyerPage';
 import DocumentDrafting from './components/dashboard/documents/DocumentDrafting';
 import NewCasePage from './components/dashboard/cases/NewCasePage';
@@ -121,6 +122,7 @@ function App() {
                   <Route path="/cases/new" element={<NewCasePage />} />
                   <Route path="/appointments/new" element={<NewAppointmentPage />} />
                   <Route path="/profile" element={<ProfileEdit />} />
+                  <Route path="/settings" element={<SecuritySettings />} />
                   <Route path="/draft" element={<DocumentDrafting />} />
                   <Route path="/lawyers" element={<FindLawyerPage hideNav={true} />} />
                 </Routes>

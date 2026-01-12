@@ -13,6 +13,7 @@ class User(Base):
     is_active = Column(Boolean(), default=True)
     profile_image_url = Column(String(512), nullable=True)
     phone = Column(String(20), nullable=True)
+    settings = Column(String(1024), nullable=True) # JSON string for settings
     
     lawyer_profile = relationship("LawyerProfile", back_populates="user", uselist=False)
     
@@ -35,6 +36,9 @@ class LawyerProfile(Base):
     cases_handled = Column(Integer, default=0)
     profile_image_url = Column(String(512), nullable=True)
     office_address = Column(String(512), nullable=True)
+    license_number = Column(String(100), nullable=True)
+    bio = Column(String(1000), nullable=True)
+    is_approved = Column(Boolean(), default=False)
     
     user = relationship("User", back_populates="lawyer_profile")
 

@@ -30,6 +30,21 @@ export const dashboardService = {
         return response.data;
     },
 
+    getPendingLawyers: async () => {
+        const response = await api.get('/admin/lawyers/pending');
+        return response.data;
+    },
+
+    approveLawyer: async (lawyerId: number) => {
+        const response = await api.post(`/admin/lawyers/${lawyerId}/approve`);
+        return response.data;
+    },
+
+    rejectLawyer: async (lawyerId: number) => {
+        const response = await api.post(`/admin/lawyers/${lawyerId}/reject`);
+        return response.data;
+    },
+
     getLawyerStats: async (): Promise<LawyerStats> => {
         const response = await api.get<LawyerStats>('/lawyers/me/stats');
         return response.data;

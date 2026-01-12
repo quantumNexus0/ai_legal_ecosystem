@@ -35,7 +35,10 @@ const LawyersList = () => {
                 Email
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Role
+                Specialization
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Experience
               </th>
             </tr>
           </thead>
@@ -48,10 +51,11 @@ const LawyersList = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {lawyer.email}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                    Lawyer
-                  </span>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {lawyer.specialization || 'N/A'}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {lawyer.experience_years ? `${lawyer.experience_years} years` : 'N/A'}
                 </td>
               </tr>
             ))}

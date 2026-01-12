@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { LogOut, Settings, User, Home } from 'lucide-react';
+import { LogOut, Settings, User, Home, Sparkles } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 
 interface DashboardLayoutProps {
@@ -47,6 +47,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 <Settings className="mr-3 h-6 w-6" />
                 Settings
               </Link>
+              <a
+                href="http://localhost:5174"
+                className="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-blue-400 hover:bg-gray-700 hover:text-white"
+              >
+                <Sparkles className="mr-3 h-6 w-6" />
+                AI Analyzer
+              </a>
             </nav>
           </div>
           <div className="flex-shrink-0 flex border-t border-gray-700 p-4">

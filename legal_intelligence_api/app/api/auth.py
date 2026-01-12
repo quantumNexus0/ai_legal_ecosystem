@@ -64,7 +64,7 @@ def create_user(
     # Create LawyerProfile if user is a lawyer
     if user.role == "lawyer":
         from app.models import LawyerProfile
-        lawyer_profile = LawyerProfile(user_id=user.id)
+        lawyer_profile = LawyerProfile(user_id=user.id, is_approved=False)
         db.add(lawyer_profile)
         db.commit()
     
@@ -79,4 +79,7 @@ def read_users_me(
         current_user.specialization = current_user.lawyer_profile.specialization
         current_user.experience_years = current_user.lawyer_profile.experience_years
         current_user.office_address = current_user.lawyer_profile.office_address
+        current_user.license_number = current_user.lawyer_profile.license_number
+        current_user.bio = current_user.lawyer_profile.bio
+        current_user.is_approved = current_user.lawyer_profile.is_approved
     return current_user

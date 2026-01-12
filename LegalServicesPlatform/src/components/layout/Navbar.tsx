@@ -18,6 +18,7 @@ const Navbar = () => {
     { name: 'Home', href: '/' },
     { name: 'Services', href: '#services' },
     { name: 'Our Lawyers', href: '#lawyers' },
+    { name: 'AI Analyzer', href: 'http://localhost:5174' },
     { name: 'Contact', href: '#contact' },
   ];
 

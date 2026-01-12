@@ -1,4 +1,4 @@
-import { FileText, History, Search, BarChart3, MessageSquare } from 'lucide-react';
+import { FileText, History, Search, BarChart3, MessageSquare, Home } from 'lucide-react';
 
 interface SidebarProps {
   activeView: string;
@@ -34,6 +34,15 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
             </button>
           );
         })}
+        <div className="pt-4 mt-4 border-t border-gray-100">
+          <a
+            href="http://localhost:5173"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 transition-all font-bold"
+          >
+            <Home className="w-5 h-5 text-amber-600" />
+            <span>Main Platform</span>
+          </a>
+        </div>
       </nav>
     </aside>
   );

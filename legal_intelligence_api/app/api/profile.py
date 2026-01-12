@@ -69,3 +69,49 @@ def update_profile_image(
     db.refresh(current_user)
     
     return {"message": "Profile image updated successfully", "image_url": current_user.profile_image_url}
+@router.post("/users/me/change-password")
+def change_password(
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+    password_in: user_schemas.UserPasswordChange,
+) -> Any:
+    """
+    Change current user's password.
+    """
+    from app.core import security
+    if not security.verify_password(password_in.old_password, current_user.hashed_password):
+        raise HTTPException(status_code=400, detail="Incorrect old password")
+    
+    current_user.hashed_password = security.get_password_hash(password_in.new_password)
+    db.add(current_user)
+    db.commit()
+    return {"message": "Password updated successfully"}
+
+@router.get("/users/me/settings", response_model=user_schemas.UserSettings)
+def get_user_settings(
+    current_user: User = Depends(deps.get_current_user),
+) -> Any:
+    """
+    Get current user's settings.
+    """
+    import json
+    if not current_user.settings:
+        return user_schemas.UserSettings()
+    return user_schemas.UserSettings(**json.loads(current_user.settings))
+
+@router.put("/users/me/settings", response_model=user_schemas.UserSettings)
+def update_user_settings(
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+    settings_in: user_schemas.UserSettings,
+) -> Any:
+    """
+    Update current user's settings.
+    """
+    import json
+    current_user.settings = json.dumps(settings_in.dict())
+    db.add(current_user)
+    db.commit()
+    return settings_in
