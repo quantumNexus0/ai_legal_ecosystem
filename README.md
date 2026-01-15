@@ -88,6 +88,11 @@ For **Lawyers**, it provides a comprehensive dashboard to manage cases, appointm
 - **Unified Navigation**: Cross-platform links in headers and sidebars to jump between the Service Dashboard and AI Analyzer.
 - **Deep Connectivity**: Instant access to AI legal insights directly from the legal services workflow.
 
+### 8. **Legal Templates Portal** 📄
+- **Extensive Library**: Access to 190+ attorney-drafted legal documents and contracts.
+- **Guided Experience**: Simple questionnaires to customize documents for specific needs.
+- **Seamless Integration**: Directly accessible from the main platform navigation.
+
 ---
 
 ## 🌐 Ecosystem Overview (ERP View)
@@ -138,47 +143,40 @@ graph TB
 
 ## 📦 Module Details
 
+## 📦 Module Details
+
 ### 1. Legal Services Platform
 The core web application connecting lawyers and clients.
 
-- **Directory**: `LegalServicesPlatform/`
+- **Directory**: `client/platform/`
 - **Tech**: React, TypeScript, Tailwind CSS
 - **Function**: Handles authentication, dashboards, case tracking, and messaging.
 
-### 2. Legal Templates Library (`legalTemplate`)
-A comprehensive repository of legal forms and document templates.
-
-- **Directory**: `legalTemplate/`
-- **Contents**: 
-    - `templates/`: collection of categorized HTML/PDF templates (Contracts, Agreements, Affidavits).
-    - `legalforms/`: Standardized legal forms for various jurisdictions.
-- **Usage**: Used by the platform to generate ready-to-use documents for clients.
-
-```mermaid
-pie title Template Distribution (260 Total)
-    "Business" : 80
-    "Employment" : 40
-    "Personal Legal" : 50
-    "Real Estate" : 30
-    "Intellectual Property" : 25
-    "Financial" : 35
-```
-
-```mermaid
-graph LR
-    User[User] --> Select[Select Category]
-    Select --> Browse[Browse Templates]
-    Browse --> Preview[Live Preview]
-    Preview --> Fill[Fill Details]
-    Fill --> Download[Download PDF/Docx]
-```
-
-### 3. AI Legal Assistant (`aiLegalAssistant`)
+### 2. AI Legal Assistant (`client/assistant`)
 A standalone, privacy-focused AI assistant for answering legal queries.
 
-- **Directory**: `aiLegalAssistant/`
+- **Directory**: `client/assistant/`
 - **Tech**: React, Local Vector DB, Speech API
-- **Key Feature**: Runs independently to provide quick legal answers without exposing sensitive case data to external cloud providers.
+- **Key Feature**: Runs independently to provide quick legal answers with a new **responsive sidebar** for better usability on all devices.
+
+### 3. Unified Backend (`server`)
+The shared API powering both frontend applications.
+
+- **Directory**: `server/`
+- **Tech**: FastAPI, Python, SQLAlchemy
+- **Database**: MySQL (XAMPP) with SQLite fallback.
+
+### 4. Shared Resources (`shared`)
+- **Templates**: `shared/templates/` (Legal document library)
+- **Data**: `shared/data/` (Legal data sources)
+
+### 5. Legal Templates Portal (`shared/templates`)
+A clean, static site generator-style portal for browsing and creating legal documents.
+
+- **Directory**: `shared/templates/`
+- **Tech**: HTML, Vanilla JS, CSS (Served via FastAPI)
+- **URL**: `/template-portal/templates/index.html`
+- **Key Feature**: Fully responsive interface for finding and downloading legal forms.
 
 ```mermaid
 sequenceDiagram
@@ -381,74 +379,44 @@ A: Once the backend is running, visit `http://localhost:8000/docs` for the inter
 
 ---
 
-## �🚀 Installation
+## 🚀 Installation & Execution
 
 ### Prerequisites
 1.  **Node.js** (v18+)
 2.  **Python** (v3.10+)
 3.  **XAMPP** (or any MySQL server)
 
-### Step 1: Clone the Repository
+### Step 1: Clone and Setup
 ```bash
 git clone https://github.com/quantumNexus0/ai_legal_ecosystem.git
 cd ai_legal_ecosystem
 ```
 
-### Step 2: Database Setup
-1.  Start **XAMPP Control Panel**.
-2.  Start the **Apache** and **MySQL** modules.
-3.  The application will automatically create the `legal_services` database on first run, or you can run the setup script:
-    ```bash
-    cd legal_intelligence_api
-    python setup_mysql.py
-    ```
+### Step 2: One-Command Installation
+From the **root directory**, install all dependencies for the entire ecosystem:
+```bash
+npm run install:all
+```
 
-### Step 3: Backend Setup
-1.  Navigate to the backend directory:
-    ```bash
-    cd legal_intelligence_api
-    ```
-2.  Create a virtual environment (optional but recommended):
-    ```bash
-    python -m venv venv
-    # Windows
-    venv\Scripts\activate
-    # Mac/Linux
-    source venv/bin/activate
-    ```
-3.  Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-4.  Run the server:
-    ```bash
-    uvicorn app.main:app --reload
-    ```
-    The API will be available at `http://localhost:8000`.
+### Step 3: Database Setup
+1. Start **XAMPP Control Panel** (Apache & MySQL).
+2. The backend will automatically handle DB creation, or you can run:
+```bash
+cd server
+python setup_mysql.py
+```
 
-### Step 4: Frontend Setup
-1.  Open a new terminal and navigate to the frontend directory:
-    ```bash
-    cd LegalServicesPlatform
-    ```
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
-3.  Start the development server:
-    ```bash
-    npm run dev
-    ```
-    The application will be available at `http://localhost:5173`.
+### Step 4: Run the Ecosystem
+Start the Platform, Assistant, and Backend all at once:
+```bash
+npm run dev
+```
 
-### Step 5: AI Assistant Setup (Optional)
-If you want to run the separate AI Assistant frontend:
-1.  Navigate to `aiLegalAssistant`:
-    ```bash
-    cd aiLegalAssistant
-    npm install
-    npm run dev
-    ```
+The services will be available at:
+- **Main Platform**: `http://localhost:5173`
+- **AI Assistant**: `http://localhost:5174`
+- **FastAPI Docs**: `http://localhost:8000/docs`
+- **Legal Templates**: `http://localhost:8000/template-portal/templates/index.html`
 
 ---
 
