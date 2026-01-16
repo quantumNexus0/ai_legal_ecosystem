@@ -80,9 +80,11 @@ For **Lawyers**, it provides a comprehensive dashboard to manage cases, appointm
 - **Strategy Generation**: AI-identified strong/weak points and actionable legal advice.
 
 ### 6. **Local Legal Assistant** 🤖
-- **RAG-Powered**: Retrieval-Augmented Generation using a local vector database.
-- **Privacy-First**: Runs locally to ensure data privacy.
-- **Voice Support**: Voice input and Text-to-Speech output for accessibility.
+- **RAG-Powered**: Upload PDF documents (Case Files, Acts) to instantly chat with them.
+- **Privacy-First**: Runs locally using ChromaDB; no document data leaves your machine.
+- **Structured Insights**: AI responses are formatted into clear Titles, Definitions, Key Points, and In-depth Analysis.
+- **Interactive Citations**: "Read More" expandable source cards to verify AI claims against the original text.
+- **Voice Support**: Hands-free voice input and text-to-speech output.
 
 ### 7. **Seamless Platform Integration** 🔄
 - **Unified Navigation**: Cross-platform links in headers and sidebars to jump between the Service Dashboard and AI Analyzer.
@@ -220,7 +222,11 @@ graph TB
 
     subgraph "AI Services"
         Gemini[Google Gemini API]
-        RAG[Local RAG Engine]
+        subgraph "Local RAG Pipeline"
+            PDF[PDF Uploads] --> Splitter[Text Splitter]
+            Splitter --> VectorDB[(ChromaDB Vector Store)]
+            VectorDB --> RAG[RAG Engine]
+        end
     end
 
     UI --> Router
@@ -234,12 +240,13 @@ graph TB
     Endpoints --> RAG
     Endpoints --> Gemini
     
-    RAG --> VectorDB
+    RAG --> Gemini
     
     style UI fill:#61DAFB
     style FastAPI fill:#009688
     style MySQL fill:#4479A1
     style Gemini fill:#4285F4
+    style VectorDB fill:#FF6F61
 ```
 
 ---
