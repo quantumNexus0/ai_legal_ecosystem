@@ -16,3 +16,4 @@ class SearchResponse(BaseModel):
     results: List[SearchResult]
     total: int
     time_taken: float
+    ai_analysis: Optional[str] = None

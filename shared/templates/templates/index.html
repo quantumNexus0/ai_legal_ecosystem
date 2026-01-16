@@ -925,6 +925,69 @@
 
   <link rel="stylesheet" href="/template-portal/legalzoomcdn.net/margo/assets/(website).templates-D9Era9ok.css" />
 
+
+    <style>
+    /* Hero Section Responsive Layout */
+    .hero-flex-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap; 
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 40px;
+        margin-top: 2rem;
+    }
+    
+    .hero-left-col {
+        flex: 1 1 600px; /* Grow, Shrink, Basis */
+        min-width: 300px;
+        max-width: 900px;
+    }
+    
+    .hero-right-col {
+        flex: 1 1 350px;
+        min-width: 300px;
+        max-width: 500px;
+    }
+    
+    /* Services Card Interactions */
+    .service-card {
+        background: white; 
+        padding: 12px; 
+        border-radius: 8px; 
+        border: 1px solid #e5e7eb; 
+        text-decoration: none; 
+        display: flex; 
+        align-items: center; 
+        transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+    }
+    .service-card:hover {
+        background-color: #f9fafb;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 991px) {
+        .hero-flex-container {
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .hero-left-col {
+            flex: 1 1 100%;
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .hero-right-col {
+            flex: 1 1 100%;
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+    </style>
+    
 </head>
 
 <body>
@@ -1053,8 +1116,6 @@
     <div data-theme="lz-negroni">
       <!--  -->
       <div class="mx-auto max-w-[125rem]">
-
-
         <div class="bg-neutral-50">
           <div class="flex gap-x-20 bg-cover bg-center h-[inherit]" style="
                 background-image: url(%27https_/d32fvfyxdj999u.cloudfront.net/images/legalzoom/template-store-hero-image.html);
@@ -1160,11 +1221,58 @@
                         place
                       </div>
                     </div>
+                    
                   </div>
                 </div>
+                
               </div>
             </div>
+              <div
+                style="margin-top: 40px; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+                  <h3 style="font-size: 1.125rem; font-weight: 700; color: #111827; display: flex; align-items: center;">
+                    <span style="margin-right: 8px;">⚖️</span> Official Judiciary Services
+                  </h3>
+                  <span
+                    style="font-size: 0.75rem; font-weight: 600; padding: 4px 8px; background-color: #dcfce7; color: #15803d; border-radius: 9999px;">Live
+                    Access</span>
+                </div>
+              
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
+                  <a href="https://SERVICES.ecourts.gov.in/highcourt" target="_blank"
+                    class="service-card">
+                    <span style="font-size: 20px; margin-right: 12px;">⚖️</span>
+                    <span style="font-size: 0.875rem; font-weight: 600; color: #111827;">High Court Services</span>
+                  </a>
+                  <a href="https://njdg.ecourts.gov.in/hcnjdg_public/" target="_blank"
+                    class="service-card">
+                    <span style="font-size: 20px; margin-right: 12px;">📊</span>
+                    <span style="font-size: 0.875rem; font-weight: 600; color: #111827;">High Court NJDG</span>
+                  </a>
+                  <a href="https://SERVICES.ecourts.gov.in/" target="_blank"
+                    class="service-card">
+                    <span style="font-size: 20px; margin-right: 12px;">🏛️</span>
+                    <span style="font-size: 0.875rem; font-weight: 600; color: #111827;">District Court Services</span>
+                  </a>
+                  <a href="https://efiling.ecourts.gov.in/" target="_blank"
+                    class="service-card">
+                    <span style="font-size: 20px; margin-right: 12px;">💻</span>
+                    <span style="font-size: 0.875rem; font-weight: 600; color: #111827;">e-Filing</span>
+                  </a>
+                  <a href="https://vcourts.gov.in/" target="_blank"
+                    class="service-card">
+                    <span style="font-size: 20px; margin-right: 12px;">📹</span>
+                    <span style="font-size: 0.875rem; font-weight: 600; color: #111827;">Virtual Courts</span>
+                  </a>
+                  <a href="https://pay.ecourts.gov.in/" target="_blank"
+                    class="service-card">
+                    <span style="font-size: 20px; margin-right: 12px;">💳</span>
+                    <span style="font-size: 0.875rem; font-weight: 600; color: #111827;">ePay</span>
+                  </a>
+                </div>
+              </div>
           </div>
+          
         </div>
 
 
@@ -30300,6 +30408,72 @@
       }
     });
   </script>
+
+
+
+
+
+<div style="background-color: #f3f4f6; padding: 40px 20px; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+  <div style="max-width: 1280px; margin: 0 auto; text-align: center;">
+    <h2 style="font-size: 2rem; font-weight: 800; color: #111827; margin-bottom: 10px;">e-Courts Services</h2>
+    <p style="color: #6b7280; font-size: 1.125rem; margin-bottom: 40px;">Quick access to official Indian Judiciary services</p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+      <a href="https://SERVICES.ecourts.gov.in/highcourt" target="_blank" style="background: white; padding: 24px; border-radius: 12px; border: 1px solid #e5e7eb; text-decoration: none; text-align: left; transition: box-shadow 0.2s; display: block;" onmouseover="this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="display: flex; align-items: center; margin-bottom: 16px;">
+          <span style="font-size: 24px; margin-right: 12px;">⚖️</span>
+          <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin: 0;">High Court Services</h3>
+        </div>
+        <p style="color: #6b7280; font-size: 0.875rem; margin: 0;">Access to Services of e-Courts: Cause lists, Case Status, Orders/Judgments.</p>
+      </a>
+
+      <a href="https://njdg.ecourts.gov.in/hcnjdg_public/" target="_blank" style="background: white; padding: 24px; border-radius: 12px; border: 1px solid #e5e7eb; text-decoration: none; text-align: left; transition: box-shadow 0.2s; display: block;" onmouseover="this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="display: flex; align-items: center; margin-bottom: 16px;">
+           <span style="font-size: 24px; margin-right: 12px;">📊</span>
+          <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin: 0;">High Court NJDG</h3>
+        </div>
+        <p style="color: #6b7280; font-size: 0.875rem; margin: 0;">Monitoring tool to identify, manage and reduce pendency of cases.</p>
+      </a>
+
+      <a href="https://SERVICES.ecourts.gov.in/" target="_blank" style="background: white; padding: 24px; border-radius: 12px; border: 1px solid #e5e7eb; text-decoration: none; text-align: left; transition: box-shadow 0.2s; display: block;" onmouseover="this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="display: flex; align-items: center; margin-bottom: 16px;">
+           <span style="font-size: 24px; margin-right: 12px;">🏛️</span>
+          <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin: 0;">District Court Services</h3>
+        </div>
+        <p style="color: #6b7280; font-size: 0.875rem; margin: 0;">Access Cause lists, Case Status, Orders/Judgments & NJDG.</p>
+      </a>
+
+      <a href="https://efiling.ecourts.gov.in/" target="_blank" style="background: white; padding: 24px; border-radius: 12px; border: 1px solid #e5e7eb; text-decoration: none; text-align: left; transition: box-shadow 0.2s; display: block;" onmouseover="this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="display: flex; align-items: center; margin-bottom: 16px;">
+           <span style="font-size: 24px; margin-right: 12px;">💻</span>
+          <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin: 0;">e-Filing</h3>
+        </div>
+        <p style="color: #6b7280; font-size: 0.875rem; margin: 0;">Electronic filing of legal papers.</p>
+      </a>
+      
+      <a href="https://vcourts.gov.in/" target="_blank" style="background: white; padding: 24px; border-radius: 12px; border: 1px solid #e5e7eb; text-decoration: none; text-align: left; transition: box-shadow 0.2s; display: block;" onmouseover="this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="display: flex; align-items: center; margin-bottom: 16px;">
+           <span style="font-size: 24px; margin-right: 12px;">📹</span>
+          <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin: 0;">Virtual Courts</h3>
+        </div>
+        <p style="color: #6b7280; font-size: 0.875rem; margin: 0;">Adjudication of cases online eliminating physical presence.</p>
+      </a>
+
+      <a href="https://pay.ecourts.gov.in/" target="_blank" style="background: white; padding: 24px; border-radius: 12px; border: 1px solid #e5e7eb; text-decoration: none; text-align: left; transition: box-shadow 0.2s; display: block;" onmouseover="this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="display: flex; align-items: center; margin-bottom: 16px;">
+           <span style="font-size: 24px; margin-right: 12px;">💳</span>
+          <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin: 0;">ePay</h3>
+        </div>
+        <p style="color: #6b7280; font-size: 0.875rem; margin: 0;">Pay court fees electronically.</p>
+      </a>
+    </div>
+    
+    <div style="margin-top: 30px; font-size: 0.75rem; color: #9ca3af;">
+       LINKS REDIRECT TO OFFICIAL GOVERNMENT PORTALS (ECOURTS.GOV.IN)
+    </div>
+  </div>
+</div>
+
 </body>
 
 </html>

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Navbar from './components/layout/Navbar';
 import DashboardLayout from './components/layout/DashboardLayout';
 import Hero from './components/home/Hero';
+import GovernmentServices from './components/home/GovernmentServices';
 import Services from './components/home/Services';
 import Lawyers from './components/home/Lawyers';
 import Contact from './components/home/Contact';
@@ -18,6 +19,8 @@ import FindLawyerPage from './components/home/FindLawyerPage';
 import DocumentDrafting from './components/dashboard/documents/DocumentDrafting';
 import NewCasePage from './components/dashboard/cases/NewCasePage';
 import NewAppointmentPage from './components/dashboard/appointments/NewAppointmentPage';
+import AIAnalysisPage from './components/dashboard/analysis/AIAnalysisPage';
+import LegalResearchPage from './components/dashboard/research/LegalResearchPage';
 import useAuthStore from './store/authStore';
 
 const PrivateRoute = ({ children, allowedRoles }: { children: React.ReactNode; allowedRoles: string[] }) => {
@@ -72,6 +75,7 @@ function App() {
               <Navbar />
               <div className="pt-16">
                 <Hero />
+                <GovernmentServices />
                 <Services />
                 <Lawyers />
                 <Contact />
@@ -124,6 +128,8 @@ function App() {
                   <Route path="/profile" element={<ProfileEdit />} />
                   <Route path="/settings" element={<SecuritySettings />} />
                   <Route path="/draft" element={<DocumentDrafting />} />
+                  <Route path="/analysis" element={<AIAnalysisPage />} />
+                  <Route path="/research" element={<LegalResearchPage />} />
                   <Route path="/lawyers" element={<FindLawyerPage hideNav={true} />} />
                 </Routes>
               </DashboardLayout>

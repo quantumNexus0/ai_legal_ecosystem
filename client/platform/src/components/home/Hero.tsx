@@ -1,5 +1,6 @@
 import { ArrowRight, Shield, Star, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
+import GovernmentServices from './GovernmentServices';
 
 const Hero = () => {
   const containerVariants = {
@@ -86,45 +87,38 @@ const Hero = () => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="mt-12 lg:mt-0 relative"
           >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <img
-                className="w-full h-[500px] object-cover"
-                src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-                alt="Modern Courtroom or Legal Office"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-white/50 backdrop-blur-sm border border-white/50 p-6 md:p-8">
+              <div className="absolute top-0 right-0 -z-10 w-full h-full bg-gradient-to-br from-blue-50 to-indigo-50 opacity-80" />
 
-              {/* Floating Action Card */}
-              <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md rounded-xl p-4 shadow-lg flex items-center justify-between"
-              >
-                <div className="flex items-center space-x-3">
-                  <div className="bg-green-100 p-2 rounded-full">
-                    <Shield className="h-5 w-5 text-green-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-gray-900">Verified Legal Support</p>
-                    <p className="text-xs text-gray-500">Bar Council Registered Lawyers</p>
-                  </div>
-                </div>
+              <div className="mb-6 flex items-center justify-between">
+                <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-blue-600" />
+                  Official Judiciary Services
+                </h3>
+                <span className="text-xs font-semibold px-2 py-1 bg-green-100 text-green-700 rounded-full">Live Access</span>
+              </div>
+
+              <GovernmentServices compact={true} />
+
+              <div className="mt-6 flex items-center justify-between text-xs text-gray-500 border-t border-gray-100 pt-4">
                 <div className="flex -space-x-2">
                   {[1, 2, 3].map((i) => (
                     <img
                       key={i}
-                      className="w-8 h-8 rounded-full border-2 border-white"
-                      src={`https://i.pravatar.cc/100?img=${i + 10}`}
+                      className="w-6 h-6 rounded-full border-2 border-white"
+                      src={`https://i.pravatar.cc/100?img=${i + 15}`}
                       alt="User"
                     />
                   ))}
+                  <div className="w-6 h-6 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-[10px] font-bold">+2k</div>
                 </div>
-              </motion.div>
+                <p>Used by 2,000+ lawyers daily</p>
+              </div>
             </div>
           </motion.div>
         </div>

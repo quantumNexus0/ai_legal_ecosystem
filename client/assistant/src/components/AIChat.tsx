@@ -20,6 +20,9 @@ export function AIChat() {
     const [speakingId, setSpeakingId] = useState<string | null>(null);
     const chatContainerRef = useRef<HTMLDivElement>(null);
 
+    const [isUploading, setIsUploading] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
     useEffect(() => {
         if (chatContainerRef.current) {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -65,6 +68,51 @@ export function AIChat() {
         window.speechSynthesis.speak(utterance);
     };
 
+    const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        if (file.type !== 'application/pdf') {
+            setError('Please upload a valid PDF file.');
+            return;
+        }
+
+        setIsUploading(true);
+        setError(null);
+
+        // Add a system message to show upload started
+        const uploadMsgId = uuidv4();
+        setMessages((prev) => [...prev, {
+            id: uploadMsgId,
+            role: 'assistant',
+            content: `📄 **Uploading ${file.name}...**\nPlease wait while I analyze the document.`,
+            timestamp: new Date()
+        }]);
+
+        try {
+            const result = await api.uploadDocument(file);
+            console.log("Upload result:", result);
+
+            // Update the message to success
+            setMessages((prev) => prev.map(msg =>
+                msg.id === uploadMsgId
+                    ? { ...msg, content: `✅ **Successfully uploaded ${file.name}**\nI have read ${result.chunks} segments from this document. You can now ask me questions about it.` }
+                    : msg
+            ));
+        } catch (error: any) {
+            console.error("Upload failed:", error);
+            setMessages((prev) => prev.map(msg =>
+                msg.id === uploadMsgId
+                    ? { ...msg, content: `❌ **Failed to upload ${file.name}**\nError: ${error.message}` }
+                    : msg
+            ));
+            setError('Failed to upload document.');
+        } finally {
+            setIsUploading(false);
+            if (fileInputRef.current) fileInputRef.current.value = '';
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!input.trim() || isLoading) return;
@@ -90,57 +138,45 @@ export function AIChat() {
             let responseContent = '';
             let sources = [];
 
-            const results = response.results || response.docs || response;
-
-            if (Array.isArray(results) && results.length > 0) {
-                sources = results;
-                // Limit to top 2 results
-                const topResults = results.slice(0, 2);
-                responseContent = `I found ${topResults.length} relevant result${topResults.length > 1 ? 's' : ''} in your local database:\n\n`;
-
-                topResults.forEach((doc: any, index: number) => {
-                    const question = doc.question || doc.metadata?.question;
-                    const answer = doc.answer || doc.metadata?.answer;
-
-                    let title, content;
-
-                    if (question && answer) {
-                        title = `Q: ${question.substring(0, 60)}${question.length > 60 ? '...' : ''}`;
-                        content = `**Question:** ${question}\n\n**Answer:** ${answer}`;
-                    } else {
-                        title = doc.metadata?.title || doc.title || `Document ${index + 1}`;
-                        content = doc.page_content || doc.content || doc.text || doc.snippet || 'No content preview available.';
-                    }
-
-                    const source = doc.metadata?.source || doc.source || 'Local Repository';
-                    const score = doc.score ? `(Relevance: ${Math.round(doc.score * 100)}%)` : '';
-
-                    responseContent += `### ${index + 1}. ${title} ${score}\n`;
-                    responseContent += `**Source:** ${source}\n`;
-                    responseContent += `> ${content.substring(0, 500)}${content.length > 500 ? '...' : ''}\n\n`;
-                    responseContent += `---\n\n`;
-                });
+            // 1. Determine Content (Prefer AI Analysis, fallback to first result)
+            if (response.ai_analysis && typeof response.ai_analysis === 'string') {
+                responseContent = response.ai_analysis;
+            } else if (response.analysis && typeof response.analysis === 'string') {
+                responseContent = response.analysis;
             } else {
-                responseContent = "I searched your local legal database but couldn't find any documents matching your query. Please try different keywords.";
+                // Fallback if no AI Analysis: Construct a summary from top results
+                const results = response.results || response.docs || [];
+                if (results.length > 0) {
+                    responseContent = "I found these relevant legal documents in your local database. Please refer to the sources below for details.";
+                } else {
+                    responseContent = "I searched your local database but couldn't find any direct matches. Please try broadening your search terms.";
+                }
+            }
+
+            // 2. Extract Sources
+            if (response.results && Array.isArray(response.results)) {
+                sources = response.results.slice(0, 4); // Keep top 4 sources
+            } else if (Array.isArray(response)) {
+                sources = response.slice(0, 4);
             }
 
             const assistantMessage: ChatMessage = {
                 id: uuidv4(),
                 role: 'assistant',
-                content: responseContent,
+                content: responseContent, // Clean Answer
                 timestamp: new Date(),
-                sources: sources
+                sources: sources // Structured Sources
             };
 
             setMessages((prev) => [...prev, assistantMessage]);
         } catch (error: any) {
             console.error('Error:', error);
-            setError(error.message || 'Failed to connect to the local Legal Intelligence API. Please ensure the local server is running.');
+            setError(error.message || 'Failed to connect to the local Legal Intelligence API.');
 
             const errorMessage: ChatMessage = {
                 id: uuidv4(),
                 role: 'assistant',
-                content: "⚠️ **Error:** Could not connect to the local legal database. Please make sure your local API server is running at http://localhost:8000.",
+                content: "⚠️ **Connection Error:** I couldn't reach your local database. Please ensure the backend is running.",
                 timestamp: new Date()
             };
             setMessages((prev) => [...prev, errorMessage]);
@@ -182,25 +218,66 @@ export function AIChat() {
                     {messages.map((message) => (
                         <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                             <div
-                                className={`max-w-[85%] rounded-2xl p-4 shadow-sm ${message.role === 'user'
+                                className={`max-w-[92%] lg:max-w-4xl rounded-2xl p-4 shadow-sm ${message.role === 'user'
                                     ? 'bg-indigo-600 text-white rounded-br-none'
-                                    : 'bg-white text-gray-800 border border-gray-100 rounded-bl-none'
+                                    : 'bg-white text-gray-800 border border-gray-100 rounded-bl-none z-10'
                                     }`}
                             >
                                 <div className="prose prose-sm max-w-none">
                                     {message.role === 'assistant' ? (
                                         <div dangerouslySetInnerHTML={{
-                                            __html: message.content
-                                                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                                .replace(/### (.*?)(\n|$)/g, '<h3 class="text-md font-bold text-indigo-700 mt-4 mb-2">$1</h3>')
-                                                .replace(/> (.*?)\.\.\./g, '<div class="bg-gray-50 border-l-4 border-gray-300 p-2 my-2 italic text-gray-600">$1...</div>')
-                                                .replace(/---/g, '<hr class="my-4 border-gray-200"/>')
-                                                .replace(/\n/g, '<br>')
+                                            __html: (() => {
+                                                // Specialized formatter for Legal Structured Output
+                                                let html = message.content;
+
+                                                // 1. Title Section (Huge, Indigo, Centered or Prominent)
+                                                html = html.replace(/1\.\s*\*\*Title\*\*:\s*(.*?)(\n|$)/g,
+                                                    '<div class="mb-4 pb-2 border-b border-indigo-100"><h2 class="text-xl font-bold text-indigo-900 leading-tight">$1</h2></div>');
+
+                                                // 2. Definition Section (Light Blue Box)
+                                                html = html.replace(/2\.\s*\*\*Definition\*\*:\s*([\s\S]*?)(?=(3\.|$))/g,
+                                                    '<div class="bg-blue-50 rounded-lg p-4 mb-4 border border-blue-100 shadow-sm"><strong class="text-blue-800 uppercase text-xs tracking-wider block mb-1">Definition</strong><p class="text-gray-800 leading-relaxed">$1</p></div>');
+
+                                                // 3. Key Points (styled list)
+                                                html = html.replace(/3\.\s*\*\*Key Points\*\*:\s*([\s\S]*?)(?=(4\.|$))/g,
+                                                    '<div class="mb-5"><strong class="text-gray-700 uppercase text-xs tracking-wider block mb-2 font-bold">Key Summaries</strong><div class="space-y-1 text-gray-700">$1</div></div>');
+
+                                                // 4. In-depth Details (Prose section)
+                                                html = html.replace(/4\.\s*\*\*In-depth Details\*\*:\s*([\s\S]*?)(?=(5\.|$))/g,
+                                                    '<div class="mb-5 pt-2"><strong class="text-indigo-700 uppercase text-xs tracking-wider block mb-2 font-bold flex items-center gap-1"><span class="w-1 h-4 bg-indigo-500 rounded-full"></span> Detailed Analysis</strong><div class="prose prose-sm text-gray-600 leading-relaxed pl-2 border-l-2 border-gray-100">$1</div></div>');
+
+                                                // 5. Advantages & Disadvantages (Grid or clean section)
+                                                html = html.replace(/5\.\s*\*\*Advantages & Disadvantages\*\*:\s*([\s\S]*?)$/g,
+                                                    '<div class="bg-gray-50 rounded-lg p-4 mt-4 border border-gray-200"><strong class="text-gray-700 uppercase text-xs tracking-wider block mb-2">Implications & Pros/Cons</strong><div class="text-sm text-gray-600">$1</div></div>');
+
+                                                // General Formatting (Bullets, Bold, Newlines)
+                                                html = html.replace(/^\s*-\s+(.*?)$/gm, '<div class="flex items-start gap-2 mb-1"><span class="text-indigo-500 mt-1.5">•</span><span>$1</span></div>'); // Custom bullet
+                                                html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>');
+                                                html = html.replace(/\n/g, '<br>');
+
+                                                // Cleanup extra br tags
+                                                html = html.replace(/(<br>){3,}/g, '<br><br>');
+
+                                                return html;
+                                            })()
                                         }} />
                                     ) : (
                                         message.content
                                     )}
                                 </div>
+
+                                {message.sources && message.sources.length > 0 && (
+                                    <div className="mt-4 pt-4 border-t border-gray-100">
+                                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1">
+                                            <Database className="w-3 h-3" /> Sources & References
+                                        </p>
+                                        <div className="grid gap-3 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
+                                            {message.sources.map((source: any, idx) => (
+                                                <SourceCard key={idx} source={source} idx={idx} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
 
                                 {message.role === 'assistant' && (
                                     <div className="mt-3 flex items-center gap-2 pt-2 border-t border-gray-100">
@@ -239,6 +316,17 @@ export function AIChat() {
                         </div>
                     )}
 
+                    {isUploading && (
+                        <div className="flex justify-start">
+                            <div className="bg-white rounded-2xl rounded-bl-none p-4 border border-gray-100 shadow-sm">
+                                <div className="flex items-center gap-2 text-gray-500 text-sm">
+                                    <div className="w-4 h-4 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                                    <span>Processing document...</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {error && (
                         <div className="flex items-center gap-2 p-4 bg-red-50 text-red-700 rounded-xl border border-red-100 mx-4">
                             <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -249,10 +337,19 @@ export function AIChat() {
 
                 <div className="p-4 bg-white border-t border-gray-200">
                     <div className="flex items-center gap-2 bg-gray-50 p-2 rounded-full border border-gray-200 focus-within:border-indigo-300 focus-within:ring-4 focus-within:ring-indigo-50 transition-all">
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handleFileUpload}
+                            accept="application/pdf"
+                            className="hidden"
+                        />
                         <button
                             type="button"
-                            className="p-2 text-gray-400 hover:text-indigo-600 transition-colors"
-                            title="Upload document (Coming soon)"
+                            onClick={() => fileInputRef.current?.click()}
+                            disabled={isUploading || isLoading}
+                            className={`p-2 text-gray-400 hover:text-indigo-600 transition-colors ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            title="Upload PDF Document"
                         >
                             <FilePlus className="w-5 h-5" />
                         </button>
@@ -267,7 +364,7 @@ export function AIChat() {
                                     handleSubmit(e);
                                 }
                             }}
-                            placeholder="Search for cases, acts, or legal concepts..."
+                            placeholder="Type a message or upload a PDF to chat..."
                             className="flex-1 bg-transparent border-none focus:ring-0 text-gray-800 placeholder-gray-500"
                         />
 
@@ -301,6 +398,55 @@ export function AIChat() {
                         </p>
                     </div>
                 </div>
+            </div>
+        </div>
+    );
+}
+
+function SourceCard({ source, idx }: { source: any, idx: number }) {
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    // Clean up title: Remove .pdf extension and "Relevant excerpt from" prefix
+    let rawTitle = source.question || source.metadata?.title || source.source || `Document ${idx + 1}`;
+    let title = rawTitle.replace(/\.pdf$/i, '').replace(/^Relevant excerpt from\s+/i, '');
+
+    // Get full text
+    const fullText = source.answer || source.page_content || source.text || "No preview available";
+    const score = source.score ? Math.round(source.score * 100) : null;
+
+    return (
+        <div className="bg-white rounded-lg p-3 text-sm border border-gray-200 hover:border-indigo-300 transition-all shadow-sm group">
+            <div className="flex justify-between items-start mb-2">
+                <div className="flex items-center gap-2 max-w-[75%]">
+                    <div className="bg-red-50 p-1.5 rounded text-red-600 flex-shrink-0">
+                        <FilePlus className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="font-semibold text-gray-800 truncate" title={rawTitle}>
+                        {title}
+                    </span>
+                </div>
+                {score && (
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${score > 80 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                        }`}>
+                        {score}% Match
+                    </span>
+                )}
+            </div>
+
+            <div className="relative">
+                <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-indigo-100 rounded-full"></div>
+                <div className={`text-gray-600 text-xs leading-relaxed pl-3 font-mono ${isExpanded ? 'max-h-60 overflow-y-auto pr-2 custom-scrollbar' : 'line-clamp-4'}`}>
+                    {fullText}
+                </div>
+
+                {fullText.length > 200 && (
+                    <button
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        className="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 uppercase tracking-wider mt-2 ml-3 focus:outline-none"
+                    >
+                        {isExpanded ? 'Show Less' : 'Read More'}
+                    </button>
+                )}
             </div>
         </div>
     );

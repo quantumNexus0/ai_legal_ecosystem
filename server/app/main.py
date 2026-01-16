@@ -19,6 +19,8 @@ from app.api.lawyers import router as lawyers_router
 from app.api.profile import router as profile_router
 from app.api.admin import router as admin_router
 from app.api.messages import router as messages_router
+from app.api.analysis import router as analysis_router
+
 
 from app.services.search_service import search_service
 from app.db.base import Base
@@ -47,6 +49,8 @@ app.include_router(profile_router, tags=["profile"])
 app.include_router(admin_router, tags=["admin"])
 app.include_router(templates_router, tags=["templates"])
 app.include_router(messages_router, tags=["messages"])
+app.include_router(analysis_router, prefix="/api/analysis", tags=["analysis"])
+
 
 # Custom StaticFiles class to force correct MIME types for Firefox compatibility
 from starlette.responses import Response

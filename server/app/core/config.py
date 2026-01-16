@@ -1,5 +1,9 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+# Load .env file explicitly
+load_dotenv()
 
 class Settings:
     PROJECT_NAME: str = "Legal Intelligence API"

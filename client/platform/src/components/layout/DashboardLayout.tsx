@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { LogOut, Settings, User, Home, Sparkles, FileText } from 'lucide-react';
+import { LogOut, Settings, User, Home, Sparkles, FileText, Bot, Database } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 
 interface DashboardLayoutProps {
@@ -54,13 +54,30 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 <Settings className="mr-3 h-6 w-6" />
                 Settings
               </Link>
-              <a
-                href="http://localhost:5174"
-                className="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-blue-400 hover:bg-gray-700 hover:text-white"
+              <Link
+                to="/dashboard/analysis"
+                className="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-amber-400 hover:bg-gray-700 hover:text-white"
               >
                 <Sparkles className="mr-3 h-6 w-6" />
-                AI Analyzer
+                Case Analyzer
+              </Link>
+              <Link
+                to="/dashboard/research"
+                className="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-gray-300 hover:bg-gray-700 hover:text-white"
+              >
+                <Database className="mr-3 h-6 w-6" />
+                Legal Research
+              </Link>
+              <a
+                href="http://localhost:5174"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-indigo-400 hover:bg-gray-700 hover:text-white"
+              >
+                <Bot className="mr-3 h-6 w-6" />
+                NyayaAssist AI
               </a>
+
             </nav>
           </div>
           <div className="flex-shrink-0 flex border-t border-gray-700 p-4">

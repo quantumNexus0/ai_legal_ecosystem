@@ -4,10 +4,10 @@
   "description": "AI Legal Ecosystem Workspace",
   "scripts": {
     "install:all": "npm install --prefix client/platform && npm install --prefix client/assistant && pip install -r server/requirements.txt",
-    "dev:platform": "npm run dev --prefix client/platform",
-    "dev:assistant": "npm run dev --prefix client/assistant",
-    "dev:server": "cd server && .\\venv\\Scripts\\activate && uvicorn app.main:app --reload",
-    "dev": "concurrently \"npm run dev:platform\" \"npm run dev:assistant\" \"npm run dev:server\"",
+    "dev:platform": "cd client/platform && npm run dev",
+    "dev:server": "cd server && ..\\.venv\\Scripts\\python -m uvicorn app.main:app --reload",
+    "dev:assistant": "cd client/assistant && npm run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:platform\" \"npm run dev:assistant\"",
     "start": "npm run dev"
   },
   "devDependencies": {

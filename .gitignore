@@ -1,1 +1,12 @@
 node_modules
+__pycache__/
+*.pyc
+.env
+venv/
+server/venv/
+server/chroma_db/
+server/legal_services.db
+server/data/
+server/server/
+*.log
+.DS_Store

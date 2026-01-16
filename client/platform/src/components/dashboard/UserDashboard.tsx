@@ -7,6 +7,7 @@ import AppointmentsList from './appointments/AppointmentsList';
 import ChatInterface from '../chat/ChatInterface';
 import StatsCard from './StatsCard';
 import SmartActions from './SmartActions';
+import GovernmentServices from '../home/GovernmentServices';
 
 const UserDashboard = () => {
   const [searchParams] = useSearchParams();
@@ -80,6 +81,9 @@ const UserDashboard = () => {
                   <AppointmentsList />
                 </div>
               </div>
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden p-4">
+                <GovernmentServices />
+              </div>
             </>
           )}
 
@@ -111,10 +115,10 @@ const UserDashboard = () => {
         {/* Right Column: Profile - Only show on Desktop for Overview/Cases/Appointments if we want a sidebar, 
             but user asked to ONLY show it when Profile tab is clicked. So we hide it on other tabs. */}
         {activeTab !== 'profile' && activeTab !== 'messages' && (
-          <div className="hidden lg:block lg:col-span-1">
-            {/* Optional: Show something else here or leave empty. 
-                 User said "only show that time profile", so maybe Overview should have it? 
-                 Actually, let's just make main area 3 columns if user wants it hidden. */}
+          <div className="hidden lg:block lg:col-span-1 space-y-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden p-4">
+              <GovernmentServices compact={true} />
+            </div>
           </div>
         )}
       </div>

@@ -392,21 +392,46 @@ git clone https://github.com/quantumNexus0/ai_legal_ecosystem.git
 cd ai_legal_ecosystem
 ```
 
-### Step 2: One-Command Installation
-From the **root directory**, install all dependencies for the entire ecosystem:
+### Step 2: Install Dependencies
+First, install the root dependencies (including the concurrent runner):
+```bash
+npm install
+```
+
+### Step 3: Setup Python Virtual Environment
+Create and activate a virtual environment for the backend:
+
+**Windows:**
+```powershell
+# Create virtual environment
+python -m venv .venv
+
+# Activate it
+.venv\Scripts\Activate
+```
+
+**Mac/Linux:**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### Step 4: Install Project Dependencies
+With the virtual environment active, run this command to install all frontend and backend dependencies at once:
 ```bash
 npm run install:all
 ```
 
-### Step 3: Database Setup
+### Step 5: Database Setup
 1. Start **XAMPP Control Panel** (Apache & MySQL).
 2. The backend will automatically handle DB creation, or you can run:
 ```bash
 cd server
 python setup_mysql.py
+cd ..
 ```
 
-### Step 4: Run the Ecosystem
+### Step 6: Run the Ecosystem
 Start the Platform, Assistant, and Backend all at once:
 ```bash
 npm run dev
