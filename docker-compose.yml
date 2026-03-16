@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server/legal_services.db:/app/legal_services.db
+      - ./server/chroma_db:/app/chroma_db
+    environment:
+      - NODE_ENV=development
+      - MONGODB_URL=mongodb://mongodb:27017
+      - DATABASE_URL=sqlite:////app/legal_services.db
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  platform:
+    build:
+      context: ./client/platform
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8000
+    ports:
+      - "5173:80"
+    depends_on:
+      - server
+    restart: unless-stopped
+
+  assistant:
+    build:
+      context: ./client/assistant
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8000
+    ports:
+      - "5174:80"
+    depends_on:
+      - server
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=legal_services
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:

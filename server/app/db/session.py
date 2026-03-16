@@ -4,9 +4,15 @@ from app.core.config import settings
 
 def get_engine():
     try:
-        # Try MySQL first
+        # Try MySQL first (with a short timeout so we fail fast if XAMPP is off)
+        mysql_uri = settings.SQLALCHEMY_DATABASE_URI
+        if "?" not in mysql_uri:
+            mysql_uri += "?connect_timeout=3"
+        else:
+            mysql_uri += "&connect_timeout=3"
+
         temp_engine = create_engine(
-            settings.SQLALCHEMY_DATABASE_URI,
+            mysql_uri,
             pool_pre_ping=True
         )
         # Test connection

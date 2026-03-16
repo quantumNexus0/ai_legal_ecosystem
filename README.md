@@ -7,9 +7,11 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-3178C6?style=for-the-badge&logo=typescript)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688?style=for-the-badge&logo=fastapi)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql)
+![MongoDB](https://img.shields.io/badge/MongoDB-7.0-47A248?style=for-the-badge&logo=mongodb)
+![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-**NyayaAssist - India's premier AI-powered legal platform connecting citizens with verified lawyers. Comprehensive legal research, instant messaging, intelligent case management, and seamless appointment scheduling.**
+**NyayaAssist - India's premier AI-powered legal platform connecting citizens with verified lawyers. Comprehensive legal research, real-time messaging, intelligent case management, and seamless appointment scheduling.**
 
 [Features](#-features) • [Architecture](#-system-architecture) • [Installation](#-installation) • [Usage](#-usage) • [Contributing](#-contributing)
 
@@ -51,67 +53,57 @@ For **Lawyers**, it provides a comprehensive dashboard to manage cases, appointm
 - **User Dashboard**: Track your legal cases, view upcoming appointments, and manage lawyer communications.
 - **Lawyer Dashboard**: Specialized interface for practice management, case tracking, and client interactions.
 - **Admin Dashboard**: System-wide oversight of users, lawyers, and platform metrics with real-time stats.
-- **Lawyer Approval System**: Unified interface for admins to review and approve/reject new lawyer registrations to ensure service quality.
+- **Lawyer Approval System**: Unified interface for admins to review and approve/reject new lawyer registrations.
 
 ### 2. **Intelligent Case Management**
-- **Create & Manage**: Lawyers can create new patient/client files, track case status, and update details.
-- **Visibility**: Clients get real-time visibility into their case progress and next hearing dates.
-- **Deletion**: Secure deletion of cases with strict ownership validation (Lawyers only).
+- **Create & Manage**: Lawyers can create new client files, track case status, and update details.
+- **Visibility**: Clients get real-time visibility into their case progress and hearing dates.
 
-### 3. **Advanced Security & Settings**
-- **Security Dashboard**: Dedicated settings page for password management and security monitoring.
-- **Preferences**: Customizable notification toggles, privacy modes, and language settings.
-- **Account Management**: Secure account deactivation and data privacy controls.
+### 3. **Dual-Database Intelligence** 🗄️
+- **SQL (MySQL/SQLite)**: Robust storage for structured data like Users, Cases, and Appointments.
+- **NoSQL (MongoDB)**: High-performance storage for AI analysis logs, client reviews, and binary document storage (GridFS).
+- **Fast Fallback**: Intelligent backend that switches to SQLite instantly if MySQL is unavailable.
 
-### 3. **Appointment Scheduling**
-- **Easy Booking**: Lawyers can schedule consultations and hearings directly from the dashboard.
-- **Status Tracking**: Track appointments (Scheduled, Confirmed, Completed).
-- **Calendar Integration**: Visual list of upcoming commitments.
-
-### 4. **Real-Time Messaging System** 💬
-- **Direct Communication**: Secure, private chat between lawyers and their clients.
-- **Instant Access**: "Message" buttons integrated directly into Case and Appointment cards.
-- **Notification**: Unread message counts and real-time updates.
-- **Persistent History**: All conversations are saved securely for future reference.
-
-### 5. **AI Case Analysis Engine** 🧠
+### 4. **AI Case Analysis Engine** 🧠
 - **Precedent Matching**: Input case facts to find relevant legal precedents using AI.
-- **Strength Assessment**: Percentage-based scoring of case strength.
-- **Strategy Generation**: AI-identified strong/weak points and actionable legal advice.
+- **Analysis History**: Automatically saves all AI analyses to MongoDB for future reference.
+- **Strategy Generation**: AI-identified legal advice, risk scores, and tactical next steps.
 
-### 6. **Local Legal Assistant** 🤖
-- **RAG-Powered**: Upload PDF documents (Case Files, Acts) to instantly chat with them.
-- **Privacy-First**: Runs locally using ChromaDB; no document data leaves your machine.
-- **Structured Insights**: AI responses are formatted into clear Titles, Definitions, Key Points, and In-depth Analysis.
-- **Interactive Citations**: "Read More" expandable source cards to verify AI claims against the original text.
+### 5. **Real-Time Messaging & WebSockets** 💬
+- **WebSocket Chat**: High-speed, bidirectional communication between lawyers and clients.
+- **Online Status**: Real-time tracking of which users are currently active.
+- **Persistent History**: All conversations are saved securely in the SQL database.
+
+### 6. **Legal Document Management** 📄
+- **GridFS Storage**: Securely upload and manage legal PDFs and documents in MongoDB.
+- **Case Linking**: Directly associate uploaded files with specific cases.
+
+### 7. **Client Feedback System** ⭐
+- **Reviews & Ratings**: Clients can rate and review lawyers after appointments.
+- **Dynamic Scoring**: Lawyer ratings are automatically recalculated based on client feedback.
+
+### 8. **Local Legal Assistant (RAG)** 🤖
+- **Privacy-First**: Chat with your local PDF documents using ChromaDB and Gemini.
+- **Structured Insights**: AI responses are formatted into clear Titles, Definitions, and Key Points.
 - **Voice Support**: Hands-free voice input and text-to-speech output.
-
-### 7. **Seamless Platform Integration** 🔄
-- **Unified Navigation**: Cross-platform links in headers and sidebars to jump between the Service Dashboard and AI Analyzer.
-- **Deep Connectivity**: Instant access to AI legal insights directly from the legal services workflow.
-
-### 8. **Legal Templates Portal** 📄
-- **Extensive Library**: Access to 190+ attorney-drafted legal documents and contracts.
-- **Guided Experience**: Simple questionnaires to customize documents for specific needs.
-- **Seamless Integration**: Directly accessible from the main platform navigation.
 
 ---
 
 ## 🌐 Ecosystem Overview (ERP View)
 
-A high-level view of how the different applications in the ecosystem connect and share resources.
-
 ```mermaid
 graph TB
     subgraph "Core Infrastructure"
         Backend[Unified Backend API]
-        DB[(MySQL Database)]
+        SQL[(MySQL/SQLite)]
+        NoSQL[(MongoDB)]
+        Docker[Docker Containers]
     end
 
     subgraph "Legal Services Platform"
         Dashboard[Web Dashboard]
         CaseMgr[Case Manager]
-        Chat[Chat System]
+        Chat[WebSocket Chat]
     end
 
     subgraph "AI Legal Assistant"
@@ -129,10 +121,11 @@ graph TB
     AssistantUI --> Backend
     TemplateLib -.-> Dashboard
     
-    Backend --> DB
+    Backend --> SQL
+    Backend --> NoSQL
     Backend --> LocalRAG
     
-    Chat --> Backend
+    Chat <--> Backend
     Voice --> AssistantUI
     
     style Backend fill:#ff9800,stroke:#333,stroke-width:2px
@@ -145,61 +138,25 @@ graph TB
 
 ## 📦 Module Details
 
-## 📦 Module Details
-
 ### 1. Legal Services Platform
-The core web application connecting lawyers and clients.
-
+The core web application connecting lawyers and clients. Handles auth, dashboards, and real-time messaging.
 - **Directory**: `client/platform/`
-- **Tech**: React, TypeScript, Tailwind CSS
-- **Function**: Handles authentication, dashboards, case tracking, and messaging.
+- **Tech**: React, TypeScript, Tailwind CSS, WebSockets.
 
-### 2. AI Legal Assistant (`client/assistant`)
-A standalone, privacy-focused AI assistant for answering legal queries.
-
+### 2. AI Legal Assistant
+A standalone interface for answering legal queries and analyzing documents via RAG.
 - **Directory**: `client/assistant/`
-- **Tech**: React, Local Vector DB, Speech API
-- **Key Feature**: Runs independently to provide quick legal answers with a new **responsive sidebar** for better usability on all devices.
+- **Tech**: React, Local Vector DB, Web Speech API.
 
-### 3. Unified Backend (`server`)
-The shared API powering both frontend applications.
-
+### 3. Unified Backend
+Shared API powering the entire ecosystem with a focus on high availability.
 - **Directory**: `server/`
-- **Tech**: FastAPI, Python, SQLAlchemy
-- **Database**: MySQL (XAMPP) with SQLite fallback.
-
-### 4. Shared Resources (`shared`)
-- **Templates**: `shared/templates/` (Legal document library)
-- **Data**: `shared/data/` (Legal data sources)
-
-### 5. Legal Templates Portal (`shared/templates`)
-A clean, static site generator-style portal for browsing and creating legal documents.
-
-- **Directory**: `shared/templates/`
-- **Tech**: HTML, Vanilla JS, CSS (Served via FastAPI)
-- **URL**: `/template-portal/templates/index.html`
-- **Key Feature**: Fully responsive interface for finding and downloading legal forms.
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant UI as Assistant UI
-    participant RAG as Local RAG
-    participant Vector as Vector DB
-    
-    User->>UI: Voice/Text Query
-    UI->>RAG: Process Query
-    RAG->>Vector: Semantic Search
-    Vector-->>RAG: Relevant Legal Context
-    RAG-->>UI: Formulated Answer
-    UI-->>User: Text & Voice Response
-```
+- **Tech**: FastAPI, Python, SQLAlchemy, Motor (Async MongoDB).
+- **Features**: Rate limiting (`slowapi`), JWT Auth, GridFS file management.
 
 ---
 
 ## 🏗️ System Architecture
-
-The system follows a modern client-server architecture with AI integration:
 
 ```mermaid
 graph TB
@@ -207,24 +164,27 @@ graph TB
         UI[React UI Components]
         Router[React Router]
         State[Zustand Store]
+        WS[WebSocket Client]
     end
 
     subgraph "API Gateway & Backend"
         FastAPI[FastAPI Server]
-        Auth[Auth Middleware]
+        RateLimit[SlowAPI Limiter]
+        Auth[JWT Middleware]
         Endpoints[API Endpoints]
     end
 
-    subgraph "Data Layer"
-        MySQL[(MySQL Database)]
-        VectorDB[(Local Vector DB)]
+    subgraph "Multi-Data Layer"
+        SQL[(MySQL / SQLite)]
+        MongoDB[(MongoDB / GridFS)]
+        VectorDB[(ChromaDB Vector Store)]
     end
 
     subgraph "AI Services"
         Gemini[Google Gemini API]
         subgraph "Local RAG Pipeline"
             PDF[PDF Uploads] --> Splitter[Text Splitter]
-            Splitter --> VectorDB[(ChromaDB Vector Store)]
+            Splitter --> VectorDB
             VectorDB --> RAG[RAG Engine]
         end
     end
@@ -232,11 +192,14 @@ graph TB
     UI --> Router
     Router --> State
     State -- REST/WS --> FastAPI
+    WS <--> FastAPI
     
-    FastAPI --> Auth
+    FastAPI --> RateLimit
+    RateLimit --> Auth
     Auth --> Endpoints
     
-    Endpoints --> MySQL
+    Endpoints --> SQL
+    Endpoints --> MongoDB
     Endpoints --> RAG
     Endpoints --> Gemini
     
@@ -244,87 +207,168 @@ graph TB
     
     style UI fill:#61DAFB
     style FastAPI fill:#009688
-    style MySQL fill:#4479A1
+    style SQL fill:#4479A1
+    style MongoDB fill:#47A248
     style Gemini fill:#4285F4
-    style VectorDB fill:#FF6F61
 ```
 
 ---
 
 ## 📊 Entity Relationship Diagram
 
-The core database schema supporting the application:
-
 ```mermaid
 erDiagram
     USER ||--o{ LAWYER_PROFILE : has
-    USER ||--o{ CASE : "involved in"
-    USER ||--o{ APPOINTMENT : "has"
-    USER ||--o{ MESSAGE : "sends/receives"
-
-    USER {
-        int id PK
-        string email
-        string role "user|lawyer|admin"
-    }
-
-    LAWYER_PROFILE {
-        int id PK
-        int user_id FK
-        string specialization
-    }
-
-    CASE {
-        int id PK
-        string title
-        int lawyer_id FK
-        int client_id FK
-        string status
-    }
-
-    APPOINTMENT {
-        int id PK
-        datetime appointment_time
-        string status
-    }
-
-    MESSAGE {
-        int id PK
-        int sender_id FK
-        int receiver_id FK
-        string content
-        boolean is_read
-    }
+    USER ||--o{ CASE : involved
+    USER ||--o{ APPOINTMENT : has
+    USER ||--o{ MESSAGE : exchanges
+    USER ||--o{ REVIEW : writes
+    
+    LAWYER_PROFILE ||--o{ REVIEW : receives
+    CASE ||--o{ DOCUMENT : contains
+    
+    subgraph "SQL Collections"
+        USER
+        LAWYER_PROFILE
+        CASE
+        APPOINTMENT
+        MESSAGE
+    end
+    
+    subgraph "NoSQL Collections (MongoDB)"
+        REVIEW
+        DOCUMENT
+        ANALYSIS_LOGS
+    end
 ```
 
 ---
 
-## 🧩 Detailed Component Diagrams
+## 🔬 Technical Deep Dive
 
-### 1. Messaging System Flow
+### 1. Unified Data Lifecycle
+This diagram illustrates how different types of data are routed through the multi-database ecosystem.
 
-How the real-time chat works between users and lawyers:
+```mermaid
+graph LR
+    subgraph "Clients"
+        Web[Web Platform]
+        Asst[AI Assistant]
+    end
+
+    subgraph "API Layer"
+        FastAPI[FastAPI Gateway]
+    end
+
+    subgraph "Storage Logic"
+        RDR{Storage Router}
+        SQL[(SQL: MariaDB/SQLite)]
+        NoSQL[(NoSQL: MongoDB)]
+        VDB[(Vector: ChromaDB)]
+        GFS[GridFS]
+    end
+
+    Web --> FastAPI
+    Asst --> FastAPI
+    FastAPI --> RDR
+
+    RDR -- "Auth, Cases, Apps" --> SQL
+    RDR -- "Logs, Reviews, Metadata" --> NoSQL
+    RDR -- "Legal PDFs/Acts" --> GFS
+    RDR -- "Embeddings" --> VDB
+
+    style SQL fill:#e1f5fe,stroke:#01579b
+    style NoSQL fill:#e8f5e9,stroke:#1b5e20
+    style VDB fill:#fff3e0,stroke:#e65100
+    style GFS fill:#f3e5f5,stroke:#4a148c
+```
+
+### 2. JWT Authentication & Security Architecture
+Comprehensive security flow including Rate Limiting and Role-Based Access Control (RBAC).
 
 ```mermaid
 sequenceDiagram
-    participant Client as User (Frontend)
-    participant Store as ChatStore
-    participant API as Messages API
-    participant DB as MySQL Database
+    participant U as User/Browser
+    participant SL as SlowAPI (Rate Limiter)
+    participant FA as FastAPI Auth Middleware
+    participant JWT as JOSE (JWT Engine)
+    participant DB as SQL Database
 
-    Client->>Store: Click "Message"
-    Store->>API: GET /messages/conversation/{id}
-    API->>DB: Query Messages
-    DB-->>API: Return Conversation
-    API-->>Store: Message List
-    Store-->>Client: Update UI
+    U->>SL: POST /auth/login
+    SL->>SL: Check IP Rate Limit (5/min)
+    alt Rate Limit Exceeded
+        SL-->>U: 429 Too Many Requests
+    else Limit OK
+        SL->>DB: Validate Credentials
+        DB-->>SL: User Object + Role
+        SL->>JWT: Generate JWT (Role + ID)
+        JWT-->>U: Set Bearer Token
+    end
 
-    Client->>Store: Send Message "Hello"
-    Store->>API: POST /messages
-    API->>DB: INSERT Message
-    DB-->>API: Success
-    API-->>Store: Standardized Message
-    Store-->>Client: Append to Chat Window
+    U->>FA: GET /api/admin/stats (With Token)
+    FA->>JWT: Verify Signature & Expiry
+    JWT-->>FA: Payload (Role: Admin)
+    FA->>FA: Check RBAC Requirement
+    alt Unauthorized Role
+        FA-->>U: 403 Forbidden
+    else Authorized
+        FA->>DB: Fetch Admin Data
+        DB-->>U: JSON Response
+    end
+```
+
+### 3. AI Analysis Synthesis Pipeline
+How the system combines External Web Search, Local RAG, and LLM reasoning.
+
+```mermaid
+graph TD
+    User([User Input: Case Facts]) --> API[Analysis API]
+    
+    subgraph "Context Gathering"
+        API --> n8n[n8n Web Search Webhook]
+        API --> RAG[Local Vector Search]
+        n8n --> WebR[External Precedents]
+        RAG --> LocalR[Local Acts/Manuals]
+    end
+
+    WebR --> Agg[Context Aggregator]
+    LocalR --> Agg
+
+    Agg --> Prompt[System Prompt Engineer]
+    Prompt --> LLM[LLM Engine: Gemini/GPT]
+    
+    LLM --> Schema[JSON Schema Validator]
+    Schema --> MongoDB[(Insert Analysis Log)]
+    Schema --> Final([Final Report + Risk Score])
+
+    style API fill:#f9f,stroke:#333,stroke-width:2px
+    style LLM fill:#00ff00,stroke:#333,stroke-width:2px
+    style Agg fill:#bbf,stroke:#333,stroke-width:1px
+```
+
+### 4. WebSocket Chat Lifecycle
+Real-time state synchronization for the messaging module.
+
+```mermaid
+stateDiagram-v2
+    [*] --> Disconnected
+    Disconnected --> Connecting: Client Init
+    Connecting --> Online: Handshake Success
+    
+    state Online {
+        [*] --> Idle
+        Idle --> Sending: Send Message
+        Sending --> Persisting: SQL Insert
+        Persisting --> Broadcast: WebSocket Push
+        Broadcast --> Idle: ACK Received
+        
+        Idle --> Receiving: Incoming Signal
+        Receiving --> UI_Update: State Sync
+        UI_Update --> Idle
+    }
+    
+    Online --> Disconnected: Connection Closed
+    Online --> Connecting: Auto-Reconnect
 ```
 
 ---
@@ -341,18 +385,18 @@ graph TD
     React --> Logic[Logic Layer]
     Logic --> Router[React Router]
     Logic --> Store[Zustand State]
-    Logic --> API[Axios Client]
+    Logic --> WS[WebSocket Handler]
 ```
 
 ### Backend Structure
 ```mermaid
 graph TD
-    FastAPI[FastAPI] --> Routes[API Routes]
-    Routes --> Auth[Security / OAuth2]
+    FastAPI[FastAPI] --> Security[Security & Rate Limiting]
+    Security --> Routes[API Routes]
     Routes --> Controllers[Business Logic]
     
-    Controllers --> Models[SQLAlchemy Models]
-    Models --> MySQL[MySQL DB]
+    Controllers --> SQL[SQLAlchemy / MySQL]
+    Controllers --> NoSQL[Motor / MongoDB]
     
     Controllers --> AI[AI Services]
     AI --> Google[Google Gemini]
@@ -361,103 +405,43 @@ graph TD
 
 ---
 
-## � Future Roadmap
-
-We are constantly improving NyayaAssist. Here is what's coming next:
-
-- [ ] **Mobile Application**: Native React Native app for iOS and Android.
-- [ ] **Blockchain Evidence**: Secure, immutable storage for legal documents and evidence.
-- [ ] **Multilingual Support**: Expanding support for Hindi, Tamil, Telugu, and other regional languages.
-- [ ] **e-Courts Integration**: Direct integration with Indian e-Courts services for case filing status.
-- [ ] **AI Contract Review**: Automated risk assessment for uploaded contracts.
-
----
-
-## ❓ Troubleshooting & FAQ
-
-**Q: "Module not found" error when running backend?**
-A: Ensure you have activated your virtual environment (`venv\Scripts\activate`) and installed requirements (`pip install -r requirements.txt`).
-
-**Q: Database connection failed?**
-A: Make sure XAMPP is running and the MySQL module is started (Port 3306). The default user is `root` with no password.
-
-**Q: Where is the API documentation?**
-A: Once the backend is running, visit `http://localhost:8000/docs` for the interactive Swagger UI.
-
----
-
 ## 🚀 Installation & Execution
 
-### Prerequisites
-1.  **Node.js** (v18+)
-2.  **Python** (v3.10+)
-3.  **XAMPP** (or any MySQL server)
+### Option A: Standard Setup (Manual)
+1. **Node.js** (v18+), **Python** (v3.10+), and **XAMPP/MySQL**.
+2. Clone and install root dependencies: `npm install`
+3. Setup Python venv and activate it.
+4. Run `npm run install:all` to setup frontend and backend.
+5. Create a `.env` file in the `server/` directory (see `.env.example`).
+6. Run `npm run dev` to start everything.
 
-### Step 1: Clone and Setup
+### Option B: Docker Setup (Recommended) 🐳
+The entire ecosystem is containerized for instant deployment:
 ```bash
-git clone https://github.com/quantumNexus0/ai_legal_ecosystem.git
-cd ai_legal_ecosystem
+# Start all services (Backend, Frontend, MongoDB)
+docker compose up -d --build
+
+# Check running status
+docker compose ps
 ```
-
-### Step 2: Install Dependencies
-First, install the root dependencies (including the concurrent runner):
-```bash
-npm install
-```
-
-### Step 3: Setup Python Virtual Environment
-Create and activate a virtual environment for the backend:
-
-**Windows:**
-```powershell
-# Create virtual environment
-python -m venv .venv
-
-# Activate it
-.venv\Scripts\Activate
-```
-
-**Mac/Linux:**
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### Step 4: Install Project Dependencies
-With the virtual environment active, run this command to install all frontend and backend dependencies at once:
-```bash
-npm run install:all
-```
-
-### Step 5: Database Setup
-1. Start **XAMPP Control Panel** (Apache & MySQL).
-2. The backend will automatically handle DB creation, or you can run:
-```bash
-cd server
-python setup_mysql.py
-cd ..
-```
-
-### Step 6: Run the Ecosystem
-Start the Platform, Assistant, and Backend all at once:
-```bash
-npm run dev
-```
-
-The services will be available at:
-- **Main Platform**: `http://localhost:5173`
-- **AI Assistant**: `http://localhost:5174`
-- **FastAPI Docs**: `http://localhost:8000/docs`
-- **Legal Templates**: `http://localhost:8000/template-portal/templates/index.html`
+- **Platform**: `http://localhost:5173`
+- **Assistant**: `http://localhost:5174`
+- **Backend**: `http://localhost:8000`
 
 ---
 
-## 👥 Contributing
+## ❓ FAQ & Troubleshooting
 
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+**Q: Can I run without XAMPP?**
+A: Yes! The backend automatically falls back to **SQLite** if MySQL isn't detected. You can also use Docker to run MySQL inside a container.
+
+**Q: What about MongoDB?**
+A: MongoDB is required for advanced features (AI Logs, Reviews, Documents). Use `docker compose up -d mongodb` to start just the database.
+
+**Q: Where is the API documentation?**
+A: Visit `http://localhost:8000/docs` for the interactive Swagger UI.
 
 ---
 
 ## 📄 License
-
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

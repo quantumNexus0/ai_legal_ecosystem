@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response, status
+from fastapi import FastAPI, Response, status, Request
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -20,17 +20,35 @@ from app.api.profile import router as profile_router
 from app.api.admin import router as admin_router
 from app.api.messages import router as messages_router
 from app.api.analysis import router as analysis_router
-
+from app.api.mongo_test import router as mongo_test_router
+from app.api.reviews import router as reviews_router
+from app.api.password_reset import router as password_reset_router
+from app.api.websocket_chat import router as ws_chat_router
+from app.api.reminders import router as reminders_router
+from app.api.documents import router as documents_router
+from app.api.analytics import router as analytics_router
 
 from app.services.search_service import search_service
 from app.db.base import Base
 from app.db.session import engine
+
+# Rate Limiting
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+
+limiter = Limiter(key_func=get_remote_address)
+
 
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION
 )
+
+# Attach rate limiter to app
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # Enable CORS
 app.add_middleware(
@@ -50,6 +68,13 @@ app.include_router(admin_router, tags=["admin"])
 app.include_router(templates_router, tags=["templates"])
 app.include_router(messages_router, tags=["messages"])
 app.include_router(analysis_router, prefix="/api/analysis", tags=["analysis"])
+app.include_router(mongo_test_router, prefix="/api", tags=["system"])
+app.include_router(reviews_router, tags=["reviews"])
+app.include_router(password_reset_router, tags=["auth"])
+app.include_router(ws_chat_router, tags=["chat"])
+app.include_router(reminders_router, tags=["reminders"])
+app.include_router(documents_router, tags=["documents"])
+app.include_router(analytics_router, tags=["analytics"])
 
 
 # Custom StaticFiles class to force correct MIME types for Firefox compatibility
@@ -81,6 +106,8 @@ if os.path.exists(templates_root):
     app.mount("/template-portal", CustomStaticFiles(directory=templates_root), name="template-portal")
 
 
+from app.db.mongo import connect_to_mongo, close_mongo_connection
+
 # ✅ STARTUP EVENT (SAFE PLACE FOR DB + SERVICES)
 @app.on_event("startup")
 async def startup_event():
@@ -90,8 +117,18 @@ async def startup_event():
     # Create DB tables
     Base.metadata.create_all(bind=engine)
 
+    # Connect to MongoDB
+    await connect_to_mongo()
+
     # Initialize search service
     search_service.initialize()
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """
+    Close services gracefully on shutdown
+    """
+    await close_mongo_connection()
 
 
 @app.get("/", response_class=HTMLResponse, include_in_schema=False)

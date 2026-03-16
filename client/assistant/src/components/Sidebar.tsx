@@ -71,17 +71,7 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
         </div>
       </nav>
 
-      <div className="p-4 bg-gray-50 border-t border-gray-100">
-        <div className="flex items-center gap-3 px-2">
-          <div className="w-8 h-8 rounded-full bg-amber-200 flex items-center justify-center text-amber-700 font-bold text-xs">
-            JD
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-bold text-gray-900 truncate">Legal Professional</p>
-            <p className="text-[10px] text-gray-500 truncate">Premium Account</p>
-          </div>
-        </div>
-      </div>
+
     </aside>
   );
 }

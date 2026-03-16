@@ -1,10 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 import os
 import requests
 import json
+from datetime import datetime
 from app.services.search_service import search_service
+from app.api.deps import get_mongo_db
 
 router = APIRouter()
 
@@ -189,6 +191,27 @@ async def analyze_case(request: CaseAnalysisRequest):
     # Combine precedents for display
     all_matched_cases = external_precedents + local_precedents
 
+    # Save analysis to MongoDB (fire-and-forget, don't break if MongoDB is down)
+    try:
+        from app.db.mongo import get_database
+        mongo_db = get_database()
+        if mongo_db is not None:
+            await mongo_db.analysis_logs.insert_one({
+                "facts": request.facts,
+                "parties": request.parties,
+                "issues": request.issues,
+                "stage": request.stage,
+                "analysis": analysis_report,
+                "risk_score": risk_score,
+                "strong_points": strong_points,
+                "weak_points": weak_points,
+                "expected_direction": expected_direction,
+                "recommended_actions": recommended_actions,
+                "timestamp": datetime.utcnow()
+            })
+    except Exception as log_err:
+        print(f"MongoDB log failed (non-critical): {log_err}")
+
     return CaseAnalysisResponse(
         analysis=analysis_report,
         recommended_actions=recommended_actions,
@@ -200,3 +223,20 @@ async def analyze_case(request: CaseAnalysisRequest):
         matched_cases=all_matched_cases,
         web_references=web_refs if web_refs else None
     )
+
+
+@router.get("/history")
+async def get_analysis_history(limit: int = 20):
+    """Retrieve past AI analysis logs from MongoDB."""
+    try:
+        from app.db.mongo import get_database
+        mongo_db = get_database()
+        if mongo_db is None:
+            return {"logs": [], "message": "MongoDB not available"}
+        cursor = mongo_db.analysis_logs.find(
+            {}, {"_id": 0}
+        ).sort("timestamp", -1).limit(limit)
+        logs = await cursor.to_list(length=limit)
+        return {"logs": logs, "total": len(logs)}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

@@ -1,6 +1,6 @@
 from datetime import timedelta
 from typing import Any
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
@@ -11,10 +11,16 @@ from app.models import User
 from app.schemas import user as user_schemas
 from app.schemas import token as token_schemas
 
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+limiter = Limiter(key_func=get_remote_address)
+
 router = APIRouter()
 
 @router.post("/auth/login", response_model=token_schemas.Token)
+@limiter.limit("5/minute")
 def login_access_token(
+    request: Request,
     db: Session = Depends(deps.get_db),
     form_data: OAuth2PasswordRequestForm = Depends()
 ) -> Any:
@@ -36,7 +42,9 @@ def login_access_token(
     }
 
 @router.post("/auth/signup", response_model=user_schemas.User)
+@limiter.limit("3/minute")
 def create_user(
+    request: Request,
     *,
     db: Session = Depends(deps.get_db),
     user_in: user_schemas.UserCreate,

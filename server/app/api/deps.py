@@ -7,9 +7,10 @@ from sqlalchemy.orm import Session
 
 from app.core import security
 from app.core.config import settings
-from app.db.session import SessionLocal
 from app.models import User
 from app.schemas import token as token_schemas
+from app.db.session import SessionLocal
+from app.db.mongo import get_database
 
 reusable_oauth2 = OAuth2PasswordBearer(
     tokenUrl="/auth/login"
@@ -21,6 +22,15 @@ def get_db() -> Generator:
         yield db
     finally:
         db.close()
+
+def get_mongo_db():
+    db = get_database()
+    if db is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="MongoDB service unavailable",
+        )
+    return db
 
 def get_current_user(
     db: Session = Depends(get_db),

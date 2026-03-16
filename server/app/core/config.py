@@ -25,6 +25,10 @@ class Settings:
     # Fallback to SQLite if MySQL is not available
     SQLITE_DATABASE_URI: str = "sqlite:///./legal_services.db"
 
+    # MongoDB Setup
+    MONGODB_URL: str = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
+    MONGODB_NAME: str = os.getenv("MONGODB_NAME", "legal_services")
+
     # Security
     SECRET_KEY: str = os.getenv("SECRET_KEY", "dev-secret-key")
     ALGORITHM: str = "HS256"

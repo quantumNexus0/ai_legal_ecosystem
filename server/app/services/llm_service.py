@@ -7,8 +7,8 @@ class LLMService:
     def __init__(self):
         self.provider = os.getenv("LLM_PROVIDER", "openai").lower() # openai, gemini, ollama
         self.api_key = os.getenv("LLM_API_KEY", "")
-        self.model = os.getenv("LLM_MODEL", "gemini-1.5-flash-001")
-        if self.model == "gemini-1.5-flash": self.model = "gemini-1.5-flash-001" # Auto-fix common alias
+        self.model = os.getenv("LLM_MODEL", "gemini-1.5-flash")
+        # Removed the auto-fix that forced the -001 version to allow the cleaner alias to work
         
         # Base URLs
         self.openai_base = "https://api.openai.com/v1/chat/completions"
@@ -61,7 +61,10 @@ class LLMService:
             if self.provider == "gemini":
                 # For Gemini, we combine system message and user message for the call
                 full_chat_prompt = f"{system_msg['content']}\n\nUser Question: {history[-1]['content']}"
-                return self._call_gemini(full_chat_prompt)['text']
+                result = self._call_gemini(full_chat_prompt)
+                if isinstance(result, dict) and "error" in result:
+                     return f"⚠️ {result['error']}"
+                return result['text']
             else:
                 # OpenAI / Compatible
                 return self._call_openai_chat(messages)
@@ -121,7 +124,10 @@ class LLMService:
 
         try:
             if self.provider == "gemini":
-                return self._call_gemini(prompt)['text']
+                result = self._call_gemini(prompt)
+                if isinstance(result, dict) and "error" in result:
+                    return f"⚠️ {result['error']}"
+                return result['text']
             elif self.provider == "ollama":
                 # For Ollama, we might want a simpler prompt or standard call
                 return self._call_ollama(prompt, json_mode=False)
@@ -139,15 +145,20 @@ class LLMService:
         payload = {
             "contents": [{"parts": [{"text": prompt}]}]
         }
-        response = requests.post(self.gemini_base, headers=headers, json=payload)
-        data = response.json()
+        try:
+            response = requests.post(self.gemini_base, headers=headers, json=payload)
+            response.raise_for_status() # Raise error for 4xx/5xx codes
+            data = response.json()
+        except Exception as e:
+            print(f"Gemini Request Failed: {e}")
+            return {"text": "I'm having trouble connecting to the AI model right now. Please check your internet connection or API key.", "error": str(e)}
         
         if 'candidates' not in data or not data['candidates']:
             error_msg = data.get('error', {}).get('message', 'Unknown Gemini Error')
             if 'promptFeedback' in data and 'blockReason' in data['promptFeedback']:
                  error_msg = f"Blocked by safety filter: {data['promptFeedback']['blockReason']}"
             print(f"Gemini API Error: {error_msg}")
-            return {"text": f"Error: {error_msg}", "error": error_msg}
+            return {"text": f"I couldn't generate a response due to an error: {error_msg}", "error": error_msg}
 
         text = data['candidates'][0]['content']['parts'][0]['text']
         if json_mode:

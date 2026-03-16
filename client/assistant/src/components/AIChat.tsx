@@ -113,6 +113,8 @@ export function AIChat() {
         }
     };
 
+    const [currentlyTypingId, setCurrentlyTypingId] = useState<string | null>(null);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!input.trim() || isLoading) return;
@@ -160,8 +162,9 @@ export function AIChat() {
                 sources = response.slice(0, 4);
             }
 
+            const newMessageId = uuidv4();
             const assistantMessage: ChatMessage = {
-                id: uuidv4(),
+                id: newMessageId,
                 role: 'assistant',
                 content: responseContent, // Clean Answer
                 timestamp: new Date(),
@@ -169,6 +172,8 @@ export function AIChat() {
             };
 
             setMessages((prev) => [...prev, assistantMessage]);
+            setCurrentlyTypingId(newMessageId); // Start typing effect for this message
+
         } catch (error: any) {
             console.error('Error:', error);
             setError(error.message || 'Failed to connect to the local Legal Intelligence API.');
@@ -218,56 +223,30 @@ export function AIChat() {
                     {messages.map((message) => (
                         <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                             <div
-                                className={`max-w-[92%] lg:max-w-4xl rounded-2xl p-4 shadow-sm ${message.role === 'user'
-                                    ? 'bg-indigo-600 text-white rounded-br-none'
-                                    : 'bg-white text-gray-800 border border-gray-100 rounded-bl-none z-10'
+                                className={`max-w-[92%] lg:max-w-4xl p-0 ${message.role === 'user'
+                                    ? 'bg-indigo-600 text-white rounded-2xl p-4 shadow-md'
+                                    : 'text-gray-800 bg-transparent'
                                     }`}
                             >
                                 <div className="prose prose-sm max-w-none">
                                     {message.role === 'assistant' ? (
-                                        <div dangerouslySetInnerHTML={{
-                                            __html: (() => {
-                                                // Specialized formatter for Legal Structured Output
-                                                let html = message.content;
-
-                                                // 1. Title Section (Huge, Indigo, Centered or Prominent)
-                                                html = html.replace(/1\.\s*\*\*Title\*\*:\s*(.*?)(\n|$)/g,
-                                                    '<div class="mb-4 pb-2 border-b border-indigo-100"><h2 class="text-xl font-bold text-indigo-900 leading-tight">$1</h2></div>');
-
-                                                // 2. Definition Section (Light Blue Box)
-                                                html = html.replace(/2\.\s*\*\*Definition\*\*:\s*([\s\S]*?)(?=(3\.|$))/g,
-                                                    '<div class="bg-blue-50 rounded-lg p-4 mb-4 border border-blue-100 shadow-sm"><strong class="text-blue-800 uppercase text-xs tracking-wider block mb-1">Definition</strong><p class="text-gray-800 leading-relaxed">$1</p></div>');
-
-                                                // 3. Key Points (styled list)
-                                                html = html.replace(/3\.\s*\*\*Key Points\*\*:\s*([\s\S]*?)(?=(4\.|$))/g,
-                                                    '<div class="mb-5"><strong class="text-gray-700 uppercase text-xs tracking-wider block mb-2 font-bold">Key Summaries</strong><div class="space-y-1 text-gray-700">$1</div></div>');
-
-                                                // 4. In-depth Details (Prose section)
-                                                html = html.replace(/4\.\s*\*\*In-depth Details\*\*:\s*([\s\S]*?)(?=(5\.|$))/g,
-                                                    '<div class="mb-5 pt-2"><strong class="text-indigo-700 uppercase text-xs tracking-wider block mb-2 font-bold flex items-center gap-1"><span class="w-1 h-4 bg-indigo-500 rounded-full"></span> Detailed Analysis</strong><div class="prose prose-sm text-gray-600 leading-relaxed pl-2 border-l-2 border-gray-100">$1</div></div>');
-
-                                                // 5. Advantages & Disadvantages (Grid or clean section)
-                                                html = html.replace(/5\.\s*\*\*Advantages & Disadvantages\*\*:\s*([\s\S]*?)$/g,
-                                                    '<div class="bg-gray-50 rounded-lg p-4 mt-4 border border-gray-200"><strong class="text-gray-700 uppercase text-xs tracking-wider block mb-2">Implications & Pros/Cons</strong><div class="text-sm text-gray-600">$1</div></div>');
-
-                                                // General Formatting (Bullets, Bold, Newlines)
-                                                html = html.replace(/^\s*-\s+(.*?)$/gm, '<div class="flex items-start gap-2 mb-1"><span class="text-indigo-500 mt-1.5">•</span><span>$1</span></div>'); // Custom bullet
-                                                html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>');
-                                                html = html.replace(/\n/g, '<br>');
-
-                                                // Cleanup extra br tags
-                                                html = html.replace(/(<br>){3,}/g, '<br><br>');
-
-                                                return html;
-                                            })()
-                                        }} />
+                                        currentlyTypingId === message.id ? (
+                                            <TypingEffect
+                                                text={message.content}
+                                                onComplete={() => setCurrentlyTypingId(null)}
+                                            />
+                                        ) : (
+                                            <div dangerouslySetInnerHTML={{
+                                                __html: formatLegalResponse(message.content)
+                                            }} />
+                                        )
                                     ) : (
                                         message.content
                                     )}
                                 </div>
 
-                                {message.sources && message.sources.length > 0 && (
-                                    <div className="mt-4 pt-4 border-t border-gray-100">
+                                {message.sources && message.sources.length > 0 && (!currentlyTypingId || currentlyTypingId !== message.id) && (
+                                    <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in">
                                         <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1">
                                             <Database className="w-3 h-3" /> Sources & References
                                         </p>
@@ -279,8 +258,8 @@ export function AIChat() {
                                     </div>
                                 )}
 
-                                {message.role === 'assistant' && (
-                                    <div className="mt-3 flex items-center gap-2 pt-2 border-t border-gray-100">
+                                {message.role === 'assistant' && (!currentlyTypingId || currentlyTypingId !== message.id) && (
+                                    <div className="mt-3 flex items-center gap-2 pt-2 border-t border-gray-100 animate-fade-in">
                                         <button
                                             onClick={() => handleSpeak(message.content, message.id)}
                                             className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-colors"
@@ -403,9 +382,117 @@ export function AIChat() {
     );
 }
 
-function SourceCard({ source, idx }: { source: any, idx: number }) {
-    const [isExpanded, setIsExpanded] = useState(false);
+// Typing Effect Component
+const TypingEffect = ({ text, onComplete, formatter = formatLegalResponse }: { text: string; onComplete?: () => void, formatter?: (t: string) => string }) => {
+    const [displayedText, setDisplayedText] = useState('');
+    const indexRef = useRef(0);
 
+    useEffect(() => {
+        indexRef.current = 0;
+        setDisplayedText('');
+
+        const intervalId = setInterval(() => {
+            setDisplayedText((prev) => {
+                if (indexRef.current >= text.length) {
+                    clearInterval(intervalId);
+                    if (onComplete) onComplete();
+                    return prev;
+                }
+                const nextChar = text.charAt(indexRef.current);
+                indexRef.current++;
+                return prev + nextChar;
+            });
+        }, 5); // Faster typing for sources
+
+        return () => clearInterval(intervalId);
+    }, [text, onComplete]);
+
+    return (
+        <div dangerouslySetInnerHTML={{
+            __html: formatter(displayedText)
+        }} />
+    );
+};
+
+// Helper function to format legal response (shared)
+function formatLegalResponse(html: string) {
+    // simplified formatter for Natural Chat Style
+
+    // 1. Title Section - Clean Bold Header
+    html = html.replace(/1\.\s*\*\*Title\*\*:\s*(.*?)(\n|$)/g,
+        '<h3 class="text-lg font-bold text-gray-900 mt-4 mb-2">$1</h3>');
+
+    // 2. Definition Section - Just Text
+    html = html.replace(/2\.\s*\*\*Definition\*\*:\s*([\s\S]*?)(?=(3\.|$))/g,
+        '<p class="text-gray-800 leading-relaxed mb-6"><strong class="text-indigo-900 font-bold">Definition:</strong> $1</p>');
+
+    // 3. Key Points - Standard Bullet List
+    html = html.replace(/3\.\s*\*\*Key Points\*\*:\s*([\s\S]*?)(?=(4\.|$))/g,
+        '<p class="mb-2"><strong class="text-indigo-900 font-bold text-lg">Key Points:</strong></p><ul class="list-none space-y-3 pl-1 mb-6">$1</ul>');
+
+    // 4. In-depth Details - Clean Prose
+    html = html.replace(/4\.\s*\*\*In-depth Details\*\*:\s*([\s\S]*?)(?=(5\.|$))/g,
+        '<p class="mb-2"><strong class="text-indigo-900 font-bold text-lg">Analysis:</strong></p><div class="text-gray-800 leading-relaxed mb-6 space-y-2">$1</div>');
+
+    // 5. Advantages & Disadvantages
+    html = html.replace(/5\.\s*\*\*Advantages & Disadvantages\*\*:\s*([\s\S]*?)$/g,
+        '<p class="mt-4"><strong class="text-indigo-900 font-bold text-lg">Implications:</strong> $1</p>');
+
+    // General Formatting
+
+    // Highlight Sub-points (text before colon)
+    html = html.replace(/^\s*-\s+\*\*(.*?)\*\*:/gm, '<li class="flex items-start gap-3"><span class="text-indigo-600 mt-1.5 min-w-[6px]">•</span><span><strong class="text-gray-900 font-bold">$1:</strong>');
+    html = html.replace(/^\s*-\s+(.*?)$/gm, '<li class="flex items-start gap-3"><span class="text-indigo-600 mt-1.5 min-w-[6px]">•</span><span>$1</span></li>');
+
+    // Bold text handling
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-gray-900">$1</strong>');
+    html = html.replace(/\n/g, '<br>');
+
+    // Cleanup extra br tags
+    html = html.replace(/(<br>){3,}/g, '<br><br>');
+    html = html.replace(/<li class="flex/g, '<li class="flex mb-3"'); // Add spacing to items
+
+    return html;
+}
+
+// Helper to format source text (clauses, bolding)
+function formatSourceText(text: string) {
+    if (!text) return '';
+    let html = text;
+
+    // 1. Convert markdown bold to HTML first
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900 font-bold">$1</strong>');
+
+    // 2. Identify Clause Subheadings (e.g., (3) Text...) and make them block elements
+    // We look for (number) followed by text until a newline or end of string
+    html = html.replace(/(^|\n)(\(\d+\)\s+.*?)(\n|$)/g, '$1<div class="text-indigo-900 font-bold mt-3 mb-1 block">$2</div>$3');
+
+    // 3. Highlight sub-clauses like (a), (b) inline
+    html = html.replace(/(\([a-z]\))/g, '<strong class="text-indigo-700 font-bold">$1</strong>');
+
+    // 4. Identify specific Legal Headers (Protection of...) - Handle multi-line headers
+    html = html.replace(/(^|[\.\n]\s*)(Protection\s+(?:in|of)\s+[^.]+(?:\.|:)?)/g, (_, prefix, content) => {
+        const cleanContent = content.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+        return `${prefix}<div class="text-gray-900 font-extrabold mt-4 mb-2 uppercase tracking-wide text-xs">${cleanContent}</div>`;
+    });
+
+    // 5. Line breaks for remaining text
+    html = html.replace(/\n/g, '<br/>');
+
+    // 6. Clean up multiple BRs
+    html = html.replace(/(<br\/>){3,}/g, '<br/><br/>');
+
+    // 7. Ensure (number) clauses that didn't match the full line regex still get highlighted if inline
+    // (This acts as a fallback or for inline references)
+    html = html.replace(/(\(\d+\))/g, (match) => {
+        return match.includes('div') ? match : `<strong class="text-indigo-900 font-bold">${match}</strong>`;
+    });
+
+    return html;
+}
+
+// function SourceCard start
+function SourceCard({ source, idx }: { source: any, idx: number }) {
     // Clean up title: Remove .pdf extension and "Relevant excerpt from" prefix
     let rawTitle = source.question || source.metadata?.title || source.source || `Document ${idx + 1}`;
     let title = rawTitle.replace(/\.pdf$/i, '').replace(/^Relevant excerpt from\s+/i, '');
@@ -415,39 +502,22 @@ function SourceCard({ source, idx }: { source: any, idx: number }) {
     const score = source.score ? Math.round(source.score * 100) : null;
 
     return (
-        <div className="bg-white rounded-lg p-3 text-sm border border-gray-200 hover:border-indigo-300 transition-all shadow-sm group">
-            <div className="flex justify-between items-start mb-2">
-                <div className="flex items-center gap-2 max-w-[75%]">
-                    <div className="bg-red-50 p-1.5 rounded text-red-600 flex-shrink-0">
-                        <FilePlus className="w-3.5 h-3.5" />
-                    </div>
-                    <span className="font-semibold text-gray-800 truncate" title={rawTitle}>
-                        {title}
-                    </span>
-                </div>
+        <div className="mb-4 pb-2 border-b border-gray-100 last:border-0 block">
+            <div className="flex justify-between items-baseline mb-1">
+                <h4 className="font-bold text-sm text-gray-900" title={rawTitle}>
+                    {idx + 1}. {title}
+                </h4>
                 {score && (
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${score > 80 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
-                        }`}>
+                    <span className="text-xs font-mono text-gray-400">
                         {score}% Match
                     </span>
                 )}
             </div>
 
-            <div className="relative">
-                <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-indigo-100 rounded-full"></div>
-                <div className={`text-gray-600 text-xs leading-relaxed pl-3 font-mono ${isExpanded ? 'max-h-60 overflow-y-auto pr-2 custom-scrollbar' : 'line-clamp-4'}`}>
-                    {fullText}
-                </div>
-
-                {fullText.length > 200 && (
-                    <button
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        className="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 uppercase tracking-wider mt-2 ml-3 focus:outline-none"
-                    >
-                        {isExpanded ? 'Show Less' : 'Read More'}
-                    </button>
-                )}
-            </div>
+            <div
+                className="text-gray-600 text-xs leading-relaxed space-y-1"
+                dangerouslySetInnerHTML={{ __html: formatSourceText(fullText) }}
+            />
         </div>
     );
 }
