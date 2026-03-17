@@ -19,7 +19,7 @@ const Navbar = () => {
     { name: 'Services', href: '#services' },
     { name: 'Templates', href: 'http://localhost:8000/template-portal/templates/index.html' },
     { name: 'Our Lawyers', href: '#lawyers' },
-    { name: 'AI Analyzer', href: 'https://nyayaassist-assistant.vercel.app/' },
+    { name: 'AI Analyzer', href: import.meta.env.VITE_ASSISTANT_URL || 'https://nyayaassist-assistant.vercel.app/' },
     { name: 'Contact', href: '#contact' },
   ];
 

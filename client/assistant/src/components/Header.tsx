@@ -36,7 +36,7 @@ export default function Header({ apiStatus = 'checking', onMenuClick, isSidebarO
               </span>
             </div>
             <a
-              href={'https://nyayaassist-platform.vercel.app/'}
+              href={import.meta.env.VITE_PLATFORM_URL || 'https://nyayaassist-platform.vercel.app/'}
               className="flex items-center gap-2 text-xs md:text-sm font-bold text-amber-600 hover:text-amber-700 transition-colors bg-amber-50 px-3 md:px-4 py-2 rounded-xl border border-amber-200 shadow-sm"
             >
               <ExternalLink className="w-3 md:w-4 h-3 md:h-4" />
