@@ -1,10 +1,12 @@
+import { useState } from 'react';
+import { FilePlus } from 'lucide-react';
 
-function SourceCard({ source, idx }: { source: any, idx: number }) {
+export function SourceCard({ source, idx }: { source: Record<string, any>, idx: number }) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     // Clean up title: Remove .pdf extension and "Relevant excerpt from" prefix
-    let rawTitle = source.question || source.metadata?.title || source.source || `Document ${idx + 1}`;
-    let title = rawTitle.replace(/\.pdf$/i, '').replace(/^Relevant excerpt from\s+/i, '');
+    const rawTitle = source.question || source.metadata?.title || source.source || `Document ${idx + 1}`;
+    const title = rawTitle.replace(/\.pdf$/i, '').replace(/^Relevant excerpt from\s+/i, '');
 
     // Get full text
     const fullText = source.answer || source.page_content || source.text || "No preview available";

@@ -57,7 +57,8 @@ export default function DocumentDrafting() {
       }
 
       setDocContent(data.content || "Error: Empty content");
-    } catch (err: any) {
+    } catch (error: Error | unknown) {
+      const err = error as Error;
       console.error(err);
       setDocContent(`Error loading template: ${err.message}`);
     } finally {

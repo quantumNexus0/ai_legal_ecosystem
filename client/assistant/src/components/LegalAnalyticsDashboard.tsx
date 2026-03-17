@@ -4,7 +4,7 @@ import { TrendingUp, AlertTriangle, PieChart, Activity } from 'lucide-react';
 interface AnalysisRecord {
     id: string;
     date: string;
-    formData: any;
+    formData: Record<string, any>;
     result: {
         strength: number;
         weakPoints: string[];

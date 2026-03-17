@@ -376,6 +376,7 @@ stateDiagram-v2
 ## 🛠️ Technology Stack
 
 ### Frontend Components
+Strictly typed React ecosystem with enhanced static checking.
 ```mermaid
 graph TD
     React[React 18.3] --> UI[UI Layer]

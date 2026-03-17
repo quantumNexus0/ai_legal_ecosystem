@@ -28,7 +28,8 @@ const AIAnalysisPage = () => {
 
         try {
             // Replace with your actual API URL
-            const response = await axios.post('http://localhost:8000/api/analysis/analyze', {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+            const response = await axios.post(`${apiUrl}/api/analysis/analyze`, {
                 facts: formData.facts,
                 parties: formData.parties,
                 stage: formData.stage,
@@ -240,7 +241,7 @@ const AIAnalysisPage = () => {
                                     </h3>
                                     <div className="flex items-center gap-2">
                                         <a
-                                            href={`http://localhost:5174?prompt=${encodeURIComponent(`Analyze this case based on the following facts and issues:\n\nFacts: ${formData.facts}\n\nIssues: ${formData.issues}`)}`}
+                                            href={`${import.meta.env.VITE_ASSISTANT_URL || 'http://localhost:5174'}?prompt=${encodeURIComponent(`Analyze this case based on the following facts and issues:\n\nFacts: ${formData.facts}\n\nIssues: ${formData.issues}`)}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="px-3 py-1 bg-indigo-600 text-white text-xs font-bold rounded hover:bg-indigo-700 flex items-center gap-1 transition-colors"

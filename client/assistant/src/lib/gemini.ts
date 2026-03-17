@@ -4,7 +4,7 @@ const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
 // Make Gemini API optional - app can work without it using local search
 let genAI: GoogleGenerativeAI | null = null;
-let geminiModel: any = null;
+let geminiModel: Record<string, any> | null = null;
 
 if (API_KEY) {
     genAI = new GoogleGenerativeAI(API_KEY);
@@ -212,7 +212,8 @@ export async function chatWithAI(messages: Array<{ role: 'user' | 'assistant', c
         }
 
         return data.candidates[0].content.parts[0].text;
-    } catch (error: any) {
+    } catch (err: Error | unknown) {
+        const error = err as Error;
         console.error('Gemini API Error:', error);
 
         if (error.message.includes('401')) {

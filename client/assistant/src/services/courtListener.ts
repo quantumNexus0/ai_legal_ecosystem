@@ -44,7 +44,7 @@ export const courtListener = {
             const data = await response.json();
 
             // Map Indian Kanoon docs to Docket interface
-            const results: Docket[] = (data.docs || []).map((doc: any) => ({
+            const results: Docket[] = (data.docs || []).map((doc: Record<string, any>) => ({
                 id: doc.tid,
                 case_name: doc.title,
                 docket_number: doc.citation || 'N/A',
@@ -129,11 +129,11 @@ export const courtListener = {
         }
     },
 
-    async getCluster(id: number | string) {
+    async getCluster() {
         return {};
     },
 
-    async getOpinion(id: number | string) {
+    async getOpinion() {
         return {};
     }
 };

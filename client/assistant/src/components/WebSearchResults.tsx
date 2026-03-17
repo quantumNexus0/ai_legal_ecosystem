@@ -6,7 +6,7 @@ interface WebSearchResultsProps {
 
 declare global {
     interface Window {
-        google: any;
+        google: Record<string, any>;
     }
 }
 

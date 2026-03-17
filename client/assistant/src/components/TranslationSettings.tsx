@@ -24,7 +24,7 @@ export default function TranslationSettings({ onSettingsChange }: TranslationSet
     generateGlossary: true,
   });
 
-  const handleChange = (key: keyof TranslationSettingsData, value: any) => {
+  const handleChange = (key: keyof TranslationSettingsData, value: string | boolean) => {
     const newSettings = { ...settings, [key]: value };
     setSettings(newSettings);
     onSettingsChange({ [key]: value });

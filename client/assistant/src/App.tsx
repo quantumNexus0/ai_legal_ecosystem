@@ -25,7 +25,7 @@ interface AnalysisRecord {
   id: string;
   date: string;
   formData: CaseFormData;
-  result: any;
+  result: AnalysisData;
 }
 
 interface MatchedCase {

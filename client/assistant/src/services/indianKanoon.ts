@@ -13,7 +13,7 @@ export interface IKDocument {
 export interface IKSearchResponse {
     found: number;
     docs: IKDocument[];
-    categories: any[];
+    categories: Record<string, any>[];
 }
 
 export const indianKanoon = {

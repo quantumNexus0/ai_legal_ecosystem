@@ -8,7 +8,7 @@ interface ChatMessage {
     role: 'user' | 'assistant';
     content: string;
     timestamp: Date;
-    sources?: any[];
+    sources?: Record<string, any>[];
 }
 
 export function AIChat() {
@@ -30,6 +30,7 @@ export function AIChat() {
     }, [messages]);
 
     const handleVoiceInput = () => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
         if (!SpeechRecognition) {
             setError('Speech recognition is not supported in this browser.');
@@ -40,13 +41,13 @@ export function AIChat() {
         recognition.start();
         setIsListening(true);
 
-        recognition.onresult = (event: any) => {
+        recognition.onresult = (event: Record<string, any>) => {
             const transcript = event.results[0][0].transcript;
             setInput(transcript);
             setIsListening(false);
         };
 
-        recognition.onerror = (event: any) => {
+        recognition.onerror = (event: Record<string, any>) => {
             console.error('Voice recognition error:', event.error);
             setError('Voice recognition error. Please try again.');
             setIsListening(false);
@@ -99,11 +100,12 @@ export function AIChat() {
                     ? { ...msg, content: `✅ **Successfully uploaded ${file.name}**\nI have read ${result.chunks} segments from this document. You can now ask me questions about it.` }
                     : msg
             ));
-        } catch (error: any) {
-            console.error("Upload failed:", error);
+        } catch (error: Error | unknown) {
+            const err = error as Error;
+            console.error("Upload failed:", err);
             setMessages((prev) => prev.map(msg =>
                 msg.id === uploadMsgId
-                    ? { ...msg, content: `❌ **Failed to upload ${file.name}**\nError: ${error.message}` }
+                    ? { ...msg, content: `❌ **Failed to upload ${file.name}**\nError: ${err.message}` }
                     : msg
             ));
             setError('Failed to upload document.');
@@ -138,7 +140,7 @@ export function AIChat() {
             console.log("Local API Response:", response);
 
             let responseContent = '';
-            let sources = [];
+            let sources: Record<string, any>[] = [];
 
             // 1. Determine Content (Prefer AI Analysis, fallback to first result)
             if (response.ai_analysis && typeof response.ai_analysis === 'string') {
@@ -174,9 +176,10 @@ export function AIChat() {
             setMessages((prev) => [...prev, assistantMessage]);
             setCurrentlyTypingId(newMessageId); // Start typing effect for this message
 
-        } catch (error: any) {
-            console.error('Error:', error);
-            setError(error.message || 'Failed to connect to the local Legal Intelligence API.');
+        } catch (error: Error | unknown) {
+            const err = error as Error;
+            console.error('Error:', err);
+            setError(err.message || 'Failed to connect to the local Legal Intelligence API.');
 
             const errorMessage: ChatMessage = {
                 id: uuidv4(),
@@ -251,7 +254,7 @@ export function AIChat() {
                                             <Database className="w-3 h-3" /> Sources & References
                                         </p>
                                         <div className="grid gap-3 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
-                                            {message.sources.map((source: any, idx) => (
+                                            {message.sources.map((source: Record<string, any>, idx) => (
                                                 <SourceCard key={idx} source={source} idx={idx} />
                                             ))}
                                         </div>
@@ -471,7 +474,7 @@ function formatSourceText(text: string) {
     html = html.replace(/(\([a-z]\))/g, '<strong class="text-indigo-700 font-bold">$1</strong>');
 
     // 4. Identify specific Legal Headers (Protection of...) - Handle multi-line headers
-    html = html.replace(/(^|[\.\n]\s*)(Protection\s+(?:in|of)\s+[^.]+(?:\.|:)?)/g, (_, prefix, content) => {
+    html = html.replace(/(^|[.\n]\s*)(Protection\s+(?:in|of)\s+[^.]+(?:\.|:)?)/g, (_, prefix, content) => {
         const cleanContent = content.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
         return `${prefix}<div class="text-gray-900 font-extrabold mt-4 mb-2 uppercase tracking-wide text-xs">${cleanContent}</div>`;
     });
@@ -492,10 +495,10 @@ function formatSourceText(text: string) {
 }
 
 // function SourceCard start
-function SourceCard({ source, idx }: { source: any, idx: number }) {
+function SourceCard({ source, idx }: { source: Record<string, any>, idx: number }) {
     // Clean up title: Remove .pdf extension and "Relevant excerpt from" prefix
-    let rawTitle = source.question || source.metadata?.title || source.source || `Document ${idx + 1}`;
-    let title = rawTitle.replace(/\.pdf$/i, '').replace(/^Relevant excerpt from\s+/i, '');
+    const rawTitle = source.question || source.metadata?.title || source.source || `Document ${idx + 1}`;
+    const title = rawTitle.replace(/\.pdf$/i, '').replace(/^Relevant excerpt from\s+/i, '');
 
     // Get full text
     const fullText = source.answer || source.page_content || source.text || "No preview available";
