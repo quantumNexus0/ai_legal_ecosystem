@@ -1,4 +1,5 @@
 import api from './api';
+import type { Case } from '../types/chat';
 
 export interface AdminStats {
     total_users: number;
@@ -67,7 +68,7 @@ export const dashboardService = {
         return response.data;
     },
 
-    createCase: async (caseData: Record<string, unknown>) => {
+    createCase: async (caseData: Case) => {
         const response = await api.post('/lawyers/me/cases', caseData);
         return response.data;
     },

@@ -21,3 +21,9 @@ export interface ChatStore {
   sendMessage: (content: string, receiverId: string) => void;
   markAsRead: (chatId: string) => void;
 }
+export interface Case {
+  title: string;
+  case_type: string;
+  description?: string;
+  client_id: number;
+}
