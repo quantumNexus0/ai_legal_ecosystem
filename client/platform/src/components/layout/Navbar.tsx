@@ -17,7 +17,7 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Services', href: '#services' },
-    { name: 'Templates', href: 'http://localhost:8000/template-portal/templates/index.html' },
+    { name: 'Templates', href: `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/template-portal/templates/index.html` },
     { name: 'Our Lawyers', href: '#lawyers' },
     { name: 'AI Analyzer', href: import.meta.env.VITE_ASSISTANT_URL || 'https://nyayaassist-assistant.vercel.app/' },
     { name: 'Contact', href: '#contact' },

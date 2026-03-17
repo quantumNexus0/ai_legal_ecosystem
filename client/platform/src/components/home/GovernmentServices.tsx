@@ -6,13 +6,13 @@ const services = [
         title: 'High Court Services',
         description: 'Access to Services of e-Courts: Cause lists, Case Status, Orders/Judgments of High Courts',
         icon: <Gavel className="w-8 h-8 text-indigo-600" />,
-        link: 'https://SERVICES.ecourts.gov.in/highcourt'
+        link: 'https://hcservices.ecourts.gov.in/hcservices/main.php'
     },
     {
         title: 'High Court NJDG',
         description: 'NJDG works as a monitoring tool to identify, manage and reduce pendency of cases.',
         icon: <Scale className="w-8 h-8 text-orange-600" />,
-        link: 'https://njdg.ecourts.gov.in/hcnjdg_public/'
+        link: 'https://njdg.ecourts.gov.in/hcnjdg_v2/?p=home'
     },
     {
         title: 'District Court Services',

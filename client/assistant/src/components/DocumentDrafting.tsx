@@ -1,10 +1,11 @@
-
 import { useState, useEffect } from 'react';
 import { FileText, Download, PenTool, Loader2, Search, FileType, ChevronRight } from 'lucide-react';
 import { chatWithAI } from '../lib/gemini';
 import ReactMarkdown from 'react-markdown';
 import { jsPDF } from 'jspdf';
 // import { saveAs } from 'file-saver'; // We'll use native blob for zero-dep simplicity where possible
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 interface Template {
   id: string;
@@ -26,7 +27,7 @@ export default function DocumentDrafting() {
 
   // Fetch templates on load
   useEffect(() => {
-    fetch('http://localhost:8000/templates')
+    fetch(`${API_BASE_URL}/templates`)
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
@@ -49,7 +50,7 @@ export default function DocumentDrafting() {
     setSelectedTemplate(template);
 
     try {
-      const res = await fetch(`http://localhost:8000/templates/${template.filename}`);
+      const res = await fetch(`${API_BASE_URL}/templates/${template.filename}`);
       const data = await res.json();
 
       if (!res.ok) {

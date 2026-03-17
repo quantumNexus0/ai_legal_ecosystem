@@ -34,7 +34,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 Dashboard
               </Link>
               <a
-                href="http://localhost:8000/template-portal/templates/index.html"
+                href={`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/template-portal/templates/index.html`}
                 className="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-gray-300 hover:bg-gray-700 hover:text-white"
               >
                 <FileText className="mr-3 h-6 w-6" />
