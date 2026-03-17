@@ -60,7 +60,7 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
 
         <div className="pt-6 my-6 border-t border-gray-100">
           <a
-            href={import.meta.env.VITE_PLATFORM_URL || 'https://nyayaassist-platform.vercel.app/'}
+            href={'https://nyayaassist-platform.vercel.app/'}
             className="w-full flex items-center gap-3 px-4 py-4 rounded-xl text-gray-600 hover:bg-gray-50 transition-all font-bold border border-transparent hover:border-gray-200"
           >
             <div className="bg-amber-100 p-2 rounded-lg">
