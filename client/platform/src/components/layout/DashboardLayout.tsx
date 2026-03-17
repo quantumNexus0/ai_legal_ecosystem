@@ -69,7 +69,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 Legal Research
               </Link>
               <a
-                href={import.meta.env.VITE_ASSISTANT_URL || 'http://localhost:5174'}
+                href={import.meta.env.VITE_ASSISTANT_URL || 'https://nyayaassist-assistant.vercel.app/'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-indigo-400 hover:bg-gray-700 hover:text-white"
