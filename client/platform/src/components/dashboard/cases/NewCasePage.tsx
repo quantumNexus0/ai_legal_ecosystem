@@ -20,9 +20,9 @@ const NewCasePage = () => {
         try {
             await dashboardService.createCase(data);
             navigate('/dashboard?tab=cases');
-        } catch (error: any) {
+        } catch (error) {
             console.error('Failed to create case:', error);
-            setSubmitError(error.response?.data?.detail || 'Failed to create case');
+            setSubmitError((error as any).response?.data?.detail || 'Failed to create case');
         }
     };
 

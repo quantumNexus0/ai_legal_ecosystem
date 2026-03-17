@@ -2,7 +2,8 @@ import React from 'react';
 import { dashboardService } from '../../../services/dashboardService';
 
 const UsersList = () => {
-  const [users, setUsers] = React.useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [users, setUsers] = React.useState<Record<string, any>[]>([]);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {

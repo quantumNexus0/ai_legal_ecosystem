@@ -2,7 +2,8 @@ import React from 'react';
 import { dashboardService } from '../../../services/dashboardService';
 
 const LawyersList = () => {
-  const [lawyers, setLawyers] = React.useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [lawyers, setLawyers] = React.useState<Record<string, any>[]>([]);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {

@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { dashboardService } from '../../../services/dashboardService';
 
 const PendingApprovals = () => {
-  const [pendingLawyers, setPendingLawyers] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [pendingLawyers, setPendingLawyers] = useState<Record<string, any>[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchPending = async () => {

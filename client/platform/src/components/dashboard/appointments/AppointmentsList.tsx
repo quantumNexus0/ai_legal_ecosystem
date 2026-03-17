@@ -11,7 +11,8 @@ const AppointmentsList = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const { startChat } = useChatStore();
-  const [appointments, setAppointments] = React.useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [appointments, setAppointments] = React.useState<Record<string, any>[]>([]);
   const [loading, setLoading] = React.useState(true);
 
   // ... existing code ...

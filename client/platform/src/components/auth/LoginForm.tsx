@@ -28,7 +28,7 @@ const LoginForm = () => {
     try {
       await login(data.email, data.password);
       navigate('/dashboard');
-    } catch (error) {
+    } catch {
       setError('root', {
         type: 'manual',
         message: 'Login failed. Please check your credentials and try again.',

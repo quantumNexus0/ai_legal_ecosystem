@@ -84,7 +84,7 @@ const ProfileEdit = () => {
             console.error('Profile update failed:', error);
             setError('root', {
                 type: 'manual',
-                message: error.response?.data?.detail || 'Profile update failed',
+                message: (error as any).response?.data?.detail || 'Profile update failed',
             });
         }
     };

@@ -46,19 +46,19 @@ const SecuritySettings = () => {
             setMessage({ type: 'success', text: 'Password updated successfully' });
             setPasswords({ old: '', new: '', confirm: '' });
         } catch (error: any) {
-            setMessage({ type: 'error', text: error.response?.data?.detail || 'Failed to update password' });
+            setMessage({ type: 'error', text: (error as any).response?.data?.detail || 'Failed to update password' });
         } finally {
             setLoading(false);
         }
     };
 
-    const handleSettingsUpdate = async (newSettings: any) => {
+    const handleSettingsUpdate = async (newSettings: Record<string, unknown>) => {
         try {
             const response = await api.put('/users/me/settings', newSettings);
             setSettings(response.data);
             setMessage({ type: 'success', text: 'Settings updated' });
             setTimeout(() => setMessage({ type: '', text: '' }), 3000);
-        } catch (error) {
+        } catch {
             setMessage({ type: 'error', text: 'Failed to update settings' });
         }
     };

@@ -67,12 +67,12 @@ export const dashboardService = {
         return response.data;
     },
 
-    createCase: async (caseData: any) => {
+    createCase: async (caseData: Record<string, unknown>) => {
         const response = await api.post('/lawyers/me/cases', caseData);
         return response.data;
     },
 
-    createAppointment: async (appointmentData: any) => {
+    createAppointment: async (appointmentData: Record<string, unknown>) => {
         const response = await api.post('/lawyers/me/appointments', appointmentData);
         return response.data;
     },

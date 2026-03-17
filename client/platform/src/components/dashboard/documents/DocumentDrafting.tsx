@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { FileText, Download, PenTool, Loader2, Search, FileType, ChevronRight, AlertCircle } from 'lucide-react';
+import { FileText, Download, PenTool, Loader2, Search, ChevronRight, AlertCircle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { jsPDF } from 'jspdf';
 import api from '../../../services/api';
@@ -47,9 +47,9 @@ const DocumentDrafting = () => {
         try {
             const res = await api.get(`/templates/${template.filename}`);
             setDocContent(res.data.content || "Error: Empty content");
-        } catch (err: any) {
+        } catch (err) {
             console.error(err);
-            setDocContent(`Error loading template: ${err.message}`);
+            setDocContent(`Error loading template: ${(err as any).message}`);
         } finally {
             setIsLoading(false);
         }
@@ -87,7 +87,7 @@ ${docContent}
             let analysisText = "## AI Legal Analysis\n\n";
             if (results && results.length > 0) {
                 analysisText += "Based on common legal precedents found in our database:\n\n";
-                results.forEach((r: any, i: number) => {
+                results.forEach((r: Record<string, unknown>, i: number) => {
                     analysisText += `### Relevant Point ${i + 1}: ${r.question}\n${r.answer}\n\n`;
                 });
             } else {

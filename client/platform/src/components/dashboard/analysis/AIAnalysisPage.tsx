@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import { Bot, FileText, Send, AlertCircle, CheckCircle } from 'lucide-react';
+import { Bot, FileText, AlertCircle, CheckCircle } from 'lucide-react';
 
 const AIAnalysisPage = () => {
     const [formData, setFormData] = useState({
@@ -13,14 +13,15 @@ const AIAnalysisPage = () => {
     });
 
     const [loading, setLoading] = useState(false);
-    const [result, setResult] = useState(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [result, setResult] = useState<any>(null);
     const [error, setError] = useState('');
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError('');

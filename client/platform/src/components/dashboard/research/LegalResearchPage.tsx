@@ -46,6 +46,7 @@ const LegalResearchPage = () => {
         }
     ];
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleSearch = (resource: any) => {
         if (resource.directLink) {
             window.open(resource.url, '_blank');

@@ -11,7 +11,8 @@ const CasesList = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const { startChat } = useChatStore();
-  const [cases, setCases] = React.useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [cases, setCases] = React.useState<Record<string, any>[]>([]);
   const [loading, setLoading] = React.useState(true);
 
   // ... existing code ...

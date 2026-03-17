@@ -85,7 +85,7 @@ const LawyerDashboard = () => {
               title={stat.label}
               value={stat.value}
               icon={stat.icon}
-              color={["blue", "green", "purple", "amber"][index % 4] as any}
+              color={["blue", "green", "purple", "amber"][index % 4] as "blue" | "green" | "purple" | "amber"}
             />
           ))}
         </div>

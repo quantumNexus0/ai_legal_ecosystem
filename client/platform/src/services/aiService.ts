@@ -1,6 +1,6 @@
 import api from './api';
 
-const API_URL = 'http://localhost:8000';
+// Removed unused API_URL
 
 export async function analyzeLegalDocument(content: string) {
     try {

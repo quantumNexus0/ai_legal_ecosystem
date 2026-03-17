@@ -1,0 +1,72 @@
+﻿
+> vite-react-typescript-starter@0.0.0 lint
+> eslint .
+
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\auth\LoginForm.tsx
+  31:14  error  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\auth\SignupForm.tsx
+  39:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\dashboard\LawyerDashboard.tsx
+  88:73  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\dashboard\ProfileEdit.tsx
+  83:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\dashboard\SecuritySettings.tsx
+  48:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  55:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  61:18  error  'error' is defined but never used         @typescript-eslint/no-unused-vars
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\dashboard\admin\LawyersList.tsx
+  5:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\dashboard\admin\PendingApprovals.tsx
+  5:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\dashboard\admin\UsersList.tsx
+  5:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\dashboard\analysis\AIAnalysisPage.tsx
+   16:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   41:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  275:82  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  275:92  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  290:75  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  290:85  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\dashboard\appointments\AppointmentsList.tsx
+  14:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\dashboard\appointments\NewAppointmentPage.tsx
+  31:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\dashboard\cases\CasesList.tsx
+  14:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\dashboard\cases\NewCasePage.tsx
+  23:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\dashboard\documents\DocumentDrafting.tsx
+   3:56  error  'FileType' is defined but never used      @typescript-eslint/no-unused-vars
+  50:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  90:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\dashboard\research\LegalResearchPage.tsx
+  49:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\components\home\Hero.tsx
+  1:30  error  'Star' is defined but never used   @typescript-eslint/no-unused-vars
+  1:36  error  'Users' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\services\aiService.ts
+  3:7  error  'API_URL' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\ASUS\Desktop\aiLegalEcosystem\client\platform\src\services\dashboardService.ts
+  70:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  75:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 29 problems (29 errors, 0 warnings)
+
