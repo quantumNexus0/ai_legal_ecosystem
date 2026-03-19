@@ -130,7 +130,7 @@ const Lawyers = () => {
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
+              className="mt-8 grid grid-cols-2 gap-3 sm:gap-8 lg:grid-cols-3"
             >
               {filteredLawyers.length > 0 ? (
                 filteredLawyers.map((lawyer) => (
