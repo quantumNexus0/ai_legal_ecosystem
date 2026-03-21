@@ -86,5 +86,27 @@ export const dashboardService = {
     deleteAppointment: async (appointmentId: number) => {
         const response = await api.delete(`/lawyers/me/appointments/${appointmentId}`);
         return response.data;
+    },
+
+    getAllUsers: async () => {
+        const response = await api.get('/admin/users');
+        return response.data;
+    },
+
+    createUserAdmin: async (userData: any) => {
+        const response = await api.post('/admin/users', userData);
+        return response.data;
+    },
+
+    updateUserAdmin: async (userId: number, userData: any) => {
+        const response = await api.put(`/admin/users/${userId}`, userData);
+        return response.data;
+    },
+
+    toggleUserStatus: async (userId: number, isActive: boolean) => {
+        const response = await api.patch(`/admin/users/${userId}/status`, null, {
+            params: { is_active: isActive }
+        });
+        return response.data;
     }
 };
