@@ -70,9 +70,9 @@ Before you begin, ensure you have the following installed:
    ```
 
 3. **Install Frontend Dependencies**
-   Navigate to the frontend directory:
+   Navigate to the platform directory:
    ```bash
-   cd LegalServicesPlatform
+   cd client/platform
    npm install
    ```
 
@@ -88,7 +88,7 @@ Before you begin, ensure you have the following installed:
 5. **Set Up Backend API**
    Navigate to the backend directory:
    ```bash
-   cd ../legal_intelligence_api
+   cd server
    ```
    
    Create and activate a virtual environment (recommended):
@@ -107,12 +107,12 @@ Before you begin, ensure you have the following installed:
 
    Start the API server:
    ```bash
-   uvicorn app.main:app --reload
+   python -m app.main
    ```
    The API will run on `http://localhost:8000`.
 
 6.  **Start Frontend Development Server**
-    Open a new terminal, navigate to `LegalServicesPlatform`, and run:
+    Open a new terminal, navigate to `client/platform`, and run:
     ```bash
     npm run dev
     ```
@@ -122,20 +122,20 @@ Before you begin, ensure you have the following installed:
 
 ```mermaid
 graph TB
-    subgraph "Frontend - LegalServicesPlatform"
+    subgraph "Frontend - client/platform"
         UI[React UI]
         Auth[Auth Components]
         Dashboard[Dashboards]
+        Admin[Admin Management]
         Chat[Messaging]
-        Lawyers[Lawyer Directory]
     end
     
-    subgraph "Backend - legal_intelligence_api"
+    subgraph "Backend - server (FastAPI)"
         API[FastAPI Server]
         AuthAPI[Authentication]
-        MessageAPI[Messages API]
+        AdminAPI[Admin API]
         LawyerAPI[Lawyers API]
-        ProfileAPI[Profile API]
+        CaseAPI[Cases API]
     end
     
     subgraph "Database"
