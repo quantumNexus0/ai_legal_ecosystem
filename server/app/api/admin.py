@@ -181,12 +181,21 @@ def create_user_admin(
             office_address=user_in.office_address,
             license_number=user_in.license_number,
             bio=user_in.bio,
-            is_approved=user_in.is_approved if user_in.is_approved is not None else False
+            is_approved=user_in.is_approved if user_in.is_approved is not None else True # Default to True when admin creates
         )
         db.add(lawyer_profile)
         db.commit()
         db.refresh(db_obj)
         
+        # Enrich the response object with profile data
+        db_obj.specialization = lawyer_profile.specialization
+        db_obj.experience_years = lawyer_profile.experience_years
+        db_obj.office_address = lawyer_profile.office_address
+        db_obj.license_number = lawyer_profile.license_number
+        db_obj.bio = lawyer_profile.bio
+        db_obj.is_approved = lawyer_profile.is_approved
+        
+    print(f"Created {db_obj.role}: {db_obj.email} (ID: {db_obj.id})")
     return db_obj
 
 @router.patch("/admin/users/{user_id}/status", response_model=user_schemas.User)

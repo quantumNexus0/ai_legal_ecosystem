@@ -3,7 +3,11 @@ import { dashboardService } from '../../../services/dashboardService';
 import { Plus, UserCheck, UserX } from 'lucide-react';
 import UserModal from './UserModal';
 
-const UsersList = () => {
+interface UsersListProps {
+  onRefresh?: () => void;
+}
+
+const UsersList: React.FC<UsersListProps> = ({ onRefresh }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [users, setUsers] = React.useState<Record<string, any>[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -18,6 +22,7 @@ const UsersList = () => {
       // but the user asked for "user and lawyer" buttons. 
       // I'll show only regular users here to keep it distinct from LawyersList.
       setUsers(data.filter((u: any) => u.role === 'user'));
+      if (onRefresh) onRefresh();
     } catch (error) {
       console.error('Failed to fetch users:', error);
     } finally {

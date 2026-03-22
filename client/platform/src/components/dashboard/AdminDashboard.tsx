@@ -11,17 +11,18 @@ const AdminDashboard = () => {
   const [loading, setLoading] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState('overview');
 
+  const fetchStats = async () => {
+    try {
+      const data = await dashboardService.getAdminStats();
+      setAdminStats(data);
+    } catch (error) {
+      console.error('Failed to fetch admin stats:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   React.useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const data = await dashboardService.getAdminStats();
-        setAdminStats(data);
-      } catch (error) {
-        console.error('Failed to fetch admin stats:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchStats();
   }, []);
 
@@ -65,18 +66,18 @@ const AdminDashboard = () => {
         <>
           <AdminStatsComponent stats={stats} />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-            <UsersList />
-            <LawyersList />
+            <UsersList onRefresh={fetchStats} />
+            <LawyersList onRefresh={fetchStats} />
           </div>
           <div className="mt-8 hidden lg:block">
-            <PendingApprovals />
+            <PendingApprovals onRefresh={fetchStats} />
           </div>
         </>
       )}
 
-      {activeTab === 'users' && <div className="mt-4"><UsersList /></div>}
-      {activeTab === 'lawyers' && <div className="mt-4"><LawyersList /></div>}
-      {activeTab === 'pending' && <div className="mt-4"><PendingApprovals /></div>}
+      {activeTab === 'users' && <div className="mt-4"><UsersList onRefresh={fetchStats} /></div>}
+      {activeTab === 'lawyers' && <div className="mt-4"><LawyersList onRefresh={fetchStats} /></div>}
+      {activeTab === 'pending' && <div className="mt-4"><PendingApprovals onRefresh={fetchStats} /></div>}
     </div>
   );
 };

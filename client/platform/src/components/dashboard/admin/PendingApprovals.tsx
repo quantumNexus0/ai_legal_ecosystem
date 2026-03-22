@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { dashboardService } from '../../../services/dashboardService';
 
-const PendingApprovals = () => {
+interface PendingApprovalsProps {
+  onRefresh?: () => void;
+}
+
+const PendingApprovals: React.FC<PendingApprovalsProps> = ({ onRefresh }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [pendingLawyers, setPendingLawyers] = useState<Record<string, any>[]>([]);
   const [loading, setLoading] = useState(true);
@@ -10,6 +14,7 @@ const PendingApprovals = () => {
     try {
       const data = await dashboardService.getPendingLawyers();
       setPendingLawyers(data);
+      if (onRefresh) onRefresh();
     } catch (error) {
       console.error("Error fetching pending approvals:", error);
     } finally {

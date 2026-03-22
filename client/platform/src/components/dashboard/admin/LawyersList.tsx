@@ -3,7 +3,11 @@ import { dashboardService } from '../../../services/dashboardService';
 import { Plus, UserCheck, UserX } from 'lucide-react';
 import UserModal from './UserModal';
 
-const LawyersList = () => {
+interface LawyersListProps {
+  onRefresh?: () => void;
+}
+
+const LawyersList: React.FC<LawyersListProps> = ({ onRefresh }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [lawyers, setLawyers] = React.useState<Record<string, any>[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -15,6 +19,7 @@ const LawyersList = () => {
       setLoading(true);
       const data = await dashboardService.getAllUsers();
       setLawyers(data.filter((u: any) => u.role === 'lawyer'));
+      if (onRefresh) onRefresh();
     } catch (error) {
       console.error('Failed to fetch lawyers:', error);
     } finally {
