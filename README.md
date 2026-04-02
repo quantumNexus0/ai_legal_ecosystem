@@ -205,14 +205,14 @@ graph TB
     
     RAG --> Gemini
     
+    RAG --> Gemini
+    
     style UI fill:#61DAFB
     style FastAPI fill:#009688
     style SQL fill:#4479A1
     style MongoDB fill:#47A248
     style Gemini fill:#4285F4
 ```
-
----
 
 ## 📊 Entity Relationship Diagram
 

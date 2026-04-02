@@ -17,3 +17,5 @@ class SearchResponse(BaseModel):
     total: int
     time_taken: float
     ai_analysis: Optional[str] = None
+    matched_cases: Optional[List[dict]] = []
+    top_judgments: Optional[List[dict]] = []

@@ -86,13 +86,25 @@ class VectorService:
 
     def search(self, query: str, limit: int = 5):
         """Semantic search"""
-        if not self.is_ready:
+        if not self.is_ready or not self.collection:
             self.initialize()
-            
+
+        # If still not ready after init attempt, bail out safely
+        if not self.collection:
+            print("Vector DB not available.")
+            return None
+
         try:
+            # Guard: n_results cannot exceed the number of indexed documents
+            count = self.collection.count()
+            if count == 0:
+                print("Vector DB is empty. No documents to search.")
+                return None
+            safe_limit = min(limit, count)
+
             results = self.collection.query(
                 query_texts=[query],
-                n_results=limit
+                n_results=safe_limit
             )
             return results
         except Exception as e:

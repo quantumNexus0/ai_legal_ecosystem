@@ -120,6 +120,10 @@ async def startup_event():
     # Connect to MongoDB
     await connect_to_mongo()
 
+    # Initialize Vector DB (ChromaDB)
+    from app.services.vector_db import vector_service
+    vector_service.initialize()
+
     # Initialize search service
     search_service.initialize()
 

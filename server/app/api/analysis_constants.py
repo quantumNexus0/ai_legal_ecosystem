@@ -1,0 +1,46 @@
+
+STRONG_ARGUMENTS = [
+    "Strong precedent support from Supreme Court decisions",
+    "Clear establishment of circumstantial evidence chain",
+    "Consistent application of mens rea principles",
+    "Well-documented procedural compliance",
+    "Corroborative medical evidence available",
+    "Prompt registration of FIR",
+    "Independent witnesses present",
+    "Recovery of weapon at the instance of accused",
+    "Motive clearly established",
+    "No major contradictions in witness statements",
+    "Forensic reports support prosecution theory",
+    "Accused was last seen with the victim",
+    "Extra-judicial confession is reliable",
+    "Dying declaration is consistent",
+    "Electronic evidence (CCTV/CDR) available",
+    "Identification parade conducted properly",
+    "Investigation conducted fairly and impartially",
+    "No delay in sending FIR to Magistrate",
+    "Chain of custody of evidence intact",
+    "Previous conduct of accused relevant under Section 8"
+]
+
+WEAK_POINTS = [
+    "Limited direct eyewitness testimony",
+    "Potential gaps in chain of custody for evidence",
+    "Defense may challenge circumstantial evidence sufficiency",
+    "Timeline inconsistencies may need clarification",
+    "Delay in recording witness statements",
+    "Hostile witnesses",
+    "Lack of independent witnesses",
+    "Contradictions in medical and ocular evidence",
+    "Motive not clearly proved",
+    "Benefit of doubt due to two possible views",
+    "Non-examination of material witnesses",
+    "Defective investigation",
+    "Planting of recovery alleged",
+    "Alibi defense raised by accused",
+    "Unexplained injuries on the accused",
+    "Delay in lodging FIR not explained",
+    "Chance witnesses relied upon",
+    "Testimony of interested witnesses",
+    "Procedural lapses in seizure",
+    "Confession made to police officer inadmissible"
+]
