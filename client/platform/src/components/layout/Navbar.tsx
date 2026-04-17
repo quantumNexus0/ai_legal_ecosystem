@@ -28,16 +28,19 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
+  const NYAYA_AI_URL = 'https://nyaya-ai-assistant.vercel.app';
+
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Services', href: '#services' },
-    { name: 'Templates', href: `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/template-portal/templates/index.html` },
-    { name: 'Our Lawyers', href: '#lawyers' },
-    { name: 'AI Analyzer', href: 'http://localhost:5174/index.html#analyze' },
-    { name: 'Legal Research', href: 'http://localhost:5174/index.html#refs' },
-    { name: 'Nyaya-AI', href: 'http://localhost:5174/index.html' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home',           href: '/' },
+    { name: 'Services',       href: '#services' },
+    { name: 'Templates',      href: `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/template-portal/templates/index.html` },
+    { name: 'Our Lawyers',    href: '#lawyers' },
+    { name: 'AI Analyzer',    href: `${NYAYA_AI_URL}/#analyze` },
+    { name: 'Legal Research', href: `${NYAYA_AI_URL}/#refs` },
+    { name: 'Nyaya-AI',       href: NYAYA_AI_URL },
+    { name: 'Contact',        href: '#contact' },
   ];
+
 
   return (
     <>
