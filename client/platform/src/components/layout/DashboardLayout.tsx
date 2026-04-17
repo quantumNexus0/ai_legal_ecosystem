@@ -25,14 +25,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     navigate('/login');
   };
 
+  const NYAYA_AI_URL = 'https://nyaya-ai-assistant.vercel.app';
+
   const navItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: Home, type: 'link' },
-    { name: 'Templates', path: `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/template-portal/templates/index.html`, icon: FileText, type: 'external' },
-    { name: 'Profile', path: '/dashboard/profile', icon: User, type: 'link' },
-    { name: 'Settings', path: '/dashboard/settings', icon: Settings, type: 'link' },
-    { name: 'Case Analyzer', path: 'http://localhost:5174/index.html#analyze', icon: Sparkles, type: 'external', color: 'text-amber-400', glow: 'bg-amber-400/10' },
-    { name: 'Legal Research', path: 'http://localhost:5174/index.html#refs', icon: Database, type: 'external' },
-    { name: 'Nyaya-AI', path: 'http://localhost:5174/index.html', icon: Bot, type: 'external', color: 'text-indigo-400', glow: 'bg-indigo-400/10' },
+    { name: 'Dashboard',      path: '/dashboard',                                                                                 icon: Home,      type: 'link' },
+    { name: 'Templates',      path: `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/template-portal/templates/index.html`, icon: FileText,  type: 'external' },
+    { name: 'Profile',        path: '/dashboard/profile',                                                                         icon: User,      type: 'link' },
+    { name: 'Settings',       path: '/dashboard/settings',                                                                        icon: Settings,  type: 'link' },
+    { name: 'Case Analyzer',  path: `${NYAYA_AI_URL}/#analyze`,                                                                   icon: Sparkles,  type: 'external', color: 'text-amber-400', glow: 'bg-amber-400/10' },
+    { name: 'Legal Research', path: `${NYAYA_AI_URL}/#refs`,                                                                      icon: Database,  type: 'external' },
+    { name: 'Nyaya-AI',       path: NYAYA_AI_URL,                                                                                 icon: Bot,       type: 'external', color: 'text-indigo-400', glow: 'bg-indigo-400/10' },
   ];
 
   const filteredNavItems = navItems.filter(item => {
