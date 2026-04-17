@@ -283,7 +283,7 @@ graph TD
         SQL[(Messages Table)]
     end
 
-    WSClient <-->|ws://.../api/chat/ws/{id}| NginxBridge
+    WSClient <-->|"ws://.../api/chat/ws/{id}"| NginxBridge
     NginxBridge <--> ConnectionManager
     
     ConnectionManager -->|Register/Remove| ActvConns
