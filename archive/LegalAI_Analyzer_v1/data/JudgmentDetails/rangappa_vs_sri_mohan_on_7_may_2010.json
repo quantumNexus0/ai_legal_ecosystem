@@ -1,0 +1,38 @@
+{
+  "id": "rangappa_vs_sri_mohan",
+  "title": "Rangappa vs Sri Mohan",
+  "citation": "Criminal Appeal No. 1020 of 2010",
+  "court": "Supreme Court of India",
+  "date": "May 07, 2010",
+  "facts": [
+    "The appellant-accused is a mechanic who engaged the services of the respondent-complainant, a Civil Engineer, for constructing his house in Ranebennur. The construction was completed on 20-10-1998.",
+    "As per the complainant, in October 1998, the accused requested a hand loan of Rs. 45,000 for construction expenses, which was paid in cash. The accused initially assured repayment by October 1999 but later sought more time until December 2000.",
+    "The accused issued a post-dated cheque for 8-2-2001 for Rs. 45,000. When presented, the bank returned the cheque with the memo stating 'Payment has been stopped by the drawer'.",
+    "The accused's first defense was that the cheque in question was a blank signed cheque which he had lost, and that it had come into the hands of the complainant who then misused it."
+  ],
+  "issues": [
+    "Proper interpretation of Section 139 of the Negotiable Instruments Act, which shifts the burden of proof onto the accused in cheque bouncing cases.",
+    "Clarification on the manner in which the statutory presumption can be rebutted."
+  ],
+  "analysis_of_law": [
+    "Section 138 NI Act: Dishonour of cheque for insufficiency of funds or stop payment.",
+    "Section 139 NI Act: Presumption in favour of holder that the cheque was received for discharge of any debt or other liability.",
+    "Reverse Onus Clause: Included in furtherance of the legislative objective of improving the credibility of negotiable instruments."
+  ],
+  "precedent_analysis": [
+    "Goa Plast (Pvt.) Ltd. v. Chico Ursula D'Souza (2003): Section 138 applies even on 'stop payment' instructions.",
+    "Krishna Janardhan Bhat v. Dattatraya G. Hegde (2008): Standard of proof for defense is 'preponderance of probabilities'.",
+    "Hiten P. Dalal v. Bratindranath Banerjee (2001): Statutory presumptions are mandatory and follow the law's language."
+  ],
+  "courts_reasoning": [
+    "The accused admitted that the signature on the cheque was his own, which triggers the Section 139 presumption.",
+    "The defense of 'lost blank cheque' was found inconsistent because the instructions to the bank for 'stop payment' mentioned a specific date but did not mention the loss of the cheque.",
+    "The accused failed to reply to the statutory notice, which leads to an inference toward the complainant's version's merit.",
+    "The High Court's reversal of acquittal was justified because the accused failed to raise a 'probable defense' to rebut the statutory presumption."
+  ],
+  "conclusion": [
+    "The Supreme Court found no reason to interfere with the High Court's conviction order.",
+    "The appeal was disposed of, confirming the conviction and the fine of Rs. 75,000."
+  ],
+  "full_ratio": "The presumption mandated by Section 139 of the NI Act indeed includes the existence of a legally enforceable debt or liability. This is a rebuttable presumption in the nature of a reverse onus clause, where the accused only needs to show a 'preponderance of probabilities' to raise a probable defense."
+}

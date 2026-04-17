@@ -1,0 +1,36 @@
+{
+  "id": "section_302_in_the_indian_penal_code",
+  "title": "Section 302 IPC: Punishment for Murder",
+  "citation": "Indian Penal Code, 1860 (Equivalent: Section 103 BNS)",
+  "court": "Criminal Courts of India",
+  "date": "Commenced 1860",
+  "facts": [
+    "Section 302 IPC is the primary penal provision for the offense of murder.",
+    "Murder is defined under Section 300 IPC, and Section 302 prescribes the punishment.",
+    "It is a non-bailable, cognizable, and non-compoundable offense triable by a Court of Session."
+  ],
+  "issues": [
+    "The distinction between 'Culpable Homicide' (Section 299) and 'Murder' (Section 300).",
+    "Application of the 'Rarest of Rare' doctrine for the death penalty.",
+    "Proof of 'Mens Rea'—whether the intent was to cause death or a bodily injury likely to cause death."
+  ],
+  "analysis_of_law": [
+    "Section 302: Punishment – Whoever commits murder shall be punished with death, or imprisonment for life, and shall also be liable to fine.",
+    "Section 300 Clauses: The act must fall within one of the four clauses of Section 300 to be murder.",
+    "Exceptions: If the act falls within the five exceptions to Section 300 (Grave & Sudden Provocation, Private Defense, etc.), it is Culpable Homicide Not Amounting to Murder (Section 304)."
+  ],
+  "precedent_analysis": [
+    "Bachan Singh v. State of Punjab: Established the 'Rarest of Rare' doctrine for awarding the death penalty.",
+    "Mithu v. State of Punjab: Struck down Section 303 (Mandatory death penalty for life convicts), ensuring that Section 302 is the sole provision for murder punishment."
+  ],
+  "courts_reasoning": [
+    "Life is the rule, death is the exception. The punishment must be proportional to the gravity of the crime.",
+    "Circumstantial evidence in a Section 302 trial must form a complete chain that excludes any hypothesis other than the guilt of the accused.",
+    "The presence of 'intention' or 'knowledge' (Mens Rea) is the dividing line betweenSection 304 (Culpable Homicide) and Section 302 (Murder)."
+  ],
+  "conclusion": [
+    "Section 302 remains the most serious charge in the Indian criminal code.",
+    "Conviction requires proof beyond reasonable doubt, especially in capital punishment cases."
+  ],
+  "full_ratio": "Section 302 IPC provides the punishment for murder. It must be read with the definition in Section 300. Courts must apply the 'Rarest of Rare' test for death sentences and carefully distinguish murder from culpable homicide not amounting to murder based on the degree of intent and specific exceptions."
+}

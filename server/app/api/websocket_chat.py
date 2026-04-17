@@ -1,70 +1,84 @@
 """
-WebSocket Chat — real-time messaging between lawyers and clients.
-Messages stored in SQL `message` table.
+websocket_chat.py — Secure WebSocket chat with token passed in FIRST MESSAGE body
+(not in URL query param) to prevent JWT leaking into server access logs.
 """
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from sqlalchemy.orm import Session
-from typing import Dict, List
 from datetime import datetime
 
-from app.api.deps import get_db
-from app.models import User
-from app.models.all_models import Message
+from app.db.session import SessionLocal
+from app.api.deps import get_current_user_from_token
+from app.websocket_manager import manager
 
 router = APIRouter()
 
 
-class ConnectionManager:
-    """Manages active WebSocket connections."""
-
-    def __init__(self):
-        self.active_connections: Dict[int, WebSocket] = {}
-
-    async def connect(self, user_id: int, websocket: WebSocket):
-        await websocket.accept()
-        self.active_connections[user_id] = websocket
-
-    def disconnect(self, user_id: int):
-        self.active_connections.pop(user_id, None)
-
-    async def send_personal_message(self, message: dict, user_id: int):
-        if user_id in self.active_connections:
-            await self.active_connections[user_id].send_json(message)
-
-    def is_online(self, user_id: int) -> bool:
-        return user_id in self.active_connections
+def verify_token(token: str, db: Session):
+    """Validate JWT and return the User object, or None on failure."""
+    try:
+        return get_current_user_from_token(token=token, db=db)
+    except Exception:
+        return None
 
 
-manager = ConnectionManager()
-
-
-@router.websocket("/ws/chat/{user_id}")
-async def websocket_chat(websocket: WebSocket, user_id: int):
+@router.websocket("/ws/chat/{room_id}")
+async def websocket_chat(websocket: WebSocket, room_id: int):
     """
-    WebSocket endpoint for real-time chat.
-    Connect: ws://localhost:8000/ws/chat/{user_id}
-    Send JSON: {"receiver_id": 123, "content": "Hello!"}
+    Secure WebSocket endpoint for real-time room-based chat.
+
+    Auth flow (Issue 7 fix):
+      • Client connects with NO token in the URL.
+      • First message MUST be: {"type": "auth", "token": "<JWT>"}
+      • If auth fails → close with code 4001.
+      • Subsequent messages: {"content": "Hello!"} are broadcast to the room.
+
+    Connect: ws://localhost:8000/ws/chat/{room_id}
     """
-    await manager.connect(user_id, websocket)
+    await websocket.accept()
+
+    # ── Step 1: authenticate via first message (not URL) ────────────────────
+    db = SessionLocal()
+    try:
+        auth_msg = await websocket.receive_json()
+        if auth_msg.get("type") != "auth":
+            await websocket.close(code=4001)
+            return
+
+        token = auth_msg.get("token", "")
+        user = verify_token(token, db)
+        if not user:
+            await websocket.close(code=4001)
+            return
+    except Exception:
+        await websocket.close(code=4001)
+        return
+    finally:
+        db.close()
+
+    # ── Step 2: register connection in manager ───────────────────────────────
+    # (websocket is already accepted; manager.connect() won't double-accept)
+    if room_id not in manager.active_connections:
+        manager.active_connections[room_id] = []
+    manager.active_connections[room_id].append(websocket)
+    manager.user_map[websocket] = user.id
+
     try:
         while True:
             data = await websocket.receive_json()
-            receiver_id = data.get("receiver_id")
-            content = data.get("content", "")
+            content = data.get("content", "").strip()
 
-            if not receiver_id or not content:
-                await websocket.send_json({"error": "receiver_id and content required"})
+            if not content:
+                await websocket.send_json({"error": "content is required"})
                 continue
 
-            # Save message to SQL database
-            from app.db.session import SessionLocal
             db = SessionLocal()
             try:
+                from app.models.all_models import Message
                 msg = Message(
-                    sender_id=user_id,
-                    receiver_id=receiver_id,
+                    sender_id=user.id,
+                    receiver_id=room_id,   # room_id doubles as conversation partner id
                     content=content,
-                    is_read=False
+                    is_read=False,
                 )
                 db.add(msg)
                 db.commit()
@@ -72,26 +86,24 @@ async def websocket_chat(websocket: WebSocket, user_id: int):
 
                 message_out = {
                     "id": msg.id,
-                    "sender_id": user_id,
-                    "receiver_id": receiver_id,
+                    "sender_id": user.id,
                     "content": content,
-                    "is_read": False,
-                    "created_at": msg.created_at.isoformat() if msg.created_at else datetime.utcnow().isoformat(),
-                    "type": "message"
+                    "timestamp": msg.created_at.isoformat() if msg.created_at else datetime.utcnow().isoformat(),
+                    "type": "message",
                 }
 
-                # Send to receiver if online
-                await manager.send_personal_message(message_out, receiver_id)
-                # Send confirmation back to sender
+                # Broadcast to everyone in room except sender
+                await manager.broadcast_to_room(room_id, message_out, exclude=websocket)
+                # Confirm to sender
                 await websocket.send_json({**message_out, "status": "sent"})
             finally:
                 db.close()
 
     except WebSocketDisconnect:
-        manager.disconnect(user_id)
+        manager.disconnect(websocket, room_id)
 
 
-@router.get("/chat/online")
-async def get_online_users():
-    """Check which users are currently online."""
-    return {"online_users": list(manager.active_connections.keys())}
+@router.get("/chat/online/{room_id}")
+async def get_online_users(room_id: int):
+    """Return list of user IDs currently online in a room."""
+    return {"room_id": room_id, "online_users": manager.get_online_users(room_id)}

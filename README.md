@@ -1,19 +1,17 @@
-# NyayaAssist - AI Legal Ecosystem 🏛️⚖️
+# Nyaya-AI - Unified Legal Intelligence Ecosystem 🏛️⚖️
 
 <div align="center">
 
-![AI Legal Ecosystem](https://img.shields.io/badge/AI-Legal%20Ecosystem-blue?style=for-the-badge)
+![Nyaya-AI](https://img.shields.io/badge/Nyaya--AI-Ecosystem-blue?style=for-the-badge)
+![Ollama](https://img.shields.io/badge/Local--AI-Ollama-white?style=for-the-badge&logo=ollama)
 ![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-3178C6?style=for-the-badge&logo=typescript)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688?style=for-the-badge&logo=fastapi)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql)
-![MongoDB](https://img.shields.io/badge/MongoDB-7.0-47A248?style=for-the-badge&logo=mongodb)
-![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-**NyayaAssist - India's premier AI-powered legal platform connecting citizens with verified lawyers. Comprehensive legal research, real-time messaging, intelligent case management, and seamless appointment scheduling.**
+**Nyaya-AI is a state-of-the-art, privacy-prioritized legal ecosystem designed for the Indian legal landscape. It seamlessly connects citizens with legal professionals while providing powerful local AI tools for case analysis, document drafting, and legal research.**
 
-[Features](#-features) • [Architecture](#-system-architecture) • [Installation](#-installation) • [Usage](#-usage) • [Contributing](#-contributing)
+[Features](#-key-features) • [Architecture](#-system-architecture) • [Getting Started](#-getting-started) • [Docker Deployment](#-docker-setup-recommended) • [Contributing](#-contributing)
 
 </div>
 
@@ -22,17 +20,13 @@
 ## 📋 Table of Contents
 
 - [Overview](#-overview)
-- [Features](#-features)
-- [Ecosystem Overview (ERP View)](#-ecosystem-overview-erp-view)
+- [Key Features](#-key-features)
 - [System Architecture](#-system-architecture)
-- [Entity Relationship Diagram](#-entity-relationship-diagram)
-- [Detailed Component Diagrams](#-detailed-component-diagrams)
-- [Module Details](#-module-details)
-    - [Legal Services Platform](#1-legal-services-platform)
-    - [Legal Templates Library](#2-legal-templates-library-legaltemplate)
-    - [AI Legal Assistant](#3-ai-legal-assistant-ailegalassistant)
+- [Integrated Ecosystem Components](#-integrated-ecosystem-components)
 - [Technology Stack](#-technology-stack)
-- [Installation](#-installation)
+- [Getting Started](#-getting-started)
+- [Docker Setup](#-docker-setup-recommended)
+- [Security & Privacy](#-security--privacy)
 - [Contributing](#-contributing)
 - [License](#-license)
 
@@ -40,409 +34,180 @@
 
 ## 🌟 Overview
 
-**AI Legal Ecosystem** is a unified legal technology platform that bridges the gap between legal professionals and citizens. It combines advanced AI for case analysis with robust practice management tools for lawyers.
+**Nyaya-AI** bridges the gap between complex legal processes and accessible justice. By unifying practice management for lawyers with an intelligent, local AI assistant for citizens, the platform creates a complete digital legal cycle.
 
-For **Citizens**, it offers AI-driven legal insights, easy access to verified lawyers, and a simple way to manage their legal journey.
-For **Lawyers**, it provides a comprehensive dashboard to manage cases, appointments, client communications, and specialized profiles.
-
----
-
-## ✨ Features
-
-### 1. **Role-Based Dashboards**
-- **User Dashboard**: Track your legal cases, view upcoming appointments, and manage lawyer communications.
-- **Lawyer Dashboard**: Specialized interface for practice management, case tracking, and client interactions.
-- **Admin Dashboard**: System-wide oversight of users, lawyers, and platform metrics with real-time stats.
-- **Lawyer Approval System**: Unified interface for admins to review and approve/reject new lawyer registrations.
-
-### 2. **Intelligent Case Management**
-- **Create & Manage**: Lawyers can create new client files, track case status, and update details.
-- **Visibility**: Clients get real-time visibility into their case progress and hearing dates.
-
-### 3. **Dual-Database Intelligence** 🗄️
-- **SQL (MySQL/SQLite)**: Robust storage for structured data like Users, Cases, and Appointments.
-- **NoSQL (MongoDB)**: High-performance storage for AI analysis logs, client reviews, and binary document storage (GridFS).
-- **Fast Fallback**: Intelligent backend that switches to SQLite instantly if MySQL is unavailable.
-
-### 4. **AI Case Analysis Engine** 🧠
-- **Precedent Matching**: Input case facts to find relevant legal precedents using AI.
-- **Analysis History**: Automatically saves all AI analyses to MongoDB for future reference.
-- **Strategy Generation**: AI-identified legal advice, risk scores, and tactical next steps.
-
-### 5. **Real-Time Messaging & WebSockets** 💬
-- **WebSocket Chat**: High-speed, bidirectional communication between lawyers and clients.
-- **Online Status**: Real-time tracking of which users are currently active.
-- **Persistent History**: All conversations are saved securely in the SQL database.
-
-### 6. **Legal Document Management** 📄
-- **GridFS Storage**: Securely upload and manage legal PDFs and documents in MongoDB.
-- **Case Linking**: Directly associate uploaded files with specific cases.
-
-### 7. **Client Feedback System** ⭐
-- **Reviews & Ratings**: Clients can rate and review lawyers after appointments.
-- **Dynamic Scoring**: Lawyer ratings are automatically recalculated based on client feedback.
-
-### 8. **Local Legal Assistant (RAG)** 🤖
-- **Privacy-First**: Chat with your local PDF documents using ChromaDB and Gemini.
-- **Structured Insights**: AI responses are formatted into clear Titles, Definitions, and Key Points.
-- **Voice Support**: Hands-free voice input and text-to-speech output.
+- **For Citizens**: Access "Nyaya-AI Assistant" for instant, context-aware legal guidance and case analysis without compromising data privacy.
+- **For Lawyers**: Manage cases, clients, and appointments through a premium, role-based dashboard.
+- **For Admins**: Oversite and platform governance with real-time analytics.
 
 ---
 
-## 🌐 Ecosystem Overview (ERP View)
+## ✨ Key Features
 
-```mermaid
-graph TB
-    subgraph "Core Infrastructure"
-        Backend[Unified Backend API]
-        SQL[(MySQL/SQLite)]
-        NoSQL[(MongoDB)]
-        Docker[Docker Containers]
-    end
+### 1. **Integrated Nyaya-AI Assistant** 🤖
+- **Local AI (Ollama)**: High-performance legal intelligence running entirely on your local machine.
+- **Context-Aware RAG**: Advanced Retrieval Augmented Generation using **ChromaDB** to analyze your personal legal documents.
+- **Legal Knowledge Base**: Instant access to Indian statutes, criminal jurisprudence, and landmark judgments.
 
-    subgraph "Legal Services Platform"
-        Dashboard[Web Dashboard]
-        CaseMgr[Case Manager]
-        Chat[WebSocket Chat]
-    end
+### 2. **Professional Legal Management** 💼
+- **Role-Based Dashboards**: Tailored experiences for Clients, Lawyers, and Administrators.
+- **Premium Navigation**: Fully responsive, glassmorphic UI optimized for mobile, tablet, and desktop.
+- **Lawyer Approval System**: Secure vetting process for legal professionals joining the platform.
 
-    subgraph "AI Legal Assistant"
-        AssistantUI[Assistant Interface]
-        Voice[Voice Processing]
-        LocalRAG[Local RAG Engine]
-    end
+### 3. **Smart Practice Tools** 🛠️
+- **Intelligent Case Tracking**: Real-time status updates and hearing schedule management.
+- **WebSocket Chat**: High-speed, secure messaging between legal professionals and clients.
+- **Template Portal**: Direct access to a repository of legal document templates managed by the backend.
 
-    subgraph "Legal Templates Library"
-        TemplateLib[Template Repository]
-        Generator[Doc Generator]
-    end
-
-    Dashboard --> Backend
-    AssistantUI --> Backend
-    TemplateLib -.-> Dashboard
-    
-    Backend --> SQL
-    Backend --> NoSQL
-    Backend --> LocalRAG
-    
-    Chat <--> Backend
-    Voice --> AssistantUI
-    
-    style Backend fill:#ff9800,stroke:#333,stroke-width:2px
-    style Dashboard fill:#4caf50,stroke:#333,stroke-width:2px
-    style AssistantUI fill:#2196f3,stroke:#333,stroke-width:2px
-    style TemplateLib fill:#9c27b0,stroke:#333,stroke-width:2px
-```
-
----
-
-## 📦 Module Details
-
-### 1. Legal Services Platform
-The core web application connecting lawyers and clients. Handles auth, dashboards, and real-time messaging.
-- **Directory**: `client/platform/`
-- **Tech**: React, TypeScript, Tailwind CSS, WebSockets.
-
-### 2. AI Legal Assistant
-A standalone interface for answering legal queries and analyzing documents via RAG.
-- **Directory**: `client/assistant/`
-- **Tech**: React, Local Vector DB, Web Speech API.
-
-### 3. Unified Backend
-Shared API powering the entire ecosystem with a focus on high availability.
-- **Directory**: `server/`
-- **Tech**: FastAPI, Python, SQLAlchemy, Motor (Async MongoDB).
-- **Features**: Rate limiting (`slowapi`), JWT Auth, GridFS file management.
+### 4. **Hybrid Intelligence Architecture** 🗄️
+- **Relational Integrity**: SQL (SQLite/MySQL) for structured cases, appointments, and user data.
+- **Document Intelligence**: MongoDB for storing complex AI analysis logs and document metadata.
+- **Vector Search**: ChromaDB for lighting-fast semantic search across legal datasets.
 
 ---
 
 ## 🏗️ System Architecture
 
+Nyaya-AI operates as a unified multi-service ecosystem:
+
 ```mermaid
 graph TB
     subgraph "Client Layer"
-        UI[React UI Components]
-        Router[React Router]
-        State[Zustand Store]
-        WS[WebSocket Client]
+        Platform[Main Dashboard - React]
+        Assistant[Nyaya-AI Client - Vanilla JS]
+        Style[Premium UI/Glassmorphism]
     end
 
-    subgraph "API Gateway & Backend"
-        FastAPI[FastAPI Server]
-        RateLimit[SlowAPI Limiter]
-        Auth[JWT Middleware]
-        Endpoints[API Endpoints]
+    subgraph "Intelligent API Gateway"
+        FastAPI[FastAPI Backend]
+        Auth[JWT/RBAC Security]
+        Proxy[Nginx Reverse Proxy]
     end
 
-    subgraph "Multi-Data Layer"
-        SQL[(MySQL / SQLite)]
-        MongoDB[(MongoDB / GridFS)]
-        VectorDB[(ChromaDB Vector Store)]
+    subgraph "AI & Knowledge Layer"
+        Ollama[Local LLM - Ollama]
+        VectorDB[ChromaDB - Vector Store]
+        LocalRAG[RAG Pipeline]
     end
 
-    subgraph "AI Services"
-        Gemini[Google Gemini API]
-        subgraph "Local RAG Pipeline"
-            PDF[PDF Uploads] --> Splitter[Text Splitter]
-            Splitter --> VectorDB
-            VectorDB --> RAG[RAG Engine]
-        end
-    end
-
-    UI --> Router
-    Router --> State
-    State -- REST/WS --> FastAPI
-    WS <--> FastAPI
-    
-    FastAPI --> RateLimit
-    RateLimit --> Auth
-    Auth --> Endpoints
-    
-    Endpoints --> SQL
-    Endpoints --> MongoDB
-    Endpoints --> RAG
-    Endpoints --> Gemini
-    
-    RAG --> Gemini
-    
-    RAG --> Gemini
-    
-    style UI fill:#61DAFB
-    style FastAPI fill:#009688
-    style SQL fill:#4479A1
-    style MongoDB fill:#47A248
-    style Gemini fill:#4285F4
-```
-
-## 📊 Entity Relationship Diagram
-
-```mermaid
-erDiagram
-    USER ||--o{ LAWYER_PROFILE : has
-    USER ||--o{ CASE : involved
-    USER ||--o{ APPOINTMENT : has
-    USER ||--o{ MESSAGE : exchanges
-    USER ||--o{ REVIEW : writes
-    
-    LAWYER_PROFILE ||--o{ REVIEW : receives
-    CASE ||--o{ DOCUMENT : contains
-    
-    subgraph "SQL Collections"
-        USER
-        LAWYER_PROFILE
-        CASE
-        APPOINTMENT
-        MESSAGE
-    end
-    
-    subgraph "NoSQL Collections (MongoDB)"
-        REVIEW
-        DOCUMENT
-        ANALYSIS_LOGS
-    end
-```
-
----
-
-## 🔬 Technical Deep Dive
-
-### 1. Unified Data Lifecycle
-This diagram illustrates how different types of data are routed through the multi-database ecosystem.
-
-```mermaid
-graph LR
-    subgraph "Clients"
-        Web[Web Platform]
-        Asst[AI Assistant]
-    end
-
-    subgraph "API Layer"
-        FastAPI[FastAPI Gateway]
-    end
-
-    subgraph "Storage Logic"
-        RDR{Storage Router}
-        SQL[(SQL: MariaDB/SQLite)]
+    subgraph "Persistence Layer"
+        SQL[(SQL: SQLite/MySQL)]
         NoSQL[(NoSQL: MongoDB)]
-        VDB[(Vector: ChromaDB)]
-        GFS[GridFS]
+        Shared[(Shared Template Storage)]
     end
 
-    Web --> FastAPI
-    Asst --> FastAPI
-    FastAPI --> RDR
-
-    RDR -- "Auth, Cases, Apps" --> SQL
-    RDR -- "Logs, Reviews, Metadata" --> NoSQL
-    RDR -- "Legal PDFs/Acts" --> GFS
-    RDR -- "Embeddings" --> VDB
-
-    style SQL fill:#e1f5fe,stroke:#01579b
-    style NoSQL fill:#e8f5e9,stroke:#1b5e20
-    style VDB fill:#fff3e0,stroke:#e65100
-    style GFS fill:#f3e5f5,stroke:#4a148c
-```
-
-### 2. JWT Authentication & Security Architecture
-Comprehensive security flow including Rate Limiting and Role-Based Access Control (RBAC).
-
-```mermaid
-sequenceDiagram
-    participant U as User/Browser
-    participant SL as SlowAPI (Rate Limiter)
-    participant FA as FastAPI Auth Middleware
-    participant JWT as JOSE (JWT Engine)
-    participant DB as SQL Database
-
-    U->>SL: POST /auth/login
-    SL->>SL: Check IP Rate Limit (5/min)
-    alt Rate Limit Exceeded
-        SL-->>U: 429 Too Many Requests
-    else Limit OK
-        SL->>DB: Validate Credentials
-        DB-->>SL: User Object + Role
-        SL->>JWT: Generate JWT (Role + ID)
-        JWT-->>U: Set Bearer Token
-    end
-
-    U->>FA: GET /api/admin/stats (With Token)
-    FA->>JWT: Verify Signature & Expiry
-    JWT-->>FA: Payload (Role: Admin)
-    FA->>FA: Check RBAC Requirement
-    alt Unauthorized Role
-        FA-->>U: 403 Forbidden
-    else Authorized
-        FA->>DB: Fetch Admin Data
-        DB-->>U: JSON Response
-    end
-```
-
-### 3. AI Analysis Synthesis Pipeline
-How the system combines External Web Search, Local RAG, and LLM reasoning.
-
-```mermaid
-graph TD
-    User([User Input: Case Facts]) --> API[Analysis API]
+    Platform --> Proxy
+    Assistant --> Proxy
+    Proxy --> FastAPI
     
-    subgraph "Context Gathering"
-        API --> n8n[n8n Web Search Webhook]
-        API --> RAG[Local Vector Search]
-        n8n --> WebR[External Precedents]
-        RAG --> LocalR[Local Acts/Manuals]
-    end
-
-    WebR --> Agg[Context Aggregator]
-    LocalR --> Agg
-
-    Agg --> Prompt[System Prompt Engineer]
-    Prompt --> LLM[LLM Engine: Gemini/GPT]
+    FastAPI --> Auth
+    Auth --> SQL
+    Auth --> NoSQL
+    Auth --> LocalRAG
     
-    LLM --> Schema[JSON Schema Validator]
-    Schema --> MongoDB[(Insert Analysis Log)]
-    Schema --> Final([Final Report + Risk Score])
-
-    style API fill:#f9f,stroke:#333,stroke-width:2px
-    style LLM fill:#00ff00,stroke:#333,stroke-width:2px
-    style Agg fill:#bbf,stroke:#333,stroke-width:1px
-```
-
-### 4. WebSocket Chat Lifecycle
-Real-time state synchronization for the messaging module.
-
-```mermaid
-stateDiagram-v2
-    [*] --> Disconnected
-    Disconnected --> Connecting: Client Init
-    Connecting --> Online: Handshake Success
+    LocalRAG --> VectorDB
+    LocalRAG --> Ollama
     
-    state Online {
-        [*] --> Idle
-        Idle --> Sending: Send Message
-        Sending --> Persisting: SQL Insert
-        Persisting --> Broadcast: WebSocket Push
-        Broadcast --> Idle: ACK Received
-        
-        Idle --> Receiving: Incoming Signal
-        Receiving --> UI_Update: State Sync
-        UI_Update --> Idle
-    }
-    
-    Online --> Disconnected: Connection Closed
-    Online --> Connecting: Auto-Reconnect
+    style Platform fill:#61DAFB,stroke:#333
+    style Assistant fill:#2196f3,stroke:#333
+    style FastAPI fill:#009688,stroke:#333
+    style Ollama fill:#ffffff,stroke:#333
+    style SQL fill:#4479A1,stroke:#333
+    style NoSQL fill:#47A248,stroke:#333
 ```
 
 ---
 
-## 🛠️ Technology Stack
+## 📦 Integrated Ecosystem Components
 
-### Frontend Components
-Strictly typed React ecosystem with enhanced static checking.
-```mermaid
-graph TD
-    React[React 18.3] --> UI[UI Layer]
-    UI --> Tailwind[Tailwind CSS]
-    UI --> Lucide[Lucide Icons]
-    
-    React --> Logic[Logic Layer]
-    Logic --> Router[React Router]
-    Logic --> Store[Zustand State]
-    Logic --> WS[WebSocket Handler]
-```
+### 1. Main Platform
+The core web portal for user management and practice tools.
+- **Directory**: `client/platform/`
+- **Port**: `5173`
+- **Tech**: React, TypeScript, Tailwind CSS, Framer Motion.
 
-### Backend Structure
-```mermaid
-graph TD
-    FastAPI[FastAPI] --> Security[Security & Rate Limiting]
-    Security --> Routes[API Routes]
-    Routes --> Controllers[Business Logic]
-    
-    Controllers --> SQL[SQLAlchemy / MySQL]
-    Controllers --> NoSQL[Motor / MongoDB]
-    
-    Controllers --> AI[AI Services]
-    AI --> Google[Google Gemini]
-    AI --> LangChain[LangChain Local]
-```
+### 2. Nyaya-AI Assistant
+A specialized, lightweight interface for legal research and case analysis.
+- **Directory**: `client/nyaya-ai/`
+- **Port**: `5174`
+- **Tech**: HTML5, Vanilla JavaScript, CSS3.
+
+### 3. Unified Backend API
+A high-performance FastAPI server powering all ecosystem features.
+- **Directory**: `server/`
+- **Port**: `8000`
+- **Tech**: Python 3.11+, SQLAlchemy, ChromaDB, Ollama SDK.
 
 ---
 
-## 🚀 Installation & Execution
+## 🚀 Getting Started
 
-### Option A: Standard Setup (Manual)
-1. **Node.js** (v18+), **Python** (v3.10+), and **XAMPP/MySQL**.
-2. Clone and install root dependencies: `npm install`
-3. Setup Python venv and activate it.
-4. Run `npm run install:all` to setup frontend and backend.
-5. Create a `.env` file in the `server/` directory (see `.env.example`).
-6. Run `npm run dev` to start everything.
+### Prerequisites
+- **Node.js** (v18+)
+- **Python** (v3.10+)
+- **Ollama** (Installed and running for AI features)
+- **Git**
 
-### Option B: Docker Setup (Recommended) 🐳
-The entire ecosystem is containerized for instant deployment:
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/quantumNexus0/ai_legal_ecosystem.git
+   cd ai_legal_ecosystem
+   ```
+
+2. **Run the Setup Script**:
+   This will install all frontend and backend dependencies across the ecosystem.
+   ```bash
+   npm run install:all
+   ```
+
+3. **Configure Environment**:
+   - Create a `.env` in `server/` (see `server/.env.example`).
+   - Ensure Ollama is running (`ollama serve`).
+
+4. **Launch the Ecosystem**:
+   The ecosystem uses a concurrent runner to start all three primary services simultaneously.
+   ```bash
+   npm run dev
+   ```
+   - **Platform**: `http://localhost:5173`
+   - **Assistant**: `http://localhost:5174`
+   - **Backend**: `http://localhost:8000`
+
+---
+
+## 🐳 Docker Setup (Recommended)
+
+The entire ecosystem is containerized for professional deployment. Our configuration includes multi-stage builds and a unified nginx reverse proxy.
+
 ```bash
-# Start all services (Backend, Frontend, MongoDB)
+# Build and start the entire stack
 docker compose up -d --build
 
-# Check running status
+# Status check
 docker compose ps
 ```
-- **Platform**: `http://localhost:5173`
-- **Assistant**: `http://localhost:5174`
-- **Backend**: `http://localhost:8000`
+
+**Services in Docker:**
+- `platform`: Main UI (Port 80)
+- `nyaya-ai`: AI Client (Port 5174)
+- `server`: API Gateway (Port 8000)
+- `mongodb`: High-performance NoSQL store (Port 27018)
 
 ---
 
-## ❓ FAQ & Troubleshooting
+## 🛡️ Security & Privacy
 
-**Q: Can I run without XAMPP?**
-A: Yes! The backend automatically falls back to **SQLite** if MySQL isn't detected. You can also use Docker to run MySQL inside a container.
-
-**Q: What about MongoDB?**
-A: MongoDB is required for advanced features (AI Logs, Reviews, Documents). Use `docker compose up -d mongodb` to start just the database.
-
-**Q: Where is the API documentation?**
-A: Visit `http://localhost:8000/docs` for the interactive Swagger UI.
+Nyaya-AI is built with **Privacy-First** principles:
+- **Local Inference**: AI Case Analysis happens locally via Ollama; your legal facts never leave your server.
+- **Local Vector Search**: Document embeddings are stored locally in ChromaDB.
+- **RBAC**: Strict Role-Based Access Control ensures users only see the data they own.
 
 ---
 
-## 📄 License
+## 📑 License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+© 2026 Nyaya-AI Ecosystem. All Rights Reserved.

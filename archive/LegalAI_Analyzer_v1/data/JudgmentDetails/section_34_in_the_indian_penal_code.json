@@ -1,0 +1,36 @@
+{
+  "id": "section_34_in_the_indian_penal_code",
+  "title": "Section 34 IPC: Acts done by several persons in furtherance of common intention",
+  "citation": "Indian Penal Code, 1860 (Equivalent: Section 3(5) BNS)",
+  "court": "Criminal Courts of India",
+  "date": "Commenced 1860",
+  "facts": [
+    "Section 34 IPC is a rule of evidence and a principle of constructive liability.",
+    "It deals with a situation where a criminal act is done by several persons in furtherance of the common intention of all.",
+    "No specific offense is created by Section 34; it is always read with a substantive offense like Section 302 or Section 323."
+  ],
+  "issues": [
+    "The distinction between 'Common Intention' (Section 34) and 'Similar Intention'.",
+    "Whether 'Prior Concert' or pre-meditation is mandatory to attract Section 34.",
+    "The liability of an accused who was present but did not perform the actual physical act of the crime."
+  ],
+  "analysis_of_law": [
+    "Section 34: When a criminal act is done by several persons in furtherance of the common intention of all, each of such persons is liable for that act in the same manner as if it were done by him alone.",
+    "Essential Plateaux: (1) Criminal act, (2) Several persons, (3) Common intention, (4) Participation in the act.",
+    "Constructive Liability: It makes every accomplice equally liable for the end result if the intent was shared."
+  ],
+  "precedent_analysis": [
+    "Barendra Kumar Ghosh v. King Emperor (Post Master's Murder case): Established that 'They also serve who only stand and wait.' Participation can be passive.",
+    "Mahbub Shah v. Emperor: Clarified that 'Common Intention' requires a pre-arranged plan and must be distinguished from common objects or similar intentions."
+  ],
+  "courts_reasoning": [
+    "To convict under Section 34, there must be evidence of a 'prior meeting of minds.'",
+    "However, common intention can also develop on the spot (during the heat of the moment) and doesn't always need a long-standing conspiracy.",
+    "The emphasis is on the 'furtherance' of the shared goal. If one person goes far beyond the shared goal, others might not be liable for that specific excess."
+  ],
+  "conclusion": [
+    "Section 34 is one of the most frequently used provisions in Indian criminal law to charge multiple accused.",
+    "It ensures that everyone involved in a crime is brought to justice, regardless of their specific role."
+  ],
+  "full_ratio": "Section 34 IPC establishes the principle of joint and constructive liability. When multiple persons act with a shared criminal intent, each is responsible for the final act as if they did it alone. It requires a pre-arranged plan or a meeting of minds, which can be formed even at the scene of the crime."
+}

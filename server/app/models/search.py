@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List
 
 class SearchRequest(BaseModel):
     query: str
@@ -16,6 +16,3 @@ class SearchResponse(BaseModel):
     results: List[SearchResult]
     total: int
     time_taken: float
-    ai_analysis: Optional[str] = None
-    matched_cases: Optional[List[dict]] = []
-    top_judgments: Optional[List[dict]] = []

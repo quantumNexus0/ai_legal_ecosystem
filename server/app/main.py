@@ -19,7 +19,6 @@ from app.api.lawyers import router as lawyers_router
 from app.api.profile import router as profile_router
 from app.api.admin import router as admin_router
 from app.api.messages import router as messages_router
-from app.api.analysis import router as analysis_router
 from app.api.mongo_test import router as mongo_test_router
 from app.api.reviews import router as reviews_router
 from app.api.password_reset import router as password_reset_router
@@ -27,6 +26,7 @@ from app.api.websocket_chat import router as ws_chat_router
 from app.api.reminders import router as reminders_router
 from app.api.documents import router as documents_router
 from app.api.analytics import router as analytics_router
+from app.api.nyaya_ai import router as nyaya_ai_router
 
 from app.services.search_service import search_service
 from app.db.base import Base
@@ -67,7 +67,6 @@ app.include_router(profile_router, tags=["profile"])
 app.include_router(admin_router, tags=["admin"])
 app.include_router(templates_router, tags=["templates"])
 app.include_router(messages_router, tags=["messages"])
-app.include_router(analysis_router, prefix="/api/analysis", tags=["analysis"])
 app.include_router(mongo_test_router, prefix="/api", tags=["system"])
 app.include_router(reviews_router, tags=["reviews"])
 app.include_router(password_reset_router, tags=["auth"])
@@ -75,6 +74,7 @@ app.include_router(ws_chat_router, tags=["chat"])
 app.include_router(reminders_router, tags=["reminders"])
 app.include_router(documents_router, tags=["documents"])
 app.include_router(analytics_router, tags=["analytics"])
+app.include_router(nyaya_ai_router, prefix="/api/nyaya", tags=["Nyaya AI"])
 
 
 # Custom StaticFiles class to force correct MIME types for Firefox compatibility
@@ -104,6 +104,11 @@ class CustomStaticFiles(BaseStaticFiles):
 templates_root = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "..", "shared", "templates")
 if os.path.exists(templates_root):
     app.mount("/template-portal", CustomStaticFiles(directory=templates_root), name="template-portal")
+
+# Mount Nyaya-AI Client
+nyaya_ai_root = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "..", "client", "nyaya-ai")
+if os.path.exists(nyaya_ai_root):
+    app.mount("/nyaya", CustomStaticFiles(directory=nyaya_ai_root), name="nyaya-ai")
 
 
 from app.db.mongo import connect_to_mongo, close_mongo_connection

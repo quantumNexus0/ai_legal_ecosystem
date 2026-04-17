@@ -1,12 +1,27 @@
-node_modules
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+legal_services.db
+
+# Python
+.venv/
 __pycache__/
 *.pyc
+*.pyo
+
+# Node
+node_modules/
+dist/
+build/
+
+# Environment
 .env
-venv/
-server/venv/
-server/chroma_db/
-server/legal_services.db
-server/data/
-server/server/
-*.log
+.env.local
+
+# Chroma vector DB
+chroma_db/
+
+# OS
 .DS_Store
+Thumbs.db

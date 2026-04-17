@@ -1,0 +1,36 @@
+{
+  "id": "sarla_verma_ors_vs_delhi_transport_corp_anr_on_15_april_2009",
+  "title": "Sarla Verma & Ors v. Delhi Transport Corp & Anr",
+  "citation": "(2009) 6 SCC 121",
+  "court": "Supreme Court of India",
+  "date": "15 April, 2009",
+  "facts": [
+    "A major judgment by the Supreme Court of India aimed at bringing consistency and uniformity to the calculation of compensation in motor accident claim cases.",
+    "The case involved the death of a scientists/engineer in a motor accident caused by a bus owned by Delhi Transport Corporation.",
+    "The legal heirs of the deceased challenged the tribunal's award, arguing that the compensation was too low and didn't consider future prospects."
+  ],
+  "issues": [
+    "The appropriate multiplier to be applied based on the age of the deceased.",
+    "How to calculate the deduction for 'personal and living expenses' of the deceased.",
+    "Whether 'future prospects' should be added to the actual income and at what percentage."
+  ],
+  "analysis_of_law": [
+    "Motor Vehicles Act, 1988: Specifically dealing with Section 166 (Compensation claims).",
+    "Multiplier Method: The standard formula for assessing loss of dependency.",
+    "Just Compensation: The constitutional and statutory mandate to provide fair reparation."
+  ],
+  "precedent_analysis": [
+    "The Court consolidated various previous conflicting judgments (U.P. State Road Transport Corp v. Trilok Chandra, etc.) to create a standard 'Multiplier Table'.",
+    "It established a fixed percentage for future prospects based on whether the deceased was in a permanent salary job."
+  ],
+  "courts_reasoning": [
+    "Uniformity in awards is crucial to prevent arbitrariness and ensure similar victims get similar compensation.",
+    "Standardized Deduction: 1/3 deduction for bachelors, 1/4 for large families, etc. prevents guesswork by different tribunals.",
+    "Standardized Multiplier: The Court provided a definitive list linking age to the multiplier (e.g., 18 for age 21-25)."
+  ],
+  "conclusion": [
+    "The Supreme Court refined the compensation and provided clear mathematical guidelines that now form the bedrock of Motor Accident Claim Tribunals (MACT).",
+    "The award was increased, taking into account future prospects and the correct multiplier."
+  ],
+  "full_ratio": "In motor accident cases, compensation must be calculated using a standardized multiplier method based on age. Future prospects should be added at a fixed rate (e.g., 50% for those below 40 years with permanent jobs), and deductions for personal expenses must follow standardized family-size rules. This ensures 'Just Compensation' for the victims' families."
+}

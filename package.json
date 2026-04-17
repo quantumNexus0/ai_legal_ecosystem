@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "AI Legal Ecosystem Workspace",
   "scripts": {
-    "install:all": "npm install --prefix client/platform && npm install --prefix client/assistant && pip install -r server/requirements.txt",
+    "dev:server": "cd server && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000",
     "dev:platform": "cd client/platform && npm run dev",
-    "dev:server": "cd server && ..\\.venv\\Scripts\\python -m uvicorn app.main:app --reload",
-    "dev:assistant": "cd client/assistant && npm run dev",
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:platform\" \"npm run dev:assistant\"",
+    "dev:nyaya": "npx -y serve client/nyaya-ai -l 5174",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:platform\" \"npm run dev:nyaya\"",
+    "install:all": "npm install --prefix client/platform && pip install -r server/requirements.txt",
+    "install:all:unix": "npm install --prefix client/platform && pip3 install -r server/requirements.txt",
+    "lint": "cd client/platform && npm run lint",
     "start": "npm run dev"
   },
   "devDependencies": {

@@ -1,0 +1,36 @@
+{
+  "id": "gian_singh_vs_state_of_punjab_anr_on_24_september_2012",
+  "title": "Gian Singh v. State of Punjab & Anr",
+  "citation": "(2012) 10 SCC 303",
+  "court": "Supreme Court of India",
+  "date": "24 September, 2012",
+  "facts": [
+    "The case deals with the power of the High Court under Section 482 of the CrPC to quash criminal proceedings in respect of non-compoundable offenses.",
+    "Specifically, it addresses cases where the parties have settled their disputes amicably, even if the offenses are not compoundable under Section 320 of the CrPC.",
+    "The conflict was whether a settlement could allow the High Court to override the statutory bar on compounding certain serious crimes."
+  ],
+  "issues": [
+    "Whether the High Court has the power under Section 482 CrPC to quash criminal proceedings for non-compoundable offenses based on a settlement.",
+    "The distinction between compounding an offense under Section 320 and quashing proceedings under Section 482.",
+    "Identifying the categories of cases where such quashing is permissible."
+  ],
+  "analysis_of_law": [
+    "Section 320 CrPC: Lists offenses that can be compounded with or without the court's permission.",
+    "Section 482 CrPC: Inherent power of the High Court to prevent abuse of process or secure the ends of justice.",
+    "B.S. Joshi v. State of Haryana: A previous judgment that opened the door for quashing matrimonial disputes."
+  ],
+  "precedent_analysis": [
+    "The Court clarified that the power under Section 482 is distinct from and much wider than the power of compounding under Section 320.",
+    "It overruled some previous narrow interpretations, establishing a more balanced approach for non-serious, private, or civil nature disputes."
+  ],
+  "courts_reasoning": [
+    "In cases of a commercial nature, family disputes, or matrimonial matters, the controversy is essentially private in nature. If the parties have resolved it, no useful purpose is served by continuing the criminal trial.",
+    "Such a trial would be a waste of judicial time and a source of harassment to the parties.",
+    "However, this power should NOT be used for heinous crimes like murder, rape, or dacoity, as they have a serious impact on society and are not merely private disputes."
+  ],
+  "conclusion": [
+    "The High Court can quash non-compoundable offenses if they are overwhelmingly civil or private and the settlement ensures justice.",
+    "Guidelines were issued for lower and high courts to distinguish between 'private' settlements and 'societal' crimes."
+  ],
+  "full_ratio": "The High Court may quash criminal proceedings for non-compoundable offenses if they arise out of matrimonial, family, or commercial disputes where the parties have reached a settlement. This inherent power under Section 482 is used to secure the ends of justice. However, this power cannot be used for heinous and serious crimes like murder or rape."
+}

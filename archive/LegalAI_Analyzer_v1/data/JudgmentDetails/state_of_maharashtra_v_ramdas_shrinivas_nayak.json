@@ -1,0 +1,36 @@
+{
+  "id": "state_of_maharashtra_v_ramdas_shrinivas_nayak",
+  "title": "State of Maharashtra v. Ramdas Shrinivas Nayak",
+  "citation": "AIR 1982 SC 1249",
+  "court": "Supreme Court of India",
+  "date": "July 28, 1982",
+  "facts": [
+    "The case involves a criminal complaint filed by Ramdas Shrinivas Nayak (a former MLA) against the then Chief Minister of Maharashtra, Abdul Rehman Antulay, alleging corrupt practices and misuse of power.",
+    "A major issue during High Court revision was whether the Governor must act on his own discretion (individual discretion) when deciding on the sanction for prosecuting a Chief Minister.",
+    "During the proceedings, the counsel for the State made a concession regarding the Governor's individual discretion, which was recorded by the High Court judge in the judgment.",
+    "The State later challenged this in the Supreme Court, claiming that no such concession was ever made."
+  ],
+  "issues": [
+    "Whether the State can challenge a factual recording in a judicial record by a judge (Conclusiveness of Judicial Record).",
+    "Whether the Governor acts in his individual discretion while granting sanction under Section 6 of the Prevention of Corruption Act against a Chief Minister."
+  ],
+  "analysis_of_law": [
+    "Section 6 of the Prevention of Corruption Act: Necessity of sanction for prosecution.",
+    "Article 163 of the Constitution: Exercise of Governor's functions and 'aid and advice' of the Council of Ministers.",
+    "Evidence Act: Conclusiveness of judicial proceedings as recorded by the court."
+  ],
+  "precedent_analysis": [
+    "The Court emphasized that judges' records of what transpired in court are sacred and can only be set straight by the same court.",
+    "Public policy requires that judicial decorum be maintained by not allowing parties to contradict the judge's record."
+  ],
+  "courts_reasoning": [
+    "Judicial records are conclusive. If a judge records that a statement was made, it must be believed as final. It's against judicial propriety to launch an inquiry into what happened in the court below.",
+    "Regarding the Governor's role: In a situation where a Chief Minister is being prosecuted, the Council of Ministers (his subordinates) would be biased. Therefore, the Governor must act in his 'individual discretion' as a matter of propriety.",
+    "The Court held that the State cannot backtrack (resile) from a concession made by its counsel and recorded by the High Court judge."
+  ],
+  "conclusion": [
+    "The Supreme Court dismissed the application for special leave to appeal.",
+    "The judgment remains a landmark for both judicial record integrity and the Governor's discretionary powers."
+  ],
+  "full_ratio": "Judicial records are conclusive evidence of the proceedings. A statement by a judge in a judgment about what happened in court must be accepted as final. On the Governor's role: when dealing with the prosecution of a Chief Minister, the Governor must act in his own discretion to ensure impartiality."
+}

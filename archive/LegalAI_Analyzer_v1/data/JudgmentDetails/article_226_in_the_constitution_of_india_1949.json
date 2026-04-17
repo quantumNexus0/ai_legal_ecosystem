@@ -1,0 +1,36 @@
+{
+  "id": "article_226_in_the_constitution_of_india_1949",
+  "title": "Article 226: Power of High Courts to issue certain writs",
+  "citation": "Constitution of India, 1949",
+  "court": "High Courts of India",
+  "date": "Commenced 1950",
+  "facts": [
+    "Article 226 is a fundamental provision that grants High Courts the extraordinary jurisdiction to issue directions, orders, or writs.",
+    "It is used for the enforcement of Fundamental Rights (Part III) and for 'any other purpose', making its scope wider than Article 32 of the Supreme Court.",
+    "It acts as a shield against administrative or executive overreach and protects the rule of law."
+  ],
+  "issues": [
+    "Whether a High Court can intervene in matters involving executive discretion.",
+    "The limitation of 'alternative remedy'—whether a writ can be filed if other legal paths exist.",
+    "The territorial jurisdiction of High Courts in issuing writs."
+  ],
+  "analysis_of_law": [
+    "Article 226(1): General power to issue writs like Habeas Corpus, Mandamus, Prohibition, Quo Warranto, and Certiorari.",
+    "Article 226(2): Power extends to authorities outside the territory if the cause of action arises within the territory.",
+    "Extraordinary Jurisdiction: It is a discretionary power, not a matter of right for the petitioner."
+  ],
+  "precedent_analysis": [
+    "L. Chandra Kumar v. Union of India: Held that the power of judicial review under Article 226 is an integral and essential feature of the Constitution, forming part of its basic structure.",
+    "State of U.P. v. Mohd. Nooh: Established that an alternative remedy is not an absolute bar to a writ petition if there's a violation of natural justice."
+  ],
+  "courts_reasoning": [
+    "Higher courts serve as the custodians of the Constitution. Article 226 ensures that every citizen has a local and accessible forum to challenge injustice.",
+    "The words 'for any other purpose' indicate that High Courts can intervene even in non-Fundamental Right violations if there's a clear legal injury.",
+    "High Courts must balance their intervention to avoid becoming a court of appeal for every administrative decision."
+  ],
+  "conclusion": [
+    "Article 226 remains the most frequently invoked provision in Indian litigation for securing justice against the State.",
+    "It reinforces the principle that where there is a right, there must be a remedy (Ubi jus ibi remedium)."
+  ],
+  "full_ratio": "The power of the High Court under Article 226 is part of the basic structure of the Constitution. While discretionary, it is a wide-reaching tool to ensure that executive and quasi-judicial authorities stay within their legal limits. It is not limited to fundamental rights but extends to all legal rights."
+}

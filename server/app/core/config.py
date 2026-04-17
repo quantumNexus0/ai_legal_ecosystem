@@ -11,7 +11,6 @@ class Settings:
 
     # Paths
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
-    DATA_DIR: Path = BASE_DIR / "data"
 
     # Model Settings
     EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"

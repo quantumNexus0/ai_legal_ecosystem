@@ -11,7 +11,7 @@ const Footer = () => {
                 <Scale className="h-6 w-6 text-white" />
               </div>
               <span className="ml-3 text-2xl font-black tracking-tighter uppercase">
-                Nyaya<span className="text-blue-500">Assist</span>
+                Nyaya<span className="text-blue-500">-AI</span>
               </span>
             </div>
             <p className="text-gray-400 text-lg leading-relaxed mb-6">
@@ -65,14 +65,14 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 text-blue-500 mr-3" />
-                <span className="text-gray-400">support@nyayaassist.in</span>
+                <span className="text-gray-400">support@nyaya-ai.in</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
-          <p>© {new Date().getFullYear()} NyayaAssist. Built for a Digital India.</p>
+          <p>© {new Date().getFullYear()} Nyaya-AI. Built for a Digital India.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="hover:text-white">Privacy Policy</a>
             <a href="#" className="hover:text-white">Terms of Service</a>

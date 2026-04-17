@@ -1,19 +1,21 @@
 version: '3.8'
 
 services:
+  # ── FastAPI Backend ──────────────────────────────────────────────────────────
   server:
     build:
       context: ./server
       dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     env_file:
       - ./server/.env
     volumes:
       - ./server/legal_services.db:/app/legal_services.db
       - ./server/chroma_db:/app/chroma_db
+      - ./shared:/app/../shared          # template portal access
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - MONGODB_URL=mongodb://mongodb:27017
       - DATABASE_URL=sqlite:////app/legal_services.db
     depends_on:
@@ -21,6 +23,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  # ── Main React Platform (nginx reverse proxy on port 80) ────────────────────
   platform:
     build:
       context: ./client/platform
@@ -28,25 +31,26 @@ services:
       args:
         - VITE_API_URL=http://localhost:8000
     ports:
-      - "5173:80"
+      - "80:80"
+      # Uncomment for HTTPS (needs SSL certs mounted):
+      # - "443:443"
     depends_on:
       - server
+      - nyaya-ai
     restart: unless-stopped
 
-  assistant:
+  # ── Nyaya-AI Client (static vanilla-JS legal assistant on port 5174) ────────
+  nyaya-ai:
     build:
-      context: ./client/assistant
+      context: ./client/nyaya-ai
       dockerfile: Dockerfile
-      args:
-        - VITE_API_URL=http://localhost:8000
     ports:
       - "5174:80"
-    depends_on:
-      - server
     restart: unless-stopped
 
+  # ── MongoDB ──────────────────────────────────────────────────────────────────
   mongodb:
-    image: mongo:latest
+    image: mongo:7
     ports:
       - "27018:27017"
     environment:
@@ -61,5 +65,21 @@ services:
       start_period: 40s
     restart: unless-stopped
 
+  # ── n8n Workflow Automation ──────────────────────────────────────────────────
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - NODE_ENV=production
+      - WEBHOOK_URL=http://localhost:5678/
+    volumes:
+      - n8n_data:/home/node/.n8n
+    restart: unless-stopped
+
 volumes:
   mongodb_data:
+  n8n_data:

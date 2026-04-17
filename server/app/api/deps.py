@@ -32,10 +32,7 @@ def get_mongo_db():
         )
     return db
 
-def get_current_user(
-    db: Session = Depends(get_db),
-    token: str = Depends(reusable_oauth2)
-) -> User:
+def get_current_user_from_token(token: str, db: Session) -> User:
     try:
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
@@ -50,3 +47,9 @@ def get_current_user(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
+
+def get_current_user(
+    db: Session = Depends(get_db),
+    token: str = Depends(reusable_oauth2)
+) -> User:
+    return get_current_user_from_token(token, db)

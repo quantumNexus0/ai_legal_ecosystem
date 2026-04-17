@@ -9,7 +9,7 @@ const SmartActions: React.FC = () => {
     const actions = [
         { label: 'New Case', icon: Plus, path: '/dashboard/cases/new', color: 'bg-blue-600' },
         { label: 'Find Lawyer', icon: Search, path: '/dashboard/lawyers', color: 'bg-indigo-600' },
-        { label: 'Draft Document', icon: FileText, path: '/dashboard/draft', color: 'bg-purple-600' },
+        { label: 'Draft Document', icon: FileText, path: 'http://localhost:5174/index.html#docs', color: 'bg-purple-600', isExternal: true },
         { label: 'Edit Profile', icon: User, path: '/dashboard/profile', color: 'bg-gray-600' },
     ];
 
@@ -22,7 +22,13 @@ const SmartActions: React.FC = () => {
                     return (
                         <button
                             key={index}
-                            onClick={() => navigate(action.path)}
+                            onClick={() => {
+                                if (action.isExternal) {
+                                    window.open(action.path, '_blank', 'noopener,noreferrer');
+                                } else {
+                                    navigate(action.path);
+                                }
+                            }}
                             className="flex flex-col items-center justify-center p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors duration-200 group"
                         >
                             <div className={`p-3 rounded-full ${action.color} text-white mb-3 shadow-sm group-hover:scale-110 transition-transform duration-200`}>
