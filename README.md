@@ -21,7 +21,7 @@
 
 - [Overview](#-overview)
 - [Key Features](#-key-features)
-- [System Architecture](#-system-architecture)
+- [System Architecture](#-system-architecture) (See also: [Deep Dive Architecture Diagrams](ARCHITECTURE.md))
 - [Integrated Ecosystem Components](#-integrated-ecosystem-components)
 - [Technology Stack](#-technology-stack)
 - [Getting Started](#-getting-started)
