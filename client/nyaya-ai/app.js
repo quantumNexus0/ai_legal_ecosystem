@@ -562,6 +562,36 @@ function showToast(msg) {
 }
 
 // ═══════════════════════════════════════════════════
+// MOBILE SIDEBAR TOGGLE
+// ═══════════════════════════════════════════════════
+function openSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const closeBtn = document.getElementById('sidebarClose');
+  if (sidebar) sidebar.classList.add('open');
+  if (overlay) overlay.classList.add('active');
+  if (closeBtn) closeBtn.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const closeBtn = document.getElementById('sidebarClose');
+  if (sidebar) sidebar.classList.remove('open');
+  if (overlay) overlay.classList.remove('active');
+  if (closeBtn) closeBtn.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// Close sidebar when a nav tab is switched on mobile
+const _origSwitchTab = switchTab;
+function switchTab(tab, navEl) {
+  _origSwitchTab(tab, navEl);
+  if (window.innerWidth <= 768) closeSidebar();
+}
+
+// ═══════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════
 renderRights();
@@ -572,7 +602,6 @@ renderDocTypes();
 window.addEventListener('load', () => {
     const hash = window.location.hash.replace('#', '');
     if (hash && (hash === 'chat' || hash === 'rights' || hash === 'analyze' || hash === 'docs' || hash === 'refs')) {
-        // Find the sidebar nav item for this tab
         const navItem = document.querySelector(`.nav-item[data-tab="${hash}"]`);
         if (navItem) {
             switchTab(hash, navItem);

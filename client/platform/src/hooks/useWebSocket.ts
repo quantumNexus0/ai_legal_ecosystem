@@ -1,73 +1,125 @@
-// client/platform/src/hooks/useWebSocket.ts
-// WebSocket hook with auto-reconnect and secure first-message auth flow.
-import { useEffect, useRef, useCallback, useState } from 'react';
+// ============================================================
+// NyayaAssist — useWebSocket.ts
+// Auto-reconnecting WebSocket hook with exponential backoff
+// ============================================================
+import { useEffect, useRef, useState, useCallback } from "react";
 
-interface Message {
-  id: number;
-  sender_id: number;
-  content: string;
-  timestamp: string;
+type WsStatus = "connected" | "connecting" | "disconnected";
+
+interface UseWebSocketOptions {
+  userId: number | string;
+  token: string;
+  onMessage?: (msg: any) => void;
+  onCaseUpdate?: () => void;
 }
 
-export function useWebSocket(roomId: number | null) {
-  const wsRef = useRef<WebSocket | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [isConnected, setIsConnected] = useState(false);
+interface UseWebSocketReturn {
+  wsStatus: WsStatus;
+  sendMessage: (payload: object) => void;
+}
+
+const WS_BASE = (import.meta as any).env.VITE_WS_URL ?? "ws://localhost:8000";
+const MAX_RECONNECT_DELAY = 30_000;
+
+export function useWebSocket({
+  userId,
+  token,
+  onMessage,
+  onCaseUpdate,
+}: UseWebSocketOptions): UseWebSocketReturn {
+  const ws = useRef<WebSocket | null>(null);
+  const reconnectDelay = useRef(1000);
   const reconnectTimer = useRef<ReturnType<typeof setTimeout>>();
+  const isMounted = useRef(true);
+  const [wsStatus, setWsStatus] = useState<WsStatus>("connecting");
 
   const connect = useCallback(() => {
-    if (!roomId) return;
-    const token = localStorage.getItem('access_token');
-    if (!token) return;
+    if (!userId || !token || !isMounted.current) return;
 
-    const BASE_WS = (import.meta.env.VITE_API_URL || 'http://localhost:8000')
-      .replace('http', 'ws');
+    setWsStatus("connecting");
+    const url = `${WS_BASE}/ws/chat/${userId}`;
+    const socket = new WebSocket(url);
+    ws.current = socket;
 
-    // ── Issue 7 fix: NO token in the URL ──────────────────────────────────
-    const ws = new WebSocket(`${BASE_WS}/ws/chat/${roomId}`);
-    wsRef.current = ws;
+    socket.onopen = () => {
+      if (!isMounted.current) return;
+      
+      // Step 1: Send Auth Frame (required by target backend)
+      socket.send(JSON.stringify({ type: "auth", token }));
 
-    ws.onopen = () => {
-      setIsConnected(true);
-      console.log(`✅ WebSocket connected to room ${roomId}`);
-      // Send token as the first message (not in URL) to avoid access-log leaks
-      ws.send(JSON.stringify({ type: 'auth', token }));
+      setWsStatus("connected");
+      reconnectDelay.current = 1000;
+      clearTimeout(reconnectTimer.current);
+
+      // Heartbeat
+      const heartbeat = setInterval(() => {
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify({ type: "ping" }));
+        } else {
+          clearInterval(heartbeat);
+        }
+      }, 25_000);
     };
 
-    ws.onmessage = (event) => {
+    socket.onmessage = (event) => {
+      if (!isMounted.current) return;
       try {
-        const msg: Message = JSON.parse(event.data);
-        setMessages((prev) => [...prev, msg]);
+        const data = JSON.parse(event.data);
+        switch (data.type) {
+          case "message":
+            onMessage?.(data.payload);
+            break;
+          case "case_update":
+            onCaseUpdate?.();
+            break;
+          case "pong":
+            break; // heartbeat ack
+          default:
+            console.log("[WS] Unknown event:", data.type);
+        }
       } catch (e) {
-        console.error('WS message parse error:', e);
+        console.error("[WS] Parse error:", e);
       }
     };
 
-    ws.onclose = () => {
-      setIsConnected(false);
-      // Auto-reconnect after 3 seconds
-      reconnectTimer.current = setTimeout(connect, 3000);
+    socket.onclose = (event) => {
+      if (!isMounted.current) return;
+      setWsStatus("disconnected");
+      ws.current = null;
+
+      if (event.code !== 1000) {
+        // Abnormal close — reconnect with exponential backoff
+        console.warn(`[WS] Closed (${event.code}). Reconnecting in ${reconnectDelay.current}ms`);
+        reconnectTimer.current = setTimeout(() => {
+          reconnectDelay.current = Math.min(reconnectDelay.current * 2, MAX_RECONNECT_DELAY);
+          connect();
+        }, reconnectDelay.current);
+      }
     };
 
-    ws.onerror = (e) => {
-      console.error('WebSocket error:', e);
-      ws.close();
+    socket.onerror = () => {
+      console.error("[WS] Error encountered");
+      socket.close();
     };
-  }, [roomId]);
-
-  const sendMessage = useCallback((content: string) => {
-    if (wsRef.current?.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ content }));
-    }
-  }, []);
+  }, [userId, token, onMessage, onCaseUpdate]);
 
   useEffect(() => {
+    isMounted.current = true;
     connect();
     return () => {
+      isMounted.current = false;
       clearTimeout(reconnectTimer.current);
-      wsRef.current?.close();
+      ws.current?.close(1000, "Component unmounted");
     };
   }, [connect]);
 
-  return { messages, sendMessage, isConnected };
+  const sendMessage = useCallback((payload: object) => {
+    if (ws.current?.readyState === WebSocket.OPEN) {
+      ws.current.send(JSON.stringify(payload));
+    } else {
+      console.warn("[WS] Cannot send — socket not open");
+    }
+  }, []);
+
+  return { wsStatus, sendMessage };
 }

@@ -4,11 +4,13 @@ import { useSearchParams } from 'react-router-dom';
 import LawyerProfile from './profile/LawyerProfile';
 import CasesList from './cases/CasesList';
 import AppointmentsList from './appointments/AppointmentsList';
-import ChatInterface from '../chat/ChatInterface';
 import StatsCard from './StatsCard';
 
+// Keep the new messaging components
+import MessagesPanel from './MessagesPanel';
 import { useAuthStore } from '../../store/authStore';
 import { dashboardService, LawyerStats } from '../../services/dashboardService';
+import { useWebSocket } from '../../hooks/useWebSocket';
 
 const LawyerDashboard = () => {
   const { user } = useAuthStore();
@@ -16,6 +18,13 @@ const LawyerDashboard = () => {
   const [lawyerStats, setLawyerStats] = React.useState<LawyerStats | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState(searchParams.get('tab') || 'overview');
+
+  // Preserve WebSocket for real-time messaging
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
+  const { wsStatus, sendMessage } = useWebSocket({
+    userId: user?.id || "",
+    token: token
+  });
 
   React.useEffect(() => {
     const tab = searchParams.get('tab');
@@ -57,7 +66,14 @@ const LawyerDashboard = () => {
     <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Lawyer Dashboard</h1>
-        <p className="text-gray-600 font-medium">Welcome, {user?.name}</p>
+        <div className="flex items-center gap-3">
+          <p className="text-gray-600 font-medium">Welcome, {user?.name}</p>
+          {/* WebSocket Status Indicator */}
+          <div 
+            className={`w-2 h-2 rounded-full ${wsStatus === 'connected' ? 'bg-green-500' : 'bg-amber-500'}`} 
+            title={`Real-time status: ${wsStatus}`}
+          />
+        </div>
       </div>
 
       {/* Tabs Navigation */}
@@ -99,33 +115,20 @@ const LawyerDashboard = () => {
           </div>
         ) : activeTab === 'messages' ? (
           <div className="lg:col-span-3">
-            <ChatInterface />
+            {/* New real-time MessagesPanel preserved */}
+            <MessagesPanel user={user} sendMessage={sendMessage} />
           </div>
         ) : (
           <>
-            <div className="lg:col-span-2 space-y-6">
+            <div className="lg:col-span-3 space-y-6">
               {activeTab === 'overview' && (
-                <div className="hidden lg:block space-y-6">
+                <div className="space-y-6">
                   <CasesList />
                   <AppointmentsList />
                 </div>
               )}
               {activeTab === 'cases' && <CasesList />}
               {activeTab === 'appointments' && <AppointmentsList />}
-
-              {/* Mobile Overview Hint */}
-              {activeTab === 'overview' && (
-                <div className="lg:hidden">
-                  <p className="text-gray-500 text-center py-8 bg-white rounded-xl border border-dashed">
-                    Select a tab above to view details
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Sidebar for other tabs on Desktop (Optional, but hiding per user request) */}
-            <div className="hidden lg:block lg:col-span-1">
-              {/* Profile is hidden here because user said "only show that time profile" */}
             </div>
           </>
         )}

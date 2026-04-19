@@ -11,8 +11,12 @@
 <body>
 <div class="app">
 
+  <!-- ═══ MOBILE HAMBURGER ═══ -->
+  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu" onclick="openSidebar()">☰</button>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
   <!-- ═══ SIDEBAR ═══ -->
-  <nav class="sidebar">
+  <nav class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <div class="logo-mark">
         <div class="logo-icon">न्</div>
@@ -20,6 +24,8 @@
           <h1>Nyaya AI</h1>
           <span>Legal Assistant · India</span>
         </div>
+        <!-- Mobile close button -->
+        <button style="margin-left:auto;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:20px;line-height:1;display:none" id="sidebarClose" onclick="closeSidebar()" aria-label="Close menu">✕</button>
       </div>
     </div>
 
