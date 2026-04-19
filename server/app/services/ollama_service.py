@@ -5,8 +5,8 @@ from typing import AsyncGenerator, List, Dict, Any
 from app.core.config import settings
 
 class OllamaService:
-    def __init__(self, base_url: str = "http://localhost:11434"):
-        self.base_url = base_url
+    def __init__(self, base_url: str = None):
+        self.base_url = base_url or settings.OLLAMA_BASE_URL
 
     async def check_connection(self) -> bool:
         """Check if Ollama server is reachable."""
