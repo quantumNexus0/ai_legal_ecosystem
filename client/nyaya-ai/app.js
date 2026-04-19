@@ -336,8 +336,13 @@ function switchTab(tab, navEl) {
   else document.querySelector(`[data-tab="${tab}"]`)?.classList.add('active');
 
   const meta = PAGE_META[tab];
-  document.getElementById('pageTitle').textContent = meta.title;
-  document.getElementById('pageBreadcrumb').textContent = meta.sub;
+  if (meta) {
+    document.getElementById('pageTitle').textContent = meta.title;
+    document.getElementById('pageBreadcrumb').textContent = meta.sub;
+  }
+
+  // Close sidebar when a nav tab is switched on mobile
+  if (window.innerWidth <= 768) closeSidebar();
 }
 
 // ═══════════════════════════════════════════════════
@@ -584,12 +589,8 @@ function closeSidebar() {
   document.body.style.overflow = '';
 }
 
-// Close sidebar when a nav tab is switched on mobile
-const _origSwitchTab = switchTab;
-function switchTab(tab, navEl) {
-  _origSwitchTab(tab, navEl);
-  if (window.innerWidth <= 768) closeSidebar();
-}
+// Sidebar toggle logic is handled inside switchTab and mobile functions below
+
 
 // ═══════════════════════════════════════════════════
 // INIT

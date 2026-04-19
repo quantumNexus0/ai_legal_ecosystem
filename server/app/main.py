@@ -27,6 +27,7 @@ from app.api.reminders import router as reminders_router
 from app.api.documents import router as documents_router
 from app.api.analytics import router as analytics_router
 from app.api.nyaya_ai import router as nyaya_ai_router
+from app.routers.ollama_proxy import router as ollama_router
 
 from app.services.search_service import search_service
 from app.db.base import Base
@@ -44,7 +45,12 @@ app = FastAPI(
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "https://nyayaassist-platform.vercel.app",
+        os.getenv("FRONTEND_URL", ""),  # add deployed URL via env
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -66,6 +72,7 @@ app.include_router(reminders_router, tags=["reminders"])
 app.include_router(documents_router, tags=["documents"])
 app.include_router(analytics_router, tags=["analytics"])
 app.include_router(nyaya_ai_router, prefix="/api/nyaya", tags=["Nyaya AI"])
+app.include_router(ollama_router)
 
 
 # Custom StaticFiles class to force correct MIME types for Firefox compatibility
