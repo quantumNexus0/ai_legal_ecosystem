@@ -5,6 +5,12 @@ let currentLang = 'en';
 let currentMode = 'general';
 let ollamaConnected = false;
 let apiBase = '/api/nyaya';
+
+// Automatically point to backend if running on the standalone React/serve ports
+if (window.location.port === '5174' || window.location.port === '5173') {
+    apiBase = 'http://localhost:8000/api/nyaya';
+}
+
 let chatHistory = [];
 let selectedDocType = null;
 let isGenerating = false;

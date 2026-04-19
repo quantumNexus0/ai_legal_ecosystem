@@ -4,13 +4,15 @@
   "description": "AI Legal Ecosystem Workspace",
   "scripts": {
     "dev:server": "cd server && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000",
+    "dev:server:ngrok": "python server/scripts/run_with_ngrok.py",
     "dev:platform": "cd client/platform && npm run dev",
     "dev:nyaya": "npx -y serve client/nyaya-ai -l 5174",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:platform\" \"npm run dev:nyaya\"",
     "install:all": "npm install --prefix client/platform && pip install -r server/requirements.txt",
     "install:all:unix": "npm install --prefix client/platform && pip3 install -r server/requirements.txt",
     "lint": "cd client/platform && npm run lint",
-    "start": "npm run dev"
+    "start": "concurrently \"npm run dev:server:ngrok\" \"npm run dev:platform\" \"npm run dev:nyaya\"",
+    "start:local": "npm run dev"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
