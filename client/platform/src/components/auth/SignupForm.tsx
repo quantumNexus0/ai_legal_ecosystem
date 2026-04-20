@@ -8,7 +8,7 @@ import type { SignupFormData } from '../../types/auth';
 import { authService } from '../../services/authService';
 
 const signupSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
+  full_name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   confirmPassword: z.string(),
@@ -84,20 +84,20 @@ const SignupForm = () => {
               <User className="h-5 w-5 text-gray-400" />
             </div>
             <input
-              {...register('name')}
+              {...register('full_name')}
               type="text"
               className="block w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-base"
               placeholder="Enter your full name"
             />
           </div>
-          {errors.name && (
+          {errors.full_name && (
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="mt-2 text-sm text-red-600 flex items-center"
             >
               <AlertCircle className="h-4 w-4 mr-1" />
-              {errors.name.message}
+              {errors.full_name.message}
             </motion.p>
           )}
         </motion.div>

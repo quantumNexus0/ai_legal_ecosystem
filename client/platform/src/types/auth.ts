@@ -26,7 +26,7 @@ export interface LoginFormData {
 }
 
 export interface SignupFormData extends LoginFormData {
-  name: string;
+  full_name: string;
   confirmPassword: string;
   role: 'lawyer' | 'user';
 }
