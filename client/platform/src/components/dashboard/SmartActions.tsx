@@ -6,10 +6,11 @@ import { useNavigate } from 'react-router-dom';
 const SmartActions: React.FC = () => {
     const navigate = useNavigate();
 
+    const assistantUrl = import.meta.env.VITE_ASSISTANT_URL || 'http://localhost:5174';
     const actions = [
         { label: 'New Case', icon: Plus, path: '/dashboard/cases/new', color: 'bg-blue-600' },
         { label: 'Find Lawyer', icon: Search, path: '/dashboard/lawyers', color: 'bg-indigo-600' },
-        { label: 'Draft Document', icon: FileText, path: 'http://localhost:5174/index.html#docs', color: 'bg-purple-600', isExternal: true },
+        { label: 'Draft Document', icon: FileText, path: `${assistantUrl}/index.html#docs`, color: 'bg-purple-600', isExternal: true },
         { label: 'Edit Profile', icon: User, path: '/dashboard/profile', color: 'bg-gray-600' },
     ];
 

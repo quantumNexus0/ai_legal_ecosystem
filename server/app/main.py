@@ -28,6 +28,7 @@ from app.api.documents import router as documents_router
 from app.api.analytics import router as analytics_router
 from app.api.nyaya_ai import router as nyaya_ai_router
 from app.routers.ollama_proxy import router as ollama_router
+from app.routers.ai import router as ai_router
 
 from app.services.search_service import search_service
 from app.db.base import Base
@@ -42,10 +43,17 @@ app = FastAPI(
 )
 
 
+# Read allowed origins from environment variable
+# 1. Fix CORS
+ALLOWED_ORIGINS = os.getenv(
+    "ALLOWED_ORIGINS",
+    "http://localhost:5173,http://localhost:5174"
+).split(",")
+
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -68,6 +76,7 @@ app.include_router(documents_router, tags=["documents"])
 app.include_router(analytics_router, tags=["analytics"])
 app.include_router(nyaya_ai_router, prefix="/api/nyaya", tags=["Nyaya AI"])
 app.include_router(ollama_router)
+app.include_router(ai_router)
 
 
 # Custom StaticFiles class to force correct MIME types for Firefox compatibility
@@ -98,10 +107,10 @@ templates_root = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__
 if os.path.exists(templates_root):
     app.mount("/template-portal", CustomStaticFiles(directory=templates_root), name="template-portal")
 
-# Mount Nyaya-AI Client
-nyaya_ai_root = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "..", "client", "nyaya-ai")
-if os.path.exists(nyaya_ai_root):
-    app.mount("/nyaya", CustomStaticFiles(directory=nyaya_ai_root), name="nyaya-ai")
+# Mount Assistant Client
+assistant_root = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "..", "client", "assistant")
+if os.path.exists(assistant_root):
+    app.mount("/nyaya", CustomStaticFiles(directory=assistant_root), name="assistant")
 
 
 from app.db.mongo import connect_to_mongo, close_mongo_connection

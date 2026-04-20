@@ -8,7 +8,9 @@ let apiBase = '/api/nyaya';
 
 // Automatically point to backend if running on the standalone React/serve ports
 if (window.location.port === '5174' || window.location.port === '5173') {
-    apiBase = 'http://localhost:8000/api/nyaya';
+    const placeholder = '__VITE_API_URL__';
+    const fallback = 'http://localhost:8000';
+    apiBase = (placeholder.includes('__VITE_API_URL__') ? fallback : placeholder) + '/api/nyaya';
 }
 
 let chatHistory = [];
@@ -605,8 +607,12 @@ renderRights();
 renderRefs();
 renderDocTypes();
 
-// Handle Deep Linking via Hash
 window.addEventListener('load', () => {
+    // Handle unreplaced placeholders in the DOM for local development
+    document.querySelectorAll('a[href*="__VITE_PLATFORM_URL__"]').forEach(link => {
+        link.href = link.href.replace('__VITE_PLATFORM_URL__', 'http://localhost:5173');
+    });
+
     const hash = window.location.hash.replace('#', '');
     if (hash && (hash === 'chat' || hash === 'rights' || hash === 'analyze' || hash === 'docs' || hash === 'refs')) {
         const navItem = document.querySelector(`.nav-item[data-tab="${hash}"]`);

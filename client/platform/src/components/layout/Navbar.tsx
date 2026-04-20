@@ -28,7 +28,7 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-  const NYAYA_AI_URL = 'https://nyaya-ai-assistant.vercel.app';
+  const NYAYA_AI_URL = import.meta.env.VITE_ASSISTANT_URL || 'https://nyaya-ai-assistant.vercel.app';
 
   const navLinks = [
     { name: 'Home',           href: '/' },

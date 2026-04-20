@@ -19,7 +19,7 @@ graph TB
         
         subgraph "Frontend Services"
             Platform[Platform SPA\nReact/Vite]
-            NyayaAI[Nyaya-AI Assistant\nVanilla JS/Static]
+            Assistant[Assistant\nVanilla JS/Static]
         end
 
         subgraph "Backend Services"
@@ -40,7 +40,7 @@ graph TB
     Browser -- HTTP/HTTPS --> Proxy
     
     Proxy -- "/ (SPA)" --> Platform
-    Proxy -- "/nyaya-ai/" --> NyayaAI
+    Proxy -- "/assistant/" --> Assistant
     Proxy -- "/api/, /auth/, /ws/" --> FastAPI
     
     FastAPI -- "SQLAlchemy" --> SQL
@@ -308,7 +308,7 @@ aiLegalEcosystem/
 │   │   ├── src/components/
 │   │   ├── nginx.conf     => Master Reverse Proxy Configuration
 │   │   └── Dockerfile     => Frontend Build
-│   └── nyaya-ai/          => Legal Assistant SPA
+│   └── assistant/         => Legal Assistant SPA
 │       ├── index.html     => Vanilla JS Interface
 │       └── Dockerfile     => Static File Server (Nginx)
 ├── server/                => FastAPI Backend

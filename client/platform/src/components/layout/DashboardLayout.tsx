@@ -25,7 +25,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     navigate('/login');
   };
 
-  const NYAYA_AI_URL = 'https://nyaya-ai-assistant.vercel.app';
+  const NYAYA_AI_URL = import.meta.env.VITE_ASSISTANT_URL || 'https://nyaya-ai-assistant.vercel.app';
 
   const navItems = [
     { name: 'Dashboard',      path: '/dashboard',                                                                                 icon: Home,      type: 'link' },

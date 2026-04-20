@@ -16,9 +16,12 @@ services:
       - NODE_ENV=production
       - MONGODB_URL=mongodb://mongodb:27017
       - DATABASE_URL=sqlite:////app/legal_services.db
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:5173,http://localhost:5174,http://localhost:5174}
     depends_on:
       mongodb:
         condition: service_healthy
+      ollama:
+        condition: service_started
     restart: unless-stopped
 
   # ── Main React Platform (nginx reverse proxy on port 80) ────────────────────
@@ -27,23 +30,28 @@ services:
       context: ./client/platform
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=http://localhost:8000
+        - VITE_API_URL=${VITE_API_URL:-http://localhost:8000}
+        - VITE_ASSISTANT_URL=${VITE_ASSISTANT_URL:-http://localhost:5174}
     ports:
       - "80:80"
       # Uncomment for HTTPS (needs SSL certs mounted):
       # - "443:443"
     depends_on:
       - server
-      - nyaya-ai
+      - assistant
     restart: unless-stopped
 
-  # ── Nyaya-AI Client (static vanilla-JS legal assistant on port 5174) ────────
-  nyaya-ai:
+  # ── Assistant Client (static vanilla-JS legal assistant on port 5174) ────────
+  assistant:
     build:
-      context: ./client/nyaya-ai
+      context: ./client/assistant
       dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8000
     ports:
       - "5174:80"
+    depends_on:
+      - server
     restart: unless-stopped
 
   # ── MongoDB ──────────────────────────────────────────────────────────────────
@@ -61,6 +69,15 @@ services:
       timeout: 5s
       retries: 5
       start_period: 40s
+    restart: unless-stopped
+ 
+  # ── Ollama AI ────────────────────────────────────────────────────────────────
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
     restart: unless-stopped
 
   # ── n8n Workflow Automation ──────────────────────────────────────────────────
@@ -81,3 +98,4 @@ services:
 volumes:
   mongodb_data:
   n8n_data:
+  ollama_data:

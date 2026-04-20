@@ -74,7 +74,7 @@ Nyaya-AI operates as a unified multi-service ecosystem:
 graph TB
     subgraph "Client Layer"
         Platform[Main Dashboard - React]
-        Assistant[Nyaya-AI Client - Vanilla JS]
+        Assistant[Assistant\nVanilla JS/Static]
         Style[Premium UI/Glassmorphism]
     end
 
@@ -98,7 +98,7 @@ graph TB
 
     Platform --> Proxy
     Assistant --> Proxy
-    Proxy --> FastAPI
+    Proxy -- "/assistant/" --> Assistant
     
     FastAPI --> Auth
     Auth --> SQL
@@ -128,7 +128,7 @@ The core web portal for user management and practice tools.
 
 ### 2. Nyaya-AI Assistant
 A specialized, lightweight interface for legal research and case analysis.
-- **Directory**: `client/nyaya-ai/`
+- **Directory**: `client/assistant/`
 - **Port**: `5174`
 - **Tech**: HTML5, Vanilla JavaScript, CSS3.
 
@@ -191,7 +191,7 @@ docker compose ps
 
 **Services in Docker:**
 - `platform`: Main UI (Port 80)
-- `nyaya-ai`: AI Client (Port 5174)
+- `assistant`: AI Client (Port 5174)
 - `server`: API Gateway (Port 8000)
 - `mongodb`: High-performance NoSQL store (Port 27018)
 
