@@ -27,11 +27,13 @@ const LANG_NAMES = {
 // OLLAMA API
 // ═══════════════════════════════════════════════════
 async function checkOllama() {
+  console.log('Checking backend status at:', `${apiBase}/status`);
   try {
     const res = await fetch(`${apiBase}/status`, { signal: AbortSignal.timeout(3000) });
     if (res.ok) {
       const data = await res.json();
       ollamaConnected = data.connected;
+      console.log('Backend responded. Ollama connected:', ollamaConnected);
       const dot = document.getElementById('statusDot');
       if (ollamaConnected) {
         dot.classList.add('connected');
@@ -40,8 +42,12 @@ async function checkOllama() {
         dot.classList.remove('connected');
         showToast('⚠️ Backend alive, but Ollama not reachable');
       }
-    } else throw new Error();
-  } catch {
+    } else {
+      console.error('Backend responded with error:', res.status);
+      throw new Error();
+    }
+  } catch (err) {
+    console.error('Failed to reach backend:', err);
     ollamaConnected = false;
     document.getElementById('statusDot').classList.remove('connected');
     showToast('❌ Backend server not reachable');
@@ -49,6 +55,7 @@ async function checkOllama() {
 }
 
 async function queryOllama(prompt, system = '') {
+  console.log('Querying Ollama at:', `${apiBase}/chat`, 'with model:', document.getElementById('modelSelect').value);
   const model = document.getElementById('modelSelect').value;
   const messages = system
     ? [{ role: 'system', content: system }, ...chatHistory, { role: 'user', content: prompt }]
@@ -60,7 +67,10 @@ async function queryOllama(prompt, system = '') {
     body: JSON.stringify({ model, messages, stream: true })
   });
 
-  if (!res.ok) throw new Error('Backend request failed');
+  if (!res.ok) {
+    console.error('Ollama query failed:', res.status);
+    throw new Error('Backend request failed');
+  }
 
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
