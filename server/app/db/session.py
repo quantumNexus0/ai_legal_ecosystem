@@ -17,12 +17,17 @@ def get_engine():
         )
         # Test connection
         with temp_engine.connect() as conn:
-            print("Successfully connected to MySQL database via SQLAlchemy.")
+            print("\n" + "="*50)
+            print("DATABASE: MySQL Connection - [ACTIVE]")
+            print("Successfully connected to MySQL database.")
+            print("="*50 + "\n")
             return temp_engine
     except Exception as e:
-        print(f"MySQL connection failed: {e}")
-        print("Falling back to local SQLite database (legal_services.db).")
-        print("TIP: If you are using XAMPP/MySQL on Windows and running the app in Docker, use 'host.docker.internal' as the DB host.")
+        print("\n" + "!"*50)
+        print(f"DATABASE: MySQL Connection - [FAILED]")
+        print(f"Error: {e}")
+        print("DATABASE: MySQL Connection - [FALLBACK] Using legal_services.db")
+        print("!"*50 + "\n")
         return create_engine(
             settings.SQLITE_DATABASE_URI,
             connect_args={"check_same_thread": False},

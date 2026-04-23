@@ -11,10 +11,19 @@ class MongoDBManager:
 db_manager = MongoDBManager()
 
 async def connect_to_mongo():
-    logger.info("Connecting to MongoDB...")
-    db_manager.client = AsyncIOMotorClient(settings.MONGODB_URL)
-    db_manager.db = db_manager.client[settings.MONGODB_NAME]
-    logger.info("Connected to MongoDB!")
+    print("\n" + "="*50)
+    print("DATABASE: MongoDB Connection - [IN PROGRESS]")
+    try:
+        db_manager.client = AsyncIOMotorClient(settings.MONGODB_URL)
+        # Verify connection
+        await db_manager.client.admin.command('ping')
+        db_manager.db = db_manager.client[settings.MONGODB_NAME]
+        print("DATABASE: MongoDB Connection - [ACTIVE]")
+        print("="*50 + "\n")
+    except Exception as e:
+        print(f"DATABASE: MongoDB Connection - [FAILED]")
+        print(f"Error: {e}")
+        print("="*50 + "\n")
 
 async def close_mongo_connection():
     logger.info("Closing MongoDB connection...")

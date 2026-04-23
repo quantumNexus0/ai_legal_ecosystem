@@ -1,10 +1,15 @@
 import asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
 import datetime
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Configuration
-MONGODB_URL = "mongodb://localhost:27018"
-DATABASE_NAME = "legal_services"
+MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
+DATABASE_NAME = os.getenv("MONGODB_NAME", "legal_services")
 
 async def seed_data():
     print(f"Connecting to MongoDB at {MONGODB_URL}...")

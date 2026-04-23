@@ -23,13 +23,13 @@ def get_database_url() -> str:
         try:
             engine = create_engine(url, pool_pre_ping=True)
             with engine.connect():
-                print("✅ Connected to MySQL")
+                print("CONNECTED: MySQL Connection - [OK]")
                 return url
         except Exception as e:
-            print(f"⚠️  MySQL unavailable ({e}), falling back to SQLite")
+            print(f"WARNING: MySQL unavailable ({e}), falling back to SQLite")
 
     sqlite_url = os.getenv("DATABASE_URL", "sqlite:///./legal_services.db")
-    print(f"✅ Using SQLite: {sqlite_url}")
+    print(f"CONNECTED: Using SQLite: {sqlite_url}")
     return sqlite_url
 
 

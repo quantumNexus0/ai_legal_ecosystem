@@ -109,7 +109,7 @@ const Services = () => {
                 <a href="#lawyers" className="text-[11px] sm:text-sm font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center">
                   Browse Lawyers
                   <svg className="ml-1 sm:ml-2 w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="9 5l7 7-7 7" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </a>
               </div>

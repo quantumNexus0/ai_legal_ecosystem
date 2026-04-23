@@ -47,7 +47,7 @@ app = FastAPI(
 # 1. Fix CORS
 ALLOWED_ORIGINS = os.getenv(
     "ALLOWED_ORIGINS",
-    "http://localhost:5173,http://localhost:5174"
+    "http://localhost:5173,http://localhost:5174,http://127.0.0.1:5173,http://127.0.0.1:5174"
 ).split(",")
 
 # Enable CORS
@@ -58,6 +58,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Logging Middleware to debug Login/Signup
+@app.middleware("http")
+async def log_requests(request, call_next):
+    if request.url.path in ["/auth/login", "/auth/signup"]:
+        print(f"\n--- Incoming AUTH Request: {request.method} {request.url.path} ---")
+    
+    response = await call_next(request)
+    
+    if request.url.path in ["/auth/login", "/auth/signup"]:
+        print(f"--- AUTH Response Status: {response.status_code} ---\n")
+    return response
 
 # Include Routes
 app.include_router(router)
@@ -115,7 +127,7 @@ if os.path.exists(assistant_root):
 
 from app.db.mongo import connect_to_mongo, close_mongo_connection
 
-# ✅ STARTUP EVENT (SAFE PLACE FOR DB + SERVICES)
+# [STARTUP EVENT] (SAFE PLACE FOR DB + SERVICES)
 @app.on_event("startup")
 async def startup_event():
     """
