@@ -4,13 +4,12 @@
 let currentLang = 'en';
 let currentMode = 'general';
 let ollamaConnected = false;
-let apiBase = '/api/nyaya';
+let apiBase = 'http://localhost:8000/api/nyaya';
 
-// Automatically point to backend if running on the standalone React/serve ports
-if (window.location.port === '5174' || window.location.port === '5173') {
-    const placeholder = '__VITE_API_URL__';
-    const fallback = 'http://localhost:8000';
-    apiBase = (placeholder.includes('__VITE_API_URL__') ? fallback : placeholder) + '/api/nyaya';
+// Respect production variables if injected by Docker/CI
+const placeholder = '__VITE_API_URL__';
+if (!placeholder.includes('__VITE_API_URL__')) {
+    apiBase = placeholder + '/api/nyaya';
 }
 
 let chatHistory = [];

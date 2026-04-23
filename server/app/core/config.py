@@ -14,7 +14,7 @@ class Settings:
 
     # Model Settings
     EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
-    OLLAMA_BASE_URL: str = os.getenv("OLLAMA_HOST_URL", "http://localhost:11434")
+    OLLAMA_BASE_URL: str = os.getenv("OLLAMA_BASE_URL") or os.getenv("OLLAMA_HOST_URL") or "http://localhost:11434"
 
     # Database
     SQLALCHEMY_DATABASE_URI: str = os.getenv(
