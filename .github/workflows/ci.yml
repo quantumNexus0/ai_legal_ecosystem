@@ -57,16 +57,16 @@ jobs:
       - name: Build production bundle
         run: cd client/platform && npm run build
 
-  # ── Nyaya-AI Static Client ──────────────────────────────────────────────────
-  nyaya-ai:
-    name: Nyaya-AI Client Check
+  # ── Assistant Static Client ──────────────────────────────────────────────────
+  assistant:
+    name: Assistant Client Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - name: Validate HTML structure
         run: |
-          if [ ! -f client/nyaya-ai/index.html ]; then
-            echo "index.html missing!" && exit 1
+          if [ ! -f client/assistant/index.html ]; then
+            echo "index.html missing in client/assistant!" && exit 1
           fi
-          echo "index.html found ✓"
+          echo "Assistant index.html found ✓"
