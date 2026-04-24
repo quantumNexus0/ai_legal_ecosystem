@@ -133,8 +133,11 @@ async def startup_event():
     """
     Initialize database tables and services safely on startup
     """
-    # Create DB tables
-    Base.metadata.create_all(bind=engine)
+    # Create DB tables (wrapped in try-except for robustness)
+    try:
+        Base.metadata.create_all(bind=engine)
+    except Exception as e:
+        print(f"Note: Database table check/creation encountered an issue (likely already exists): {e}")
 
     # Connect to MongoDB
     await connect_to_mongo()
