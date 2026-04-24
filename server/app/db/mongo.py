@@ -13,10 +13,12 @@ db_manager = MongoDBManager()
 async def connect_to_mongo():
     print("\n" + "="*50)
     try:
-        # Add serverSelectionTimeoutMS to prevent long hangs if Atlas is unreachable
+        import certifi
+        # Add serverSelectionTimeoutMS and tlsCAFile to fix SSL handshake in Docker
         db_manager.client = AsyncIOMotorClient(
             settings.MONGODB_URL, 
-            serverSelectionTimeoutMS=5000
+            serverSelectionTimeoutMS=5000,
+            tlsCAFile=certifi.where()
         )
         # Verify connection
         await db_manager.client.admin.command('ping')
