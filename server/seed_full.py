@@ -18,6 +18,18 @@ from app.core.config import settings
 
 LAWYERS_DATA = [
     {
+        "email": "lawyer@example.com",
+        "full_name": "Default Lawyer",
+        "role": "lawyer",
+        "password": "password1234", # Updated password
+        "specialization": "General Practice",
+        "experience_years": 5,
+        "rating": 4.5,
+        "cases_handled": 50,
+        "phone": "+91 00000 00000",
+        "office_address": "Legal Aid Office"
+    },
+    {
         "email": "amit.sharma@example.com",
         "full_name": "Amit Sharma",
         "role": "lawyer",
@@ -116,6 +128,25 @@ def seed_sql():
     try:
         # Ensure tables exist
         Base.metadata.create_all(bind=engine)
+
+        # Seed/Update Admin
+        admin_email = "admin@example.com"
+        admin_pass = "password1234"
+        admin = db.query(User).filter(User.email == admin_email).first()
+        if not admin:
+            print(f"Creating admin: {admin_email}")
+            admin = User(
+                email=admin_email,
+                hashed_password=security.get_password_hash(admin_pass),
+                full_name="System Admin",
+                role="admin",
+                is_active=True
+            )
+            db.add(admin)
+        else:
+            print(f"Updating admin password: {admin_email}")
+            admin.hashed_password = security.get_password_hash(admin_pass)
+        db.commit()
         
         for l_data in LAWYERS_DATA:
             user = db.query(User).filter(User.email == l_data["email"]).first()
@@ -148,9 +179,11 @@ def seed_sql():
                     db.add(profile)
                     db.commit()
             else:
-                print(f"Lawyer already exists: {l_data['email']}")
+                print(f"Updating lawyer password: {l_data['email']}")
+                user.hashed_password = security.get_password_hash(l_data["password"])
+                db.commit()
         
-        print("SQL seeding completed successfully!")
+        print("SQL seeding and password updates completed successfully!")
     except Exception as e:
         print(f"Error seeding SQL: {e}")
         db.rollback()
