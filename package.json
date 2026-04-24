@@ -7,7 +7,7 @@
     "dev:server:ngrok": "python server/scripts/run_with_ngrok.py",
     "dev:platform": "cd client/platform && npm run dev",
     "dev:assistant": "npx -y serve client/assistant -l 5174",
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:platform\" \"npm run dev:assistant\"",
+    "dev": "concurrently \"ollama serve\" \"npm run dev:server\" \"npm run dev:platform\" \"npm run dev:assistant\"",
     "install:all": "npm install --prefix client/platform && pip install -r server/requirements.txt",
     "install:all:unix": "npm install --prefix client/platform && pip3 install -r server/requirements.txt",
     "lint": "cd client/platform && npm run lint",
