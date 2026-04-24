@@ -11,7 +11,7 @@ class OllamaService:
     async def check_connection(self) -> bool:
         """Check if Ollama server is reachable."""
         try:
-            async with httpx.AsyncClient(timeout=2.0) as client:
+            async with httpx.AsyncClient(timeout=5.0) as client:
                 response = await client.get(f"{self.base_url}/api/tags")
                 return response.status_code == 200
         except Exception:
@@ -43,7 +43,7 @@ class OllamaService:
 
     async def query_simple(self, model: str, messages: List[Dict[str, str]]) -> str:
         """Get a non-streaming response from Ollama."""
-        async with httpx.AsyncClient(timeout=60.0) as client:
+        async with httpx.AsyncClient(timeout=300.0) as client:
             response = await client.post(
                 f"{self.base_url}/api/chat",
                 json={"model": model, "messages": messages, "stream": False}

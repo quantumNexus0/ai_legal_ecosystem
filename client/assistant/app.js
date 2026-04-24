@@ -60,32 +60,39 @@ async function queryOllama(prompt, system = '') {
     ? [{ role: 'system', content: system }, ...chatHistory, { role: 'user', content: prompt }]
     : [...chatHistory, { role: 'user', content: prompt }];
 
-  const res = await fetch(`${apiBase}/chat`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model, messages, stream: true })
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 min timeout
 
-  if (!res.ok) {
-    console.error('Ollama query failed:', res.status);
-    throw new Error('Backend request failed');
+  try {
+    const res = await fetch(`${apiBase}/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model, messages, stream: true }),
+      signal: controller.signal
+    });
+
+    if (!res.ok) {
+      console.error('Ollama query failed:', res.status);
+      const errText = await res.text().catch(() => '');
+      console.error('Error body:', errText);
+      throw new Error('Backend request failed: ' + res.status);
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let fullText = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value, { stream: true });
+      fullText += chunk;
+      streamToChat(fullText);
+    }
+    return fullText;
+  } finally {
+    clearTimeout(timeoutId);
   }
-
-  const reader = res.body.getReader();
-  const decoder = new TextDecoder();
-  let fullText = '';
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    const chunk = decoder.decode(value);
-    // Backend might send raw text or JSON chunks depending on implementation
-    // Our implementation in nyaya_ai.py uses StreamingResponse(ollama_service.chat_stream)
-    // which yields raw content strings.
-    fullText += chunk;
-    streamToChat(fullText);
-  }
-  return fullText;
 }
 
 // Non-streaming for analysis
@@ -225,7 +232,9 @@ function createAIBubble() {
     <div class="msg-avatar ai">⚖️</div>
     <div class="msg-body">
       <div class="msg-meta">Nyaya AI &nbsp;<span class="msg-lang-badge">${LANG_NAMES[currentLang]}</span></div>
-      <div class="msg-bubble" id="streamTarget"></div>
+      <div class="msg-bubble" id="streamTarget">
+        <div class="typing-indicator"><span></span><span></span><span></span></div>
+      </div>
     </div>`;
   container.appendChild(msg);
   scrollBottom();
