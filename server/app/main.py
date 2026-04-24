@@ -149,6 +149,19 @@ async def startup_event():
     # Initialize search service
     search_service.initialize()
 
+    # Auto-seed if database is empty
+    from app.models import User
+    from sqlalchemy.orm import Session
+    from app.db.session import SessionLocal
+    db = SessionLocal()
+    try:
+        if db.query(User).filter(User.role == "lawyer").count() == 0:
+            print("DATABASE: Production database is empty. Auto-seeding lawyers...")
+            from seed_full import seed_sql
+            seed_sql()
+    finally:
+        db.close()
+
 @app.on_event("shutdown")
 async def shutdown_event():
     """

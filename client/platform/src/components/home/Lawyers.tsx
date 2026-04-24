@@ -19,7 +19,7 @@ const Lawyers = () => {
   useEffect(() => {
     const fetchLawyers = async () => {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 20000); // Increased to 20s for Render
 
       try {
         setLoading(true);
