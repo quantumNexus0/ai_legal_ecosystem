@@ -18,9 +18,14 @@ const Lawyers = () => {
 
   useEffect(() => {
     const fetchLawyers = async () => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
       try {
         setLoading(true);
         const data = await lawyerService.fetchLawyers();
+        clearTimeout(timeoutId);
+
         const mappedLawyers: Lawyer[] = data.map(lawyer => ({
           id: String(lawyer.id),
           name: lawyer.full_name || 'Unknown',
@@ -32,9 +37,15 @@ const Lawyers = () => {
         }));
         setLawyers(mappedLawyers);
         setError(null);
-      } catch (err) {
+      } catch (err: any) {
         console.error('Failed to fetch lawyers:', err);
-        setError('Failed to load lawyers. Please try again later.');
+        if (err.name === 'AbortError') {
+          setError('The request timed out. Please check your internet connection or the server status.');
+        } else if (err.response?.status === 404) {
+          setError('Lawyer directory not found. Please contact support.');
+        } else {
+          setError('Could not connect to the legal network. Please ensure the backend is running.');
+        }
       } finally {
         setLoading(false);
       }

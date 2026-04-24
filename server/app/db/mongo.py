@@ -12,9 +12,12 @@ db_manager = MongoDBManager()
 
 async def connect_to_mongo():
     print("\n" + "="*50)
-    print("DATABASE: MongoDB Connection - [IN PROGRESS]")
     try:
-        db_manager.client = AsyncIOMotorClient(settings.MONGODB_URL)
+        # Add serverSelectionTimeoutMS to prevent long hangs if Atlas is unreachable
+        db_manager.client = AsyncIOMotorClient(
+            settings.MONGODB_URL, 
+            serverSelectionTimeoutMS=5000
+        )
         # Verify connection
         await db_manager.client.admin.command('ping')
         db_manager.db = db_manager.client[settings.MONGODB_NAME]
